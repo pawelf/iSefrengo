@@ -226,40 +226,35 @@ function mip_forms_tabpane_beginp()
 
     $ebene = '';
     if (isset($mip_forms_layerid) && ($mip_forms_layerid != '')) {
-        if (is_array ($mip_forms_layerid_stack)) 
+        if (is_array ($mip_forms_layerid_stack))
         {
             $ebene = array_push($mip_forms_layerid_stack,$mip_forms_layerid);
         } else {
             $mip_forms_layerid_stack[] = $mip_forms_layerid;
             $ebene = '0';
         }
-        
+
     }
     if (($area=='con_configside') || ($area=='con_configcat')){
-        $temp_mod = (int)$key ;   
+        $temp_mod = (int)$key ;
     } else {
-        $temp_mod = (int)$idmod;    
+        $temp_mod = (int)$idmod;
     }
     $mip_forms_layerid = (int)$idtpl.'_'.(int)$temp_mod.'_'.(int)$value.'_'.$area;
     $mip_forms_layerid = base64_encode ($mip_forms_layerid);
     $mip_forms_layerid = str_replace(array('+','/','='),array('-','_',''),$mip_forms_layerid);
     $mip_forms_layerid = 'tp_'.$mip_forms_layerid.'_'.$ebene;
     $mip_forms_pageid = 0;
-    echo '<div class="tab-pane" id="'.$mip_forms_layerid.'">
-    ';
-    echo '<script type="text/javascript">
-    ';
-    echo 'var '.$mip_forms_layerid.' = new WebFXTabPane( document.getElementById( "'.$mip_forms_layerid.'" ), true )
-    ';
-    echo '</script>
-    ';
+    echo '<div class="sftabs">';
+    echo '<ul class="menu">';
+
 }
 
 function mip_forms_tabpane_endp()
 {
     global $mip_forms_layerid,$mip_forms_layerid_stack;
-    
-    if (is_array ($mip_forms_layerid_stack)) 
+
+    if (is_array ($mip_forms_layerid_stack))
     {
         $mip_forms_layerid = array_pop($mip_forms_layerid_stack);
         if (count($mip_forms_layerid_stack) == 0)
@@ -269,35 +264,38 @@ function mip_forms_tabpane_endp()
     }
     unset ($mip_forms_layerid);
 
-    echo '</div>
-    ';
-    
-    
+     echo '</ul>';
+    echo '</div>';
+
+
 }
 
 function mip_forms_tabitem_beginp($name,$scroll = false)
 {
     global $mip_forms_layerid,$mip_forms_pageid;
-    
+
     $mip_forms_pageid += 1;
     $id = $mip_forms_layerid.'_'.$mip_forms_pageid;
-    if ($scroll) 
+    if ($scroll)
     {
-        $scroll_text = ' scrollpage';      
+        $scroll_text = ' scrollpage';
     } else {
-        $scroll_text = '';      
+        $scroll_text = '';
     }
-    echo '<div class="tab-page'.$scroll_text.'" id="'.$id.'">
-    ';
-    echo '<h2 class="tab" onfocus="this.blur()">'.$name.'</h2>
-    ';
-    echo '<script type="text/javascript">'.$mip_forms_layerid.'.addTabPage( document.getElementById( "'.$id.'" ) );</script>
-    ';
+
+     echo '<li id="item-'.$id.'">';
+     echo '<a href="#item-'.$id.'">'.$name.'</a>';
+     echo '<div>';
+
+    //echo '<div class="tab-page'.$scroll_text.'" id="'.$id.'">';
+    //echo '<h2 class="tab" onfocus="this.blur()">'.$name.'</h2>';
+    //echo '<script type="text/javascript">'.$mip_forms_layerid.'.addTabPage( document.getElementById( "'.$id.'" ) );</script>';
 }
 
 function mip_forms_tabitem_endp()
 {
     echo '</div>';
-}
+    echo '</li>';
+} 
 
 ?>
