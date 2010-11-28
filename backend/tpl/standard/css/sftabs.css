@@ -1,4 +1,4 @@
-.sftabs{position:relative; min-height:250px}
+.sftabs{position:relative; height:50px}
 
 .sftabs ul.menu{list-style:none}
 .sftabs ul.menu li{list-style:none;display:block;
@@ -10,7 +10,7 @@
     text-decoration:none;
     display:block;
     text-align:center;
-    border:1px solid #bcbcbc;
+    border:1px solid #dedede;
     padding:5px 10px 5px 10px;
     margin-right:5px;
     border-top-left-radius:5px;
@@ -31,22 +31,24 @@
 
 ul.menu li > div> .mipformtable
 {
-    border:1px solid #bcbcbc;
+    border:1px solid #dedede;
     border-top:none;
     border-bottom:none;
     background-color:#fff;
     padding:10px;
     margin:0;
 }
-
+.sftabs .mipformtable tr td, .sftabs div span table, .sftabs div span table td{
+background-color:#fff
+}
 
 ul.menu li > div> .mipformtable:first-child
 {
-border-top:1px solid #bcbcbc;
+border-top:1px solid #dedede;
 }
 ul.menu li > div> .mipformtable:last-child
 {
-border-bottom:1px solid #bcbcbc;
+border-bottom:1px solid #dedede;
 }
 .sftabs ul.menu li > a:focus
 {
@@ -55,6 +57,7 @@ border-bottom:1px solid #bcbcbc;
 .sftabs ul.menu li:target > a
 {
     cursor:default;
+    font-weight:700;
     border-bottom:1px solid #fff
 }
 
