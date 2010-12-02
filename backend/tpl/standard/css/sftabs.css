@@ -29,7 +29,7 @@
     padding:0;
 }
 
-ul.menu li > div> .mipformtable
+ul.menu li > div
 {
     border:1px solid #dedede;
     border-top:none;
@@ -37,19 +37,14 @@ ul.menu li > div> .mipformtable
     background-color:#fff;
     padding:10px;
     margin:0;
+   
 }
-.sftabs .mipformtable tr td, .sftabs div span table, .sftabs div span table td{
-background-color:#fff
-}
+.sftabs li div, .sftabs .mipformtable tr td, .sftabs div tr td, .sftabs div span table, .sftabs div span table td{background-color:#fff}
 
-ul.menu li > div> .mipformtable:first-child
-{
-border-top:1px solid #dedede;
-}
-ul.menu li > div> .mipformtable:last-child
-{
-border-bottom:1px solid #dedede;
-}
+ul.menu li > div:first-child {border-top:1px solid #dedede}
+
+.sftabs table input:focus, .sftabs table textarea:focus{background-color:#b6d7ff }
+
 .sftabs ul.menu li > a:focus
 {
     border-bottom:1px solid #fff;
@@ -63,7 +58,9 @@ border-bottom:1px solid #dedede;
 
 .sftabs ul.menu li:target > div
 {
-    display:block;
+    display:block; width:97%;
+    border-top:1px solid #dedede;
+    border-bottom:1px solid #dedede; padding:10px
 }
 
 
