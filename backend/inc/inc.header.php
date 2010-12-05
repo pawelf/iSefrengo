@@ -44,7 +44,7 @@ if ($cfg_cms['backend_cache'] == '1') {
 	header('Cache-Control: post-check=0, pre-check=0', false);
 	header('Pragma: no-cache');
 }
-$tpl->loadTemplatefile('header.tpl');
+$tpl->loadTemplatefile('header.tpl',true,true);
 if ($area == 'con_frameheader') {
     $area='con_editframe';
 }
@@ -307,5 +307,5 @@ $tpl->show();
 unset($sub_tmp, $tpl_in);
 unset($unsort_array, $tree, $count, $maxlevel);
 unset($tpl);
-$tpl = &new HTML_Template_IT($this_dir.'tpl/'.$cfg_cms['skin'].'/');
+$tpl = new HTML_Template_IT($this_dir.'tpl/'.$cfg_cms['skin'].'/');
 ?>

@@ -166,7 +166,7 @@ function type_form_wysiwyg($formname, $content, $type_config)
 */
 function type_form_wysiwyg2($formname, $content, $type_config)
 {
-    global $dedi_lang, $client, $lang, $dedi, $cfg_dedi, $cfg_client, $sess;
+    global $client, $lang, $cfg_client, $sess;
 
     $content = type_form_cmslinks_to_templinks($content); 
     // echo "<pre>".$content."</pre><br><hr>";
@@ -503,7 +503,7 @@ function type_form_sourcecode($formname, $content, $type_config, $cms_side)
     $content = type_form_cmslinks_to_templinks($content);
 
     include_once ($cfg_cms['cms_path'] . 'external/sourcepad/gb_source_pad.php');
-    $js_pad = &new gb_source_pad('editcontent', $formname);
+    $js_pad = new gb_source_pad('editcontent', $formname);
 
     $out = "    <td>\n";
     $js_pad->set('handle_http_path', $cfg_cms['cms_html_path'] . 'external/sourcepad/');

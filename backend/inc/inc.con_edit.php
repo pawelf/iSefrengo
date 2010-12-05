@@ -607,38 +607,11 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 		$sf_doctype_autoinsert = $db->f('doctype_autoinsert');
 		$layout = str_replace('<CMSPHP:CACHE>', '<?PHP ', $layout);
 		$layout = str_replace('</CMSPHP:CACHE>', ' ?>', $layout);
-		//todo: 2remove
-		$layout = str_replace('<DEDIPHP:CACHE>', '<?PHP ', $layout);
-		$layout = str_replace('</DEDIPHP:CACHE>', ' ?>', $layout);
 
-		// insert doctype, if choosen
-		if ($sf_doctype_autoinsert == 1) {
-			$doctype = '';
-			switch ($sf_doctype) {
-				case 'xhtml-1.0-trans':
-					$doctype = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n";
-					break;
-				case 'html-4.0.1-trans':
-					$doctype = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'."\n";
-					break;
-			}
-		}
+		$SF_layout =& sf_factoryGetObjectCache('HEADER', 'Headerinfos');
+                $layout = $SF_layout->SF_Switch_Doctype($idlay).$layout;
 		
-
-		$sf_slash_closing_tag = '';
-		switch ($sf_doctype) {
-			case 'html-4.0.1-trans':
-				$sf_slash_closing_tag = '';
-				break;
-			case 'xhtml-1.0-trans':
-			default:
-				$sf_slash_closing_tag = ' /';
-				break;
-		}	
-			
-		$layout = $doctype . $layout;
-		
-		// Container generieren
+// Container generieren
 		$list = extract_cms_tags($layout);
 		if (is_array($list)) {
 			foreach ($list as $cms_mod['container']) {
@@ -646,15 +619,16 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 				if ($cms_mod['container']['type'] == 'head') {
 					$code = '';					
 					//head
-					$code .= "<!--START head//-->\n";
-					$code .= "<meta name=\"generator\" content=\"Sefrengo / www.sefrengo.org\" ".$sf_slash_closing_tag.">\n";
-					$code .= '<?PHP if ($con_side[$idcatside][\'meta_author\'] != \'\') echo \'<meta name="author" content="\'.htmlspecialchars($con_side[$idcatside][\'meta_author\'], ENT_COMPAT, \'utf-8\').\'"'.$sf_slash_closing_tag.'>\'."\n"; ?>';
-					$code .= '<?PHP if ($con_side[$idcatside][\'meta_description\'] != \'\') echo \'<meta name="description" content="\'.htmlspecialchars($con_side[$idcatside][\'meta_description\'], ENT_COMPAT, \'utf-8\').\'"'.$sf_slash_closing_tag.'>\'."\n"; ?>';
-					$code .= '<?PHP if ($con_side[$idcatside][\'meta_keywords\'] != \'\') echo \'<meta name="keywords" content="\'.htmlspecialchars($con_side[$idcatside][\'meta_keywords\'], ENT_COMPAT, \'utf-8\').\'"'.$sf_slash_closing_tag.'>\'."\n"; ?>';
-					$code .= '<?PHP if ($con_side[$idcatside][\'meta_robots\'] != \'\') echo \'<meta name="robots" content="\'.htmlspecialchars($con_side[$idcatside][\'meta_robots\'], ENT_COMPAT, \'utf-8\').\'"'.$sf_slash_closing_tag.'>\'."\n"; ?>';
-					$code .= '<meta http-equiv="content-type" content="text/html; charset='.$lang_charset.'"'.$sf_slash_closing_tag.'>'."\n";
-					$code .= "<meta http-equiv=\"expires\" content=\"0\"".$sf_slash_closing_tag.">\n";
-					$sql = "SELECT C.filetype, D.dirname, B.filename FROM $cms_db[lay_upl] A LEFT JOIN $cms_db[upl] B USING(idupl) LEFT JOIN $cms_db[filetype] C USING(idfiletype) LEFT JOIN $cms_db[directory] D ON B.iddirectory=D.iddirectory WHERE idlay='$idlay'";
+				$code .= "<!--START head//-->\n";
+				$code .= "<meta name=\"generator\" content=\"Sefrengo / www.sefrengo.org\" ".$SF_layout->SF_Slash_Closing_Tag($idlay).">\n";
+				$code .= '<CMSPHP> if ($cfg_client[\'url_rewrite\'] == \'2\') echo \'<base href="\'.htmlspecialchars(str_replace(\'{%http_host}\',  $_SERVER[\'HTTP_HOST\'], $cfg_client[\'url_rewrite_basepath\']), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; </CMSPHP>';
+			  $code .= '<?PHP if ($SF_pageinfos->getMetaAuthor($idcatside)!= \'\') echo \'<meta name="author" content="\'.htmlspecialchars($SF_pageinfos->getMetaAuthor($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				$code .= '<?PHP if ($SF_pageinfos->getMetaDescription($idcatside) != \'\') echo \'<meta name="description" content="\'.htmlspecialchars($SF_pageinfos->getMetaDescription($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				$code .= '<?PHP if ($SF_pageinfos->getMetaKeywords($idcatside) != \'\') echo \'<meta name="keywords" content="\'.htmlspecialchars($SF_pageinfos->getMetaKeywords($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				$code .= '<?PHP if ($SF_pageinfos->getMetaRobots($idcatside) != \'\') echo \'<meta name="robots" content="\'.htmlspecialchars($SF_pageinfos->getMetaRobots($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				$code .= '<meta http-equiv="content-type" content="text/html; charset='.$lang_charset.'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>'."\n";
+				$code .= "<meta http-equiv=\"expires\" content=\"0\"".$SF_layout->SF_Slash_Closing_Tag($idlay).">\n";
+				        $sql = "SELECT C.filetype, D.dirname, B.filename FROM $cms_db[lay_upl] A LEFT JOIN $cms_db[upl] B USING(idupl) LEFT JOIN $cms_db[filetype] C USING(idfiletype) LEFT JOIN $cms_db[directory] D ON B.iddirectory=D.iddirectory WHERE idlay='$idlay'";
 					$db->query($sql);
 					while ($db->next_record()) {
 						if ($db->f('filetype') == 'js') $code .= "<script src=\"".$db->f('dirname').$db->f('filename')."\" type=\"text/javascript\"></script>\n";
@@ -683,11 +657,7 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 					$code .= "  window.status = message;\n";
 					$code .= "  window.defaultStatus = window.status;\n";
 					$code .= "}\n";
-					//todo: 2remove
-					$code .= "function dedi_status(message) {\n";
-					$code .= "  window.status = message;\n";
-					$code .= "  window.defaultStatus = window.status;\n";
-					$code .= "}\n";
+
 					$code .= "function on(message) {\n";
 					$code .= '  window.setTimeout("cms_status(\""+message+"\")",10);'."\n";
 					$code .= "}\n";
@@ -723,7 +693,7 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 						
 					$code .= "//-->\n";
 					$code .= "</script>\n";
-					$code .= "<div id=\"popmenu\" name=\"popmenu\" onmouseover=\"clearhidemenu();highlightmenu(event,'on')\" onmouseout=\"highlightmenu(event,'off');dynamichide(event)\"></div>\n";
+					//$code .= "<div id=\"popmenu\" name=\"popmenu\" onmouseover=\"clearhidemenu();highlightmenu(event,'on')\" onmouseout=\"highlightmenu(event,'off');dynamichide(event)\"></div>\n";
 					$code .= "<!--END head//-->\n";
 					$search[] = $cms_mod['container']['full_tag'];
 					$replace[] = $code;
@@ -765,10 +735,7 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 
 						$code = str_replace('<CMSPHP:CACHE>', '<?PHP ', $code);
 						$code = str_replace('</CMSPHP:CACHE>', ' ?>', $code);
-						//todo: 2remove
-						$code = str_replace('<DEDIPHP:CACHE>', '<?PHP ', $code);
-						$code = str_replace('</DEDIPHP:CACHE>', ' ?>', $code);
-						
+
 						//Im tagmode stripslashes im modul ausführen
 						if( stristr ($code, '<cms:mod constant="tagmode" />') ){
 							$code = str_replace('<cms:mod constant="tagmode" />', '', $code);
@@ -821,9 +788,9 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 											include_once ($cms_path.'inc/class.filemanager.php');
 											include_once ($cms_path.'inc/class.fileaccess.php');
 											include_once ($cms_path.'inc/class.fileaddon.php');
-											$db_query = &new querybuilder_factory();
+											$db_query = new querybuilder_factory();
 											$db_query = $db_query -> get_db($db, 'cms_db', $this_dir.'inc/');
-											$fm = &new filemanager();
+											$fm = new filemanager();
 										}
 										if (!$value4['id']) $value4['id'] = '0';
 										if (!is_integer($value4['id'])) {
@@ -884,8 +851,5 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 	// Dynamisches PHP beibehalten
 	$code = str_replace('<CMSPHP>', '<?PHP ', $code);
 	$code = str_replace('</CMSPHP>', ' ?>', $code);
-	//todo: 2remove
-	$code = str_replace('<DEDIPHP>', '<?PHP ', $code);
-	$code = str_replace('</DEDIPHP>', ' ?>', $code);
 }
 ?>

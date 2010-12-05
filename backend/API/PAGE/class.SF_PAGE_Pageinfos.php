@@ -4,13 +4,12 @@
  * Contains often used informations like pagetitetel, metatags, url,.. of all 
  * pages in one lang of one project.
  */
-class SF_PAGE_Pageinfos extends SF_API_Object 
-{
+class SF_PAGE_Pageinfos extends SF_API_Object {
 
-    var $data = array( 'data' => array()
+  protected $data = array( 'data' => array()
     					);
     					
-    var $config = array( 'idlang' => 0, 
+  protected $config = array( 'idlang' => 0, 
 						 'check_frontend_prems' => false,
 						 'check_backend_prems' => false,    						
     					 'link_sessionstring' => '', 	
@@ -18,60 +17,52 @@ class SF_PAGE_Pageinfos extends SF_API_Object
     					 'link_extra_urlstring' => '',
     					 'is_generated' => false
     					);
-    var $cache;
-    var $db;
+  protected $cache;
+  protected $db;
     
     /**
      * Constructor, init common values.
      */
-    function SF_PAGE_Pageinfos() 
-    {
+  public function SF_PAGE_Pageinfos() {
         $this->cache =& sf_factoryGetObjectCache('UTILS', 'DbCache');
         $this->db =& sf_factoryGetObjectCache('DATABASE', 'Ado');
     }
     
-    function setIdlang($idlang) 
-    {
+  public function setIdlang($idlang){
     	$this->config['idlang'] = (int) $idlang;
-    }
+  }
     
-    function setCheckFrontendperms($boolean) 
-    {
+  public function setCheckFrontendperms($boolean){
     	$this->config['check_frontend_prems'] = (boolean) $boolean;
-    }
+  }
     
-    function setCheckBackendperms($boolean) 
-    {
+  public function setCheckBackendperms($boolean){
     	$this->config['check_backend_prems'] = (boolean) $boolean;
-    }
+  }
     
-    function setLinkSessionstring($sessionstring) 
-    {
+  public function setLinkSessionstring($sessionstring){
     	$this->config['link_sessionstring'] = $sessionstring;
-    }
+  }
     
-    function setLinkUseIdlang($boolean) 
-    {
+  public function setLinkUseIdlang($boolean){
     	$this->config['link_use_idlang'] = (boolean) $boolean;
-    }
+  }
     
-    function setLinkExtraUrlstring($urlstring) 
-    {
+  public function setLinkExtraUrlstring($urlstring){
     	$this->config['link_extra_urlstring'] = $urlstring;
-    }
+  }
 
-    function generate() 
-    {
+  public function generate(){
     	global $cfg_client, $sess, $perm, $cms_db, $db, $auth;
     	
     	//check dependencies 
-    	if ( $this->config['idlang'] < 1 || $this->config['is_generated']) {
+    	if($this->config['idlang'] < 1 || $this->config['is_generated']){
     		return false;
     	}		
 		
-		if (sf_factoryObjectExistsInCache('PAGE', 'Catinfos')) {
+		if(sf_factoryObjectExistsInCache('PAGE', 'Catinfos')){
 			$this->catinfos =& sf_factoryGetObjectCache('PAGE', 'Catinfos');
-		} else {
+		}else{
 			$this->catinfos =& sf_factoryGetObject('PAGE', 'Catinfos');
 			$this->catinfos->setIdlang($this->config['idlang']);
 			$this->catinfos->generate();
@@ -84,7 +75,7 @@ class SF_PAGE_Pageinfos extends SF_API_Object
 		//check perm: user have perm to see pages with the protected flag
 		//$sql_hide_protected_pages = ( $perm->have_perm(2, 'area_frontend', 0) || $this->config['check_frontend_prems']) ? '': 'AND (F.online & 0x04) = 0x00';
 		$sql_hide_protected_pages = '';
-        if (( $auth->auth['uid'] == 'nobody')) {
+    if(($auth->auth['uid'] == 'nobody')){
 		  $sql_hide_protected_pages = 'AND (F.online & 0x04) = 0x00';
 		} 
 		
@@ -121,12 +112,12 @@ class SF_PAGE_Pageinfos extends SF_API_Object
                         .'|'.$this->config['check_frontend_prems']
                         .'|'.$this->config['check_backend_prems'];
 						
-		if ($data = $this->cache->getCacheEntry($cache_key)) {
+		if($data = $this->cache->getCacheEntry($cache_key)){
 			$this->data =& $data;
 			
 			//insert session if get mode
-			if ($this->config['link_sessionstring'] != '') {
-				foreach($this->data['data'] AS $k=>$v) {
+			if($this->config['link_sessionstring'] != ''){
+				foreach($this->data['data'] AS $k=>$v){
 					$this->data['data'][$k]['link'] = str_replace('_SF_SESSION_STRING', $this->config['link_sessionstring'], $this->data['data'][$k]['link']);
 				}
 			}
@@ -137,28 +128,22 @@ class SF_PAGE_Pageinfos extends SF_API_Object
 
 	    $rs = $this->db->Execute($sql);
 	    
-	    if ($rs === false) 
-	    {
+	    if($rs === false){
 	       return true;
 	    }
 		
-		 while(! $rs->EOF ) 
-		 {
+		 while(! $rs->EOF ){
 			$idcatside_loop = $rs->fields['idcatside'];
 			$idcat_loop = $rs->fields['idcat'];
-			if ($check_frontendperms_in_page) 
-			{
-				if ($rs->fields['protected'] == 1 && ! $perm->have_perm(18, 'frontendpage', $idcatside_loop, $idcat_loop) ) 
-				{
+			if($check_frontendperms_in_page){
+				if($rs->fields['protected'] == 1 && ! $perm->have_perm(18, 'frontendpage', $idcatside_loop, $idcat_loop)){
 				    $rs->MoveNext();
 					continue;
 				}
 			}
 			
-			if ($check_backendperms_in_page) 
-			{
-				if (! $perm->have_perm(17, 'side', $idcatside_loop, $idcat_loop) ) 
-				{
+			if($check_backendperms_in_page){
+				if(!$perm->have_perm(17, 'side', $idcatside_loop, $idcat_loop)){
 				    $rs->MoveNext();
 					continue;
 				}
@@ -189,88 +174,164 @@ class SF_PAGE_Pageinfos extends SF_API_Object
 		$this->cache->insertCacheEntry($cache_key, $this->data, 'frontend', 'tree');
 		
 		//replace placeholder '_SF_SESSION_STRING' with real session
-		if ($this->config['link_sessionstring'] != '') 
-		{
-			foreach ($this->data['data'] AS $k=>$v) 
-			{
+		if($this->config['link_sessionstring'] != ''){
+			foreach($this->data['data'] AS $k=>$v) {
 				$this->data['data'][$k]['link'] = str_replace('_SF_SESSION_STRING', $this->config['link_sessionstring'], $this->data['data'][$k]['link']); 
 			}
-		}
-		
-		return true;
-		
-    }
-
-
-	function getLink($idcatside) { return $this->data['data'][$idcatside]['link']; }
-    function getIdcat($idcatside) { return $this->data['data'][$idcatside]['idcat']; }
-    function getRewriteUseAutomatic($idcatside) { return $this->data['data'][$idcatside]['rewrite_use_automatic']; }
-    function getRewriteUrlRaw($idcatside) { return $this->data['data'][$idcatside]['rewrite_url']; }
-    function getSortindex($idcatside) { return $this->data['data'][$idcatside]['sortindex']; }
-    function getCreatedTimestamp($idcatside) { return $this->data['data'][$idcatside]['created']; }
-    function getLastmodifiedTimestamp($idcatside) { return $this->data['data'][$idcatside]['lastmodified']; }
-    function getParent($idcatside) { return $this->getIdcat($idcatside); }
-    function getIsOnline($idcatside) { return $this->data['data'][$idcatside]['online']; }
-    function getIsProtected($idcatside) { return $this->data['data'][$idcatside]['user_protected']; }
-    function getIdtplconf($idcatside) { return $this->data['data'][$idcatside]['idtplconf']; }
-    function getTitle($idcatside) { return $this->data['data'][$idcatside]['name']; }
-    function getIsStart($idcatside) { return $this->data['data'][$idcatside]['is_start']; }
+		}	
+	return true;
+  }
     
-    /**
-     * Returns the summary of a given idcatside
-     * 
-     * @param int $idcatside
-     * @return str
-     */
-	function getSummary($idcatside) { return $this->_getMetaValFormSql($idcatside, 'summary'); }  
-
-	/**
-     * Returns the metadescription of a given idcatside
-     * 
-     * @param int $idcatside
-     * @return str
-     */
-	function getMetaDescription($idcatside) { return $this->_getMetaValFormSql($idcatside, 'meta_description'); }	
-
-	/**
-     * Returns the MetaKeywords of a given idcatside
-     * 
-     * @param int $idcatside
-     * @return  str
-     */
-	function getMetaKeywords($idcatside) { return $this->_getMetaValFormSql($idcatside, 'meta_keywords'); }
-
-	/**
-     * Returns the MetaAuthor of a given idcatside
-     * 
-     * @param int $idcatside
-     * @return str 
-     */
-	function getMetaAuthor($idcatside) { return $this->_getMetaValFormSql($idcatside, 'meta_author'); }
-    
-    /**
-     * Returns all idcatsides of one cat as an array in a given order.
-     * 
-     * Possible Options:
-     * $options['order'] - Set the order. Possible values are idcatside, sortindex, is_start, 
-     * name, created, lastmodified, start, end, idside. Default is sortindex.
-     * $options['order_dir'] - Orderdir is ASC or DESC. Default is ASC.
-     * $options['show_startpage'] - (bool) true or false. Default is true
-     * $options['hide_online'] - (bool) true or false. Default is false
-     * $options['hide_offline'] - (bool) true or false. Default is true
-     * 
-     * @param int $idcat
-     * @param arr $options 
-     * @return arr 
-     */
-    function getIdcatsidesByIdcat($idcat, $options = array())
-    {
-    	global $cms_db;
-    	
+  public function getLink($idcatside){return $this->data['data'][$idcatside]['link'];}
+  
+  public function getIdcat($idcatside){return $this->data['data'][$idcatside]['idcat'];}
+  
+  public function getIdside($idcatside){return $this->data['data'][$idcatside]['idside'];}
+   
+  public function getRewriteUseAutomatic($idcatside){return $this->data['data'][$idcatside]['rewrite_use_automatic'];}
+  
+  public function getRewriteUrlRaw($idcatside){return $this->data['data'][$idcatside]['rewrite_url'];}
+/**
+  * Returns the Sortindex of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return 
+  */
+  public function getSortindex($idcatside){return $this->data['data'][$idcatside]['sortindex'];}
+/**
+  * Returns the CreatedTimestamp of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */
+  public function getCreatedTimestamp($idcatside){return $this->data['data'][$idcatside]['created'];}
+/**
+  * Returns the LastmodifiedTimestamp of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */
+  public function getLastmodifiedTimestamp($idcatside){return $this->data['data'][$idcatside]['lastmodified'];}
+/**
+  * Returns the Parent of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */
+  public function getParent($idcatside){return $this->getIdcat($idcatside);}
+/**
+  * Returns the IsOnline of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */
+  public function getIsOnline($idcatside){return $this->data['data'][$idcatside]['online'];}
+/**
+  * Returns the IsProtected of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */
+  public function getIsProtected($idcatside){return $this->data['data'][$idcatside]['user_protected'];}
+/**
+  * Returns the Idtplconf of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */  
+  public function getIdtplconf($idcatside){return $this->data['data'][$idcatside]['idtplconf'];}
+/**
+  * Returns the Title of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */
+  public function getTitle($idcatside){return $this->data['data'][$idcatside]['name'];}
+/**
+  * Returns the IsStart of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return 
+  */
+  public function getIsStart($idcatside){return $this->data['data'][$idcatside]['is_start'];}
+/**
+  * Returns the summary of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str
+  */
+	public function getSummary($idcatside){return $this->_getMetaValFormSql($idcatside, 'summary');}  
+/**
+  * Returns the metadescription of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str
+  */
+  public function getMetaDescription($idcatside){return $this->_getMetaValFormSql($idcatside, 'meta_description');}	
+/**
+  * Returns the MetaKeywords of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return  str
+  */
+  public function getMetaKeywords($idcatside){return $this->_getMetaValFormSql($idcatside, 'meta_keywords');}
+/**
+  * Returns the MetaAuthor of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */
+  public function getMetaAuthor($idcatside){return $this->_getMetaValFormSql($idcatside, 'meta_author');}
+/**
+  * Returns the MetaRobots of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */
+  public function getMetaRobots($idcatside){return $this->_getMetaValFormSql($idcatside, 'meta_robots');}
+/**
+  * Returns the Author of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */
+  public function getAuthor($idcatside){return $this->_getMetaValFormSql($idcatside, 'author');}
+/**
+  * Returns the MetaRedirect of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */
+  public function getMetaRedirect($idcatside){return $this->_getMetaValFormSql($idcatside, 'meta_redirect');}
+/**
+  * Returns the MetaRedirectUrl of a given idcatside
+  * 
+  * @param int $idcatside
+  * @return str 
+  */
+  public function getMetaRedirectUrl($idcatside){return $this->_getMetaValFormSql($idcatside, 'meta_redirect_url');}
+  public function getIdlang($idcatside){return $this->_getMetaValFormSql($idcatside, 'idlang');}
+ 
+/**
+  * Returns all idcatsides of one cat as an array in a given order.
+  * 
+  * Possible Options:
+  * $options['order'] - Set the order. Possible values are idcatside, sortindex, is_start, 
+  * name, created, lastmodified, start, end, idside. Default is sortindex.
+  * $options['order_dir'] - Orderdir is ASC or DESC. Default is ASC.
+  * $options['show_startpage'] - (bool) true or false. Default is true
+  * $options['hide_online'] - (bool) true or false. Default is false
+  * $options['hide_offline'] - (bool) true or false. Default is true
+  * 
+  * @param int $idcat
+  * @param arr $options 
+  * @return arr 
+  */
+  public function getIdcatsidesByIdcat($idcat, $options = array()){
+    	global $cms_db;    	
     	//cast
     	$idcat = (int) $idcat;
     	$ret = array();
-    	
     	//handle options
     	$options['order'] = (isset($options['order'])) ? $options['order'] : 'sortindex';
     	$options['order'] = (in_array($options['order'], array('sortindex', 'is_start', 'name', 'created', 'lastmodified', 'start', 'end', 'idside'))) ? $options['order'] : 'sortindex';
@@ -280,10 +341,8 @@ class SF_PAGE_Pageinfos extends SF_API_Object
     	$options['hide_online'] = (isset($options['hide_online'])) ?  (bool) $options['hide_online'] : false;
     	$options['hide_offline'] = (isset($options['hide_offline'])) ?  (bool) $options['hide_offline'] : true;
     	
-    	
     	$sql_order = 'D.sortindex';
-    	switch($options['order'])
-    	{
+    	switch($options['order']){
     		case 'idcatside':
     		case 'sortindex':
     		case 'is_start':
@@ -320,100 +379,79 @@ class SF_PAGE_Pageinfos extends SF_API_Object
 
 	    $rs = $this->db->Execute($sql);
 	    
-	    if ($rs === false) 
-	    {
+	    if($rs === false){
 	       return $ret;
 	    }
 		
-		 while(! $rs->EOF ) 
-		 {
-			
-			if (! $options['show_startpage'] && $this->getIsStart($rs->fields['idcatside']) == 1)
-			{
+		 while(!$rs->EOF){
+			if(!$options['show_startpage'] && $this->getIsStart($rs->fields['idcatside']) == 1){
 				$rs->MoveNext();
 				continue;
 			}
 			
-			if ($options['hide_online'] && $this->getIsOnline($rs->fields['idcatside']) == 1)
-			{
+			if($options['hide_online'] && $this->getIsOnline($rs->fields['idcatside']) == 1){
 				$rs->MoveNext();
 				continue;
 			}
 			
-			if ($options['hide_offline'] && $this->getIsOnline($rs->fields['idcatside']) == 0)
-			{
+			if($options['hide_offline'] && $this->getIsOnline($rs->fields['idcatside']) == 0){
 				$rs->MoveNext();
 				continue;
 			}
 			
-			if ( $this->getIdcat($rs->fields['idcatside']) > 0)
-			{
+			if( $this->getIdcat($rs->fields['idcatside']) > 0){
 				array_push($ret, $rs->fields['idcatside']);
 			}
 							
 			$rs->MoveNext();
 		}
-    	
-    	
-    	return $ret;
-    }
-    
-	/**
-	 * Checks recursive if the given idcatside is a child of the givent $idcat
-	 *
-	 * @param int $idcatside pageid to check
-	 * @param int $idcat_parent needed parent folder-id
-	 *
-	 * @return bool
-	 */
-	function isChildOf($idcatside, $idcat_parent)
-	{
-		if( $this->getIdcat($idcatside) == $idcat_parent ||
+    return $ret;
+  }
+/**
+	* Checks recursive if the given idcatside is a child of the givent $idcat
+	*
+	* @param int $idcatside pageid to check
+	* @param int $idcat_parent needed parent folder-id
+	*
+	* @return bool
+	*/
+  public function isChildOf($idcatside, $idcat_parent){
+		if($this->getIdcat($idcatside) == $idcat_parent ||
 			$this->catinfos->getParent($this->getIdcat($idcatside)) == $idcat_parent ||
-			$this->catinfos->getRootparent($this->getIdcat($idcatside)) == $idcat_parent )
-		{
+			$this->catinfos->getRootparent($this->getIdcat($idcatside)) == $idcat_parent){
 			return true;
-		}
-		else if( $this->getIdcat($idcatside) == $this->catinfos->getRootparent($this->getIdcat($idcatside)) ||
-				 $this->catinfos->getRootparent($this->getIdcat($idcatside)) != 0 )
-		{
+		}elseif( $this->getIdcat($idcatside) == $this->catinfos->getRootparent($this->getIdcat($idcatside)) ||
+				 $this->catinfos->getRootparent($this->getIdcat($idcatside)) != 0 ){
 			return false;
 		}
-
 		return $this->catinfos->isChildOf($this->catinfos->getIdcat(), $idcat_parent);
 	}
-    
-    function &getPageinfoDataArrayByRef() 
-    {
+/**
+  *
+  */    
+  public function &getPageinfoDataArrayByRef(){
     	return $this->data['data'];
-    }
-    
-    /*
-     * PRIVATE METHODS STARTS HERE
-     */
-    
-    /**
-     * Returns the sqlfield of the given idcatside
-     * 
-     * @param int $idcatside
-     * @param str $sqlfield Must be a value of the side_lang
-     * @return str
-     */
-	function _getMetaValFormSql($idcatside, $sqlfield) {
+  }  
+/**
+  * Returns the sqlfield of the given idcatside
+  * 
+  * @param int $idcatside
+  * @param str $sqlfield Must be a value of the side_lang
+  * @return str
+  */
+	private function _getMetaValFormSql($idcatside, $sqlfield){
 		global $cms_db;
 		
-		$ret = FALSE;
-     	
-     	//cast
-     	$idcatside = (int) $idcatside;
-     	$sqlfield = addslashes($sqlfield);
-     	if ($idcatside < 1 || $sqlfield == '')
-     	{
+		$ret = FALSE; 	
+    //cast
+    $idcatside = (int) $idcatside;
+    $sqlfield = addslashes($sqlfield);
+    if($idcatside < 1 || $sqlfield == ''){
      		return $ret;
-     	}
+    }
      	
-     	//run sql
-    	$sql = "SELECT
+    //run sql
+      $sql = "SELECT
 					D.idcatside, F.$sqlfield
 				FROM
 					".$cms_db['cat_side']." D LEFT JOIN
@@ -425,19 +463,14 @@ class SF_PAGE_Pageinfos extends SF_API_Object
 
 	    $rs = $this->db->Execute($sql);
 	    
-	    if ($rs === false) 
-	    {
+	    if($rs === false){
 	       return $ret;
 	    }
-		if (! $rs->EOF )  
-		{
+		if(!$rs->EOF ){
 			$ret= $rs->fields[$sqlfield];
 		}
-		
 		return $ret;
 	}	
     
-
 } 
-
 ?>

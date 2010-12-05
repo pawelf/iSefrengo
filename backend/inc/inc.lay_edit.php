@@ -122,6 +122,8 @@ echo "      </tr>\n";
 
 $doctype_array = array('0' => $cms_lang['lay_doctype_none'],
 						'xhtml-1.0-trans' => 'XHTML 1.0 transitional',
+						'xhtml-1.0-strict' => 'XHTML 1.0 strict',
+						'html-5' => 'HTML 5',
 						'html-4.0.1-trans' => 'HTML 4.0.1 transitional');
 
 $doctype_select = '';

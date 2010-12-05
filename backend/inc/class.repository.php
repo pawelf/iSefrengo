@@ -926,9 +926,6 @@ class repository {
         // replaces        
         $code = str_replace('<CMSPHP>', '', $code);
         $code = str_replace('</CMSPHP>', '', $code);
-        //todo: 2remove
-        $code = str_replace('<DEDIPHP>', '', $code);
-        $code = str_replace('</DEDIPHP>', '', $code);
 		// replaces		
         $code = str_replace('MOD_VALUE', '$MOD_VALUE', $code);
         $code = str_replace('MOD_VAR', '$MOD_VAR', $code);

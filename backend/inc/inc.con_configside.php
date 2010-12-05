@@ -576,13 +576,11 @@ if ($have_config_tpl_perm) {
 					foreach ($varstring as $key3=>$value3) {
 						$cms_mod['value'][$key3] = cms_stripslashes(urldecode($value3));
 					}
-					//TODO - remove dedi backward compatibility
-					$dedi_mod =& $cms_mod;
-					
+
 					foreach ($value as $key4=>$value4) $cms_mod['info'][$key4] = cms_stripslashes(urldecode($value4));
 					$input = str_replace("MOD_VAR", "C".$key."MOD_VAR" , $input);
 					eval(' ?>'.$input);
-					unset($cms_mod['value'], $dedi_mod['value']);
+					unset($cms_mod['value']);
 					echo "</td>\n";
 					echo "    </tr></table>\n";
 				}

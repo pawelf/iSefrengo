@@ -116,8 +116,6 @@ foreach ($a as $key => $value) {
     $cms_mod['value'][$key] = $value;
     $input = str_replace("MOD_VALUE[$key]", $value, $input);
 }
-//TODO - remove dedi backward compatibility
-$dedi_mod =& $cms_mod;
 
 echo "    <form name=\"editform\" onsubmit=\"document.editform.area.value='mod'\" method=\"post\" action=\"" . $sess->url("main.php") . "\">\n";
 echo "    <input type=\"hidden\" name=\"area\" value=\"mod_config\" />\n";

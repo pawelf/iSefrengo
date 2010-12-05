@@ -78,9 +78,6 @@ function lib_static($key, $val = true) {
 function lib_colored_modul($code) {
     $code = str_replace('<CMSPHP>', "<?php\n //<CMSPHP>", $code);
     $code = str_replace('</CMSPHP>', "//</CMSPHP>\n ?>", $code);
-	//todo: 2remove
-	$code = str_replace('<DEDIPHP>', "<?php\n //<DEDIPHP>", $code);
-    $code = str_replace('</DEDIPHP>', "//</DEDIPHP>\n ?>", $code);
 		
     $code = str_replace('MOD_VALUE', '$MOD_VALUE', $code);
     $code = str_replace('MOD_VAR', '$MOD_VAR', $code);

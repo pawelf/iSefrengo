@@ -429,7 +429,7 @@ function con_move_side($dir,$idcat,$idside,$sortindex) {
 function con_quick_sort($quicksort,$idcat) {
 	global $db, $lang, $cms_db;
 
-	list($sort,$dir) = split(':',$quicksort);
+	list($sort,$dir) = preg_split('/:/',$quicksort);
 	$sql  = "SELECT A.idcatside, A.sortindex, B.title, B.created, B.lastmodified, B.author FROM $cms_db[cat_side] A LEFT JOIN $cms_db[side_lang] B USING(idside) WHERE A.idcat = '$idcat' AND B.idlang = '$lang'";
 	$db->query($sql);
 	while($db->next_record()){
@@ -709,7 +709,7 @@ function con_create_site_meta_from_idcatside($idclient, $idlang_current, $idcats
 	set_magic_quotes_gpc($name);
 	
 	//init
-	$db2 = &new DB_cms;
+	$db2 = new DB_cms;
 	
 	//get necessary values from source idcatside
 	$sql = "SELECT * FROM ".$cms_db['cat_side']." WHERE idcatside='$idcatside_from'";
@@ -772,7 +772,7 @@ function con_create_site_meta_from_idcatside($idclient, $idlang_current, $idcats
 	$arr_langs = clients_get_langs($idclient, true);
 	
 	//insert metadata foreach lang
-	$db3 = &new DB_cms;
+	$db3 = new DB_cms;
 	$sql = "SELECT * FROM ".$cms_db['side_lang']." WHERE idside='$idside_from'";
 	$db3->query($sql);
 	while ( $db3->next_record() ) {
@@ -857,7 +857,7 @@ function con_copy_perms_from_idcatside($idclient, $idcatside_from, $idcatside_to
 function con_copy_tpl_from_idcatside($idclient, $idcatside_from, $idcatside_to) {
 	//init
 	global $db, $cms_db, $cfg_cms;
-	$db2 = &new DB_cms;
+	$db2 = new DB_cms;
 	
 	//get necessary values from source idcatside
 	$sql = "SELECT * FROM ".$cms_db['cat_side']." WHERE idcatside='$idcatside_from'";
@@ -941,8 +941,8 @@ function con_copy_tpl_from_idcatside($idclient, $idcatside_from, $idcatside_to) 
 function con_copy_content_from_idcatside($idclient, $idcatside_from, $idcatside_to) {
 	//init
 	global $db, $cms_db, $cfg_cms;
-	$db2 = &new DB_cms;
-	$db3 = &new DB_cms;
+	$db2 = new DB_cms;
+	$db3 = new DB_cms;
 	
 	//get necessary values from source idcatside
 	$sql = "SELECT * FROM ".$cms_db['cat_side']." WHERE idcatside='$idcatside_from'";

@@ -41,7 +41,8 @@ class cms_event {
 
 	function fire($event, $args) {
 		global $db, $cms_db, $client, $lang, $perm, $sess, $cfg_client, $cfg_cms;
-        
+//DEBUG
+//  echo $event.'( '; foreach($args as $n => $v) echo "'$n' => '$v' "; echo '); ';
         $this->returnval = array();
         
         if (is_array($this->events[$event]['actions'])) {

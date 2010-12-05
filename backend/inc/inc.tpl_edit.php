@@ -238,8 +238,11 @@ if ($idlay) {
 			}
 
 			// Modul auswählen
-			printf ("        <td class=\"%s\">", (${'c'.$value}) ? 'headre':'content');
-			$echo = "\n<div class=\"forms\">\n<select class=\"element\" name=\"c$value\" size=\"1\" onchange=\"document.editform.action.value='change';document.editform.changed.value='$value';document.editform.anchor.value='$_container_name';document.editform.submit();\">\n";
+			if (strpos($mod[${'c'.$value}]['version'], 'dev') != false && $mod[${'c'.$value}]['version'] != '') {
+			    printf ("        <td class=\"%s\">", (${'c'.$value}) ? 'headredev':'content');
+			}else{
+				  printf ("        <td class=\"%s\">", (${'c'.$value}) ? 'headre':'content');
+			}			$echo = "\n<div class=\"forms\">\n<select class=\"element\" name=\"c$value\" size=\"1\" onchange=\"document.editform.action.value='change';document.editform.changed.value='$value';document.editform.anchor.value='$_container_name';document.editform.submit();\">\n";
 			if (${'c'.$value} < 1) {
 				$echo .= "          <option value=\"0\" selected>".$cms_lang['form_nothing']."</option>\n";
 				$modinfo = "<img src=\"tpl/" . $cfg_cms['skin'] . "/img/space.gif\" alt=\"\" title=\"\" width=\"16\" height=\"16\" />\n";
@@ -293,10 +296,20 @@ if ($idlay) {
       					
 
           				$modcursor = 'pointer';
+          					// Developer-Modul
+          							$input = $mod[${'c'.$value}]['input'];
+				if (strpos($mod[${'c'.$value}]['version'], 'dev') != false && $mod[${'c'.$value}]['version'] != '') {
+					//$modinfotext = '<p align="center" class="errormsg">'.$cms_lang['tpl_devmessage']."</p>\n".$modinfotext;
+			
+            								$modinfotext = "<img style=\"cursor:$modcursor\" src=\"tpl/" . $cfg_cms['skin'] 
+         								. "/img/info_error.gif\" alt=\"" . $modinfotext .
+            							"\" title=\"" . $modinfotext. "\" width=\"16\" height=\"16\" />". $cms_lang['tpl_devmessage']."";
+					
+				}else{
          				$modinfotext = "<img style=\"cursor:$modcursor\" src=\"tpl/" . $cfg_cms['skin'] 
          								. "/img/about.gif\" alt=\"" . $modinfotext .
             							"\" title=\"" . $modinfotext . "\" width=\"16\" height=\"16\" />";
-					} else {
+					}					} else {
 						//not selected
           				$echo .= "          <option value=\"$idmod\">".$mod[$idmod]['referer']."</option>\n";
         			}
@@ -327,11 +340,6 @@ if ($idlay) {
 
 				// Modulkonfiguration einlesen
 				$input = $mod[${'c'.$value}]['input'];
-
-				// Developer-Modul
-				if (strpos($mod[${'c'.$value}]['version'], 'dev') != false && $mod[${'c'.$value}]['version'] != '') {
-					$input = '<p align="center" class="errormsg">'.$cms_lang['tpl_devmessage']."</p>\n".$input;
-				}
 	
 				$mod_tpl_conf = ${'cconfig'.$value};
 				$mod_id = ${'c'.$value};
@@ -348,8 +356,7 @@ if ($idlay) {
 					$cms_mod['value'][$key3] = cms_stripslashes(urldecode($value3));
 				}
 				
-				//TODO - remove dedi backward compatibility
-				$dedi_mod =& $cms_mod;
+
 				if (is_array($mod[${'c'.$value}])) {
 					foreach ($mod[${'c'.$value}] as $key4=>$value4) {
 						$cms_mod['info'][$key4] = cms_stripslashes(urldecode($value4));
@@ -360,7 +367,7 @@ if ($idlay) {
 				
 				eval(' ?>'.$input);
 				
-				unset($cms_mod['value'], $dedi_mod['value'], $cms_mod['info'], $dedi_mod['info']);
+				unset($cms_mod['value'], $cms_mod['info']);
 				
 				// hiermit stimmt was nicht, wenn Modul da dann sollte TR+Table nicht geschlossen werden
 				// wenn kein Modul da dann muss das greifen

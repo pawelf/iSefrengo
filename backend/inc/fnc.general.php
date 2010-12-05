@@ -36,7 +36,7 @@ function fire_event($event, $args) {
 
 	if (!is_object($cms_event)) {
 		include_once $cfg_cms['cms_path']. 'inc/class.cms_event.php';
-		$cms_events = &new cms_event($val_ct);
+		$cms_events = new cms_event($val_ct);
 	}
 	$cms_events -> fire($event, $args);
 	
@@ -298,11 +298,6 @@ function set_magic_quotes_gpc(&$code) {
 	}
 }
 
-//todo: 2remove
-function dedi_addslashes($code) {
-	return cms_addslashes($code);
-}
-
 function cms_addslashes($code) {
 	$code = addslashes($code);
 	if (ini_get(magic_quotes_sybase) != 0) {
@@ -311,11 +306,6 @@ function cms_addslashes($code) {
          	$code = str_replace("''", "\'", $code);
 	}
 	return $code;
-}
-
-//todo: 2remove
-function dedi_stripslashes($code) {
-	return cms_stripslashes($code);
 }
 
 function cms_stripslashes($code) {
@@ -506,17 +496,17 @@ function get_validator($name) {
 	// include validator class and create object
 	if (!$cfg_cms[$name]) $cfg_cms[$name] = 'class.validator.php';
 	include_once($cfg_cms['cms_path'].'inc/'.$cfg_cms[$name]);
-	$validator = &new validator();
+	$validator = new validator();
 	return $validator;
 }
 
 function sf_header_redirect($url_location, $shutdown = true) {
 	global $area;
-	
+		echo ($url_location);
 	$url_location = str_replace('&amp;', '&', $url_location);
-	header ('HTTP/1.1 302 Moved Temporarily');
-	header ('Location:' . $url_location );
-	
+	//header ('HTTP/1.1 302 Moved Temporarily');
+	header("HTTP/1.1 301 Moved Permanently");
+        header ('Location:' . $url_location );
 	if ($shutdown) {
 		if ($area != 'logout') {
 			page_close();

@@ -94,10 +94,28 @@ $tpl->setCurrentBlock('ENTRY');
 $sql = "SELECT * FROM $cms_db[tpl] WHERE idclient='$client' ORDER BY name";
 $db->query($sql);
 $int_max = $db->affected_rows();
+if ($int_max > 0) $db2 = new DB_cms;
 while ($db->next_record()) 
 {
 	$idtpl = $db->f('idtpl');
-	
+        $sql = "SELECT
+             cms_cat_lang.idcat AS CAT_ID,
+             cms_cat_lang.name AS CAT_NAME,
+             cat_lang.name AS CAT_LANG,
+             cms_side_lang.idside AS SIDE_ID,
+             cms_side_lang.title AS SIDE_NAME,
+             side_lang.name AS SIDE_LANG
+          FROM 
+              cms_tpl_conf
+              LEFT JOIN cms_cat_lang ON cms_cat_lang.idtplconf = cms_tpl_conf.idtplconf
+              LEFT JOIN cms_side_lang ON cms_side_lang.idtplconf = cms_tpl_conf.idtplconf  
+              LEFT JOIN cms_lang AS side_lang ON cms_side_lang.idlang = side_lang.idlang
+              LEFT JOIN cms_lang AS cat_lang ON cms_cat_lang.idlang = cat_lang.idlang
+          WHERE 
+              cms_tpl_conf.idtpl = " . $idtpl . "
+          HAVING CAT_ID IS NOT NULL OR SIDE_ID IS NOT NULL";
+          
+  $utpl = $db2->fetch_query($sql);	
 	//Darf Template sehen
 	if( $perm->have_perm(1, 'tpl', $idtpl) ){
 		// Hintergrundfarbe wählen
@@ -123,10 +141,18 @@ while ($db->next_record())
 			$tmp['ENTRY_EDIT'] = "\n<a href=\"".$sess->url("main.php?area=tpl_edit&idtpl=".$db->f('idtpl'))."\">\n<img src=\"tpl/".$cfg_cms['skin']."/img/but_edit.gif\" alt=\"".$cms_lang['tpl_edit']."\" title=\"".$cms_lang['tpl_edit']."\" width=\"16\" height=\"16\" /></a>";
 		}
 
-		// Template löschen
+// Template löschen
 		if ($db->f('deletable')=='1' && $perm->have_perm(5, 'tpl', $idtpl) ){
-			$tmp['ENTRY_DELBUT'] = "\n<a href=\"".$sess->url('main.php?area=tpl&action=delete&idtpl='.$db->f('idtpl'))."\" onclick=\"return delete_confirm()\">\n<img src=\"tpl/".$cfg_cms['skin']."/img/but_deleteside.gif\" width=\"16\" height=\"16\" alt=\"".$cms_lang['tpl_delete']."\" title=\"".$cms_lang['tpl_delete']."\" /></a>";
-		}
+			if (empty($utpl)) {
+        $tmp['ENTRY_DELBUT'] = "\n<a href=\"".$sess->url('main.php?area=tpl&action=delete&idtpl='.$db->f('idtpl'))."\" onclick=\"return delete_confirm()\">\n<img src=\"tpl/".$cfg_cms['skin']."/img/but_deleteside.gif\" width=\"16\" height=\"16\" alt=\"".$cms_lang['tpl_delete']."\" title=\"".$cms_lang['tpl_delete']."\" /></a>";
+      } else {
+        $used_description = '';
+        foreach ($utpl as $_u) {
+          $used_description .=  ' ++ ' . ( !empty($_u['CAT_ID']) ? htmlentities('CAT ' . $_u['CAT_ID'] . ': (' . $_u['CAT_LANG'] . ') ' . $_u['CAT_NAME'], ENT_COMPAT, 'UTF-8')  : htmlentities('SIDE ' . $_u['SIDE_ID'] . ': (' . $_u['SIDE_LANG'] . ') ' . $_u['SIDE_NAME'], ENT_COMPAT, 'UTF-8') ) . '&#10;';
+        }
+        $tmp['ENTRY_DELBUT'] = "\n<img style=\"cursor:CURSOR\" src=\"tpl/" . $cfg_cms['skin'] . "/img/about.gif\" alt=\"" . $used_description . "\" title=\"" . $used_description . "\" width=\"16\" height=\"16\" />";    
+      }
+    }
 		else{
 			$tmp['ENTRY_DELBUT'] = "\n<img src=\"tpl/".$cfg_cms['skin']."/img/space.gif\" width=\"16\" height=\"16\" />";
 		}

@@ -289,8 +289,7 @@ if ($show_tree == '0') {
 	}
 }
 
-$tpl->loadTemplatefile('con_main.tpl');
-
+$tpl->loadTemplatefile('con_main.tpl',true,true);
 $tpl_data['AREA'] = $cms_lang['area_con'];
 $tpl_data['FOOTER_LICENSE'] = $cms_lang['login_licence'];
 

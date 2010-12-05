@@ -42,7 +42,7 @@ class cms_debug
 	var $m_enabled = false;
 	
 	function cms_debug() {
-		list($low, $high) = split(" ", microtime());
+		list($low, $high) = explode(" ", microtime());
     	$this->t = (float)$high + (float)$low;
 	}
 
@@ -54,6 +54,9 @@ class cms_debug
     	$this->m_enabled = (boolean) $boolean;
     }
 
+    function enableSql($boolean) {
+    	$this->s_enabled = (boolean) $boolean;
+    }
 	function collect($message, $cat = 'general', $log = false)
 	{
 		switch($cat)
@@ -66,11 +69,11 @@ class cms_debug
 				break;
 			case 'mem':
 				$temp_arr['message'] = $message;
-    			if (function_exists(memory_get_usage)) {
-    		        $temp_arr['usage'] = memory_get_usage()/1024;
+    			if (function_exists('memory_get_usage')) {
+    		        $temp_arr['usage'] = memory_get_usage()/1024/1024;
     			}
-			    if (function_exists(memory_get_peak_usage)) {
-        		    $temp_arr['peak'] = memory_get_peak_usage()/1024;
+			    if (function_exists('memory_get_peak_usage')) {
+        		    $temp_arr['peak'] = memory_get_peak_usage()/1024/1024;
 			    }
 				$this -> memory[] = $temp_arr;
 				break;
@@ -90,7 +93,7 @@ class cms_debug
 	{
   		global $this_dir;
         if (FALSE == ($fp = @fopen($this_dir.'logs/errorlog.txt', 'a+')))
-			$this->collect('<B>Dateifehler:</B> ' . $this_dir . 'logs/errorlog.txt ' , 'error');
+			$this->collect('<strong>Dateifehler:</strong> ' . $this_dir . 'logs/errorlog.txt ' , 'error');
 		@fputs($fp, $message);
 		@fclose($fp);
 		
@@ -103,61 +106,66 @@ class cms_debug
 		$to_return ="";
 		
 		if($cfg_cms['debug_error'] && ! empty($this -> error['0'])){
-			$to_return .= '<b><font color="red">ERROR:</font></b>'."<br>\n";
+			$to_return .= '<strong><font color="red">ERROR:</font></strong>'."<br />\n";
 			$i=1;
 			foreach($this -> error as $value){
-				$to_return .= '<b>'. $i . '. Query:</b> '. $value . "<br>\n";
+				$to_return .= '<strong>'. $i . '. Query:</strong> '. $value . "<br />\n";
 				$i++;
 			}
 		}
 		if($cfg_cms['debug_general'] && ! empty($this -> general['0'])){
-			$to_return .= '<br><b>GENERALL:</b>'."<br>\n";
+			$to_return .= '<br /><strong>GENERALL:</strong>'."<br />\n";
 			foreach($this -> general as $value){
-				$to_return .= $value . "<br>\n";
+				$to_return .= $value . "<br />\n";
 			}
 		}
 		if($cfg_cms['debug_sql'] && ! empty($this -> sql['0'])){
-			$to_return .= '<br><b>SQL:</b>'."<br>\n";
+			$to_return .= '<br /><strong>SQL:</strong>'."<br />\n";
 			$i=1;
 			foreach($this -> sql as $value){
-				$to_return .= '<b>'. $i . '. Query:</b> '. $value . "<br>\n";
+				$to_return .= '<strong>'. $i . '. Query:</strong> '. $value . "<br>\n";
 				$i++;
 			}
 		}
 
 		if($this->m_enabled && ! empty($this -> memory['0'])){
-			$to_return .= '<br><b>Memory:</b>'."<br>\n";
+			$to_return .= '<br /><strong>Memory:</strong>'."<br />\n";
 			$i=1;
 			foreach($this -> memory as $value){
-				$to_return .= '<b>'. $i . '. Mem:</b> ';
-    		    $to_return .= sprintf("usage: %6uk / ",  $value['usage']);
-    		    $to_return .= sprintf("peak : %6uk / ",  $value['peak']);
-				$to_return .= $value['message']."<br>\n";
+				$to_return .= '<strong>'. $i . '. Mem:</strong> ';
+    		    $to_return .= sprintf("usage: %6uMB / ",  $value['usage']);
+    		    $to_return .= sprintf("peak : %6uMB / ",  $value['peak']);
+				$to_return .= $value['message']."<br />\n";
 				$i++;
 			}
 		}
 
-		if ($this->t_enabled) {
-			list($low, $high) = split(" ", microtime());
+               if ($this->s_enabled) {
+			$to_return .= '<br /><strong>SQL:</strong>'."<br />\n";
+			$i=1;
+			foreach($this -> sql as $value){
+				$to_return .= '<strong>'. $i . '. Query:</strong> '. $value . "<br />\n";
+				$i++;
+			}
+		}		
+                if ($this->t_enabled) {
+			list($low, $high) = explode(" ", microtime());
 		    $t    = (float)$high + (float)$low;
 		    $used = $t - $this->t;
-		    $to_return .= sprintf("<br>executiontime: (%8.4f)\n",  $used);
+		    $to_return .= sprintf("<br />executiontime: (%8.4f)\n",  $used);
 		    //$this->log($to_return);
 		}
 		
 		if ($this->m_enabled) {
 			if (function_exists(memory_get_usage)) {
-    		    $to_return .= sprintf("<br>memory allocated: (%6uk)\n",  memory_get_usage()/1024);
+    		    $to_return .= sprintf("<br />memory allocated: (%6uMB)\n",  memory_get_usage()/1024/1024);
 			}
 			if (function_exists(memory_get_peak_usage)) {
-    		    $to_return .= sprintf("<br>peak of memory allocated: (%6uk)\n",  memory_get_peak_usage()/1024);
+    		    $to_return .= sprintf("<br />peak of memory allocated: (%6uMB)\n",  memory_get_peak_usage()/1024/1024);
 			}
 		}
 
 		return $to_return;
 	}
-	
-
 }
-
 ?>
