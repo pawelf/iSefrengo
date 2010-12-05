@@ -6,8 +6,15 @@ Legend:
 ! -> Note
 
 
-Current version number is 01.04.04 (Sefrengo 1.4.4) - released 12.08.2010
+Current version number is 01.05.00 (iSefrengo 1.5) - released 
 ------------------------------------------------------------------------------------------------
+
++
+
+Current version number is 01.04.04 (Sefrengo 1.4.4) - released 12.08.2010
+
+------------------------------------------------------------------------------------------------
+
 + update fckeditor from 2.6.4 to 2.6.6 (Andre)
 # patch for php 5.3 included (Andre)
 
