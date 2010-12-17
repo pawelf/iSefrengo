@@ -33,7 +33,6 @@ Current version number is 01.04.03 (Sefrengo 1.4.3) - released 28.02.2009
 # mod.contentflex_cache.php: contentflex {filelist} Division by zero problem (amk)
 
 
-
 Current version number is 01.04.02 (Sefrengo 1.4.2) - released 25.11.2008
 ------------------------------------------------------------------------------------------------
 + update fckeditor from 2.6.2 to 2.6.3 (bjoern)
