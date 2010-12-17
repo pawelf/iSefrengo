@@ -9,7 +9,13 @@ Legend:
 Current version number is 01.05.00 (iSefrengo 1.5) - released 
 ------------------------------------------------------------------------------------------------
 
-+
++ Modul Tabs jQuery
+- Modul Tabs OverLib
++ Pear HTML_Quickform (Date Config) http://forum.sefrengo.org/index.php?s=&showtopic=2414&view=findpost&p=20875
++ New Doctype html5
+- Dedi Unterstützung teilweise entfernt
++ PHP 5.3 Anpassung
++ API erweitert Header
 
 Current version number is 01.04.04 (Sefrengo 1.4.4) - released 12.08.2010
 
