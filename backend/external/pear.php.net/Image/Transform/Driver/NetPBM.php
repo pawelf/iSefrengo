@@ -19,7 +19,7 @@
  * @author     Philippe Jausions <Philippe.Jausions@11abacus.com>
  * @copyright  2002-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: NetPBM.php 28 2008-05-11 19:18:49Z mistral $
+ * @version    CVS: $Id: NetPBM.php 287351 2009-08-16 03:28:48Z clockwerx $
  * @link       http://pear.php.net/package/Image_Transform
  */
 
@@ -42,7 +42,6 @@ require_once 'System.php';
  */
 class Image_Transform_Driver_NetPBM extends Image_Transform
 {
-
     /**
      * associative array commands to be executed
      * @var array
@@ -63,7 +62,6 @@ class Image_Transform_Driver_NetPBM extends Image_Transform
      */
     function __construct()
     {
-        require_once 'System.php';
         if (!defined('IMAGE_TRANSFORM_NETPBM_PATH')) {
             $path = dirname(System::which('pnmscale'))
                     . DIRECTORY_SEPARATOR;
@@ -232,15 +230,20 @@ class Image_Transform_Driver_NetPBM extends Image_Transform
     /**
      * Crop an image
      *
-     * @param int width Cropped image width
-     * @param int height Cropped image height
-     * @param int x X-coordinate to crop at
-     * @param int y Y-coordinate to crop at
+     * @param int $width Cropped image width
+     * @param int $height Cropped image height
+     * @param int $x positive X-coordinate to crop at
+     * @param int $y positive Y-coordinate to crop at
      *
      * @return mixed TRUE or a PEAR error object on error
+     * @todo keep track of the new cropped size
      **/
     function crop($width, $height, $x = 0, $y = 0)
     {
+        // Sanity check
+        if (!$this->intersects($width, $height, $x, $y)) {
+            return PEAR::raiseError('Nothing to crop', IMAGE_TRANSFORM_ERROR_OUTOFBOUND);
+        }
         if ($x != 0 || $y != 0
             || $width != $this->img_x
             || $height != $this->img_y) {
@@ -394,7 +397,7 @@ class Image_Transform_Driver_NetPBM extends Image_Transform
      * @param $quality
      * @return string A chain of shell command
      * @link http://netpbm.sourceforge.net/doc/directory.html
-	 */
+     */
     function _postProcess($type, $quality)
     {
         array_unshift($this->command, $this->_prepare_cmd(
@@ -406,7 +409,7 @@ class Image_Transform_Driver_NetPBM extends Image_Transform
         $program = '';
         switch ($type) {
             // ppmto* converters
-        	case 'gif':
+            case 'gif':
                 if (!System::which(IMAGE_TRANSFORM_NETPBM_PATH . 'ppmquant'
                                     . ((OS_WINDOWS) ? '.exe' : ''))) {
                     return PEAR::raiseError('Couldn\'t find "ppmquant" binary',
@@ -538,19 +541,19 @@ class Image_Transform_Driver_NetPBM extends Image_Transform
      * @param int $quality 75
      * @return TRUE or PEAR Error object on error
      */
-    function save($filename, $type = null, $quality = null)
+    function save($filename, $type = null, $quality = 75)
     {
         $type    = (is_null($type)) ? $this->type : $type;
         $options = array();
         if (!is_null($quality)) {
             $options['quality'] = $quality;
         }
-        $quality = $this->_getOption('quality', $options, 75);
+        $quality = $this->_getOption('quality', $options, $quality);
 
         $nullDevice = (OS_WINDOWS) ? 'nul' : '/dev/null';
 
         $cmd = $this->_postProcess($type, $quality) . '> "' . $filename . '"';
-        exec($cmd . '2> ' . $nullDevice, $res, $exit);
+        exec($cmd . ' 2>  ' . $nullDevice, $res, $exit);
         if (!$this->keep_settings_on_save) {
             $this->free();
         }
@@ -579,8 +582,8 @@ class Image_Transform_Driver_NetPBM extends Image_Transform
         $cmd = $this->_postProcess($type, $quality);
         passthru($cmd . ' 2>&1');
         if (!$this->keep_settings_on_save) {
-		    $this->free();
-		}
+            $this->free();
+        }
 
         return true;
     }
@@ -594,8 +597,4 @@ class Image_Transform_Driver_NetPBM extends Image_Transform
     {
         $this->command = array();
     }
-
-
 } // End class ImageIM
-
-?>

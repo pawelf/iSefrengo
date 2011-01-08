@@ -1,9 +1,9 @@
 <?PHP
-// File: $Id: main.php 308 2010-08-12 15:44:41Z andre $
+// File: $Id: main.php
 // +----------------------------------------------------------------------+
 // | Version: Sefrengo $Name:  $                                          
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>           |
+// | Copyright (c) 2005 - 2010 sefrengo.org <info@sefrengo.org>           |
 // +----------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License                 |
@@ -20,9 +20,9 @@
 // | GNU General Public License for more details.                         |
 // |                                                                      |
 // +----------------------------------------------------------------------+
-// + Autor: $Author: andre $
+// + Autor: $Author:
 // +----------------------------------------------------------------------+
-// + Revision: $Revision: 308 $
+// + Revision: $Revision:
 // +----------------------------------------------------------------------+
 // + Description:
 // +----------------------------------------------------------------------+
@@ -89,18 +89,16 @@ include_once ($this_dir.'inc/class.repository.php');
 
 
 // Klassen initialisieren
-$deb = &new cms_debug;
-$db = &new DB_cms;
-$db_query = &new querybuilder_factory();
+$deb      = new cms_debug;
+$db       = new DB_cms;
+$db_query = new querybuilder_factory();
 $db_query = $db_query -> get_db($db, 'cms_db', $this_dir.'inc/');
-$val_ct = &new values_ct();
+$val_ct   = new values_ct();
+
 // Konfigurationsparameter einlesen
 $cfg_cms_temp = $val_ct -> get_cfg();
 $cfg_cms = array_merge($cfg_cms, $cfg_cms_temp);
 unset($cfg_cms_temp);
-
-//todo: 2remove
-$cfg_dedi =& $cfg_cms;
 
 // dB Optimice
 if ( $cfg_cms['db_optimice_tables']['enable'] && (time() > ($cfg_cms['db_optimice_tables']['last_run'] + $cfg_cms['db_optimice_tables']['time']))) {
@@ -109,11 +107,10 @@ if ( $cfg_cms['db_optimice_tables']['enable'] && (time() > ($cfg_cms['db_optimic
 }
 
 // Template initialisieren
-$tpl = &new HTML_Template_IT($this_dir.'tpl/'.$cfg_cms['skin'].'/');
+$tpl = new HTML_Template_IT($this_dir.'tpl/'.$cfg_cms['skin'].'/',true,true);
 
 // Session starten
-page_open(array('sess' => 'cms_Backend_Session',
-                'auth' => 'cms_Backend_Auth'));
+page_open(array('sess' => 'cms_Backend_Session','auth' => 'cms_Backend_Auth'));
 
 // Sessionvariablen initialisieren
 $sess->register('sid_client');
@@ -169,8 +166,6 @@ if (file_exists ($lang_dir."lang_$area.php")) {
 	}
 }
 
-//todo: 2remove
-$dedi_lang =& $cms_lang;
 
 // Rechte überprüfen
 $cfg_client = $val_ct -> get_by_group('cfg_client', $client);
