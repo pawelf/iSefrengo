@@ -9,7 +9,16 @@ Legend:
 Current version number is 01.05.00 (iSefrengo 1.5) - released 
 ------------------------------------------------------------------------------------------------
 
-+
++ Modul Tabs jQuery
+- Modul Tabs OverLib
++ Pear HTML_Quickform (Date Config) http://forum.sefrengo.org/index.php?s=&showtopic=2414&view=findpost&p=20875
++ New Doctype html5
+- Dedi Unterstützung teilweise entfernt
+# view http://forum.sefrengo.org/index.php?showtopic=1846
+# Modul Dev http://forum.sefrengo.org/index.php?showtopic=1971
++ inc.tpl.php http://forum.sefrengo.org/index.php?s=&showtopic=1963&view=findpost&p=15470
++ PHP 5.3 Anpassung
++ API erweitert Header
 
 Current version number is 01.04.04 (Sefrengo 1.4.4) - released 12.08.2010
 
@@ -25,7 +34,6 @@ Current version number is 01.04.03 (Sefrengo 1.4.3) - released 28.02.2009
 # mozileLoader.js: JS Errors in FF3 (thx to tobaco)
 # inc.lay_edit.php: problems with saving selcected javascript and css files (bjoern)
 # mod.contentflex_cache.php: contentflex {filelist} Division by zero problem (amk)
-
 
 
 Current version number is 01.04.02 (Sefrengo 1.4.2) - released 25.11.2008
