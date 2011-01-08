@@ -34,9 +34,11 @@
 
 class SF_HEADER_Headerinfos extends SF_API_Object{
 	
+
+  
     private $db;
-/**	    
-    var $sf_doctype_array = array('0' => $cms_lang['lay_doctype_none'],
+ /**   
+    protected $sf_doctype_array = array('0' => $cms_lang['lay_doctype_none'],
                                   'xhtml-1.0-trans' => 'XHTML 1.0 transitional',
                                   'xhtml-1.0-strict' => 'XHTML 1.0 strict',
                                   'html-5' => 'XHTML 5',
@@ -45,10 +47,25 @@ class SF_HEADER_Headerinfos extends SF_API_Object{
 /**
   * Constructor
   */
-  public function SF_HEADER_Headerinfos(){
-      $this->cache =& sf_factoryGetObjectCache('UTILS', 'DbCache');
-      $this->db =& sf_factoryGetObjectCache('DATABASE', 'Ado');
+  public function __construct(){
+    $this->cache = &sf_factoryGetObjectCache('UTILS', 'DbCache');
+    $this->db    = &sf_factoryGetObjectCache('DATABASE', 'Ado');
   }
+/**
+  *
+  * @return arr
+  */
+  public function setNewDoctype(){
+  	global $cms_lang;
+  	
+  	$sf_doctype_array = array('0' => $cms_lang['lay_doctype_none'],
+                              'html-5' => 'XHTML 5',
+                              'xhtml-1.0-trans' => 'XHTML 1.0 transitional',
+                              'xhtml-1.0-strict' => 'XHTML 1.0 strict',
+                              'html-4.0.1-trans' => 'HTML 4.0.1 transitional');
+
+  	return $sf_doctype_array;
+  	}
 /**
   *
   *
@@ -105,14 +122,14 @@ class SF_HEADER_Headerinfos extends SF_API_Object{
     if($this->getDoctypeAutoinsert($idlay) == 1){
         $ret = '';
         switch ($this->getDoctype($idlay)){
+			    case 'html-5':
+				    $ret = '<!DOCTYPE html>'."\n";
+				  break;
 			    case 'xhtml-1.0-trans':
 				    $ret = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'."\n";
 				  break;
 				   case 'xhtml-1.0-strict':
 				    $ret = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'."\n";
-				  break;
-				   case 'html-5':
-				    $ret = '<!DOCTYPE html>'."\n";
 				  break;
 			    case 'html-4.0.1-trans':
 				    $ret = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">'."\n";
@@ -146,9 +163,9 @@ class SF_HEADER_Headerinfos extends SF_API_Object{
 		    case 'html-4.0.1-trans':
 			    $ret = '';
 			break;
+				case 'html-5':
 		    case 'xhtml-1.0-trans':
 		    case 'xhtml-1.0-strict':
-		    case 'html-5':
 		  default:
 			    $ret = ' /';
 	    break;
@@ -232,3 +249,4 @@ class SF_HEADER_Headerinfos extends SF_API_Object{
 	}
 	
 }
+?>

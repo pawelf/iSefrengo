@@ -946,7 +946,34 @@ function type_form_date($formname, $content, $type_config, $cms_side)
         $form->setDefaults(array(
             $formname => $content
         ));
-        $form->addElement('date', $formname, 'Date2:', array('format'=>$type_config['formdateformat'], 'language'=>'de', 'optionIncrement' => array('i' => 5)));
+
+	$dateOptions = array('format'=>$type_config['formdateformat'],
+			     'language'=>'de',
+			     'optionIncrement' => array('i' => 5));
+	
+	$contentYear = date("Y",$content);
+
+	if (!empty($type_config['minyear'])) {
+	  $dateOptions['minYear'] = $type_config['minyear'];
+	} else {
+	  $dateOptions['minYear'] = date("Y") - 5;
+	}
+	
+	if ($dateOptions['minYear'] > $contentYear) {
+	  $dateOptions['minYear'] = $contentYear;
+	}
+	
+	if (!empty($type_config['maxyear'])) {
+	  $dateOptions['maxYear'] = $type_config['maxyear'];
+	} else {
+	  $dateOptions['maxYear'] = date("Y") + 5;
+	}
+	
+	if ($dateOptions['maxYear'] < $contentYear) {
+	  $dateOptions['maxYear'] = $contentYear;
+	}
+	
+        $form->addElement('date', $formname, 'Date2:', $dateOptions);
         $temp_fileds = $form->toArray();
     
         $optionfields .= $temp_fileds[elements][0][html];
@@ -986,7 +1013,5 @@ function type_form_date($formname, $content, $type_config, $cms_side)
     return '<td>
           ' . $optionfields . '
         </td>' . "\n";
-} 
-
-
+}
 ?>

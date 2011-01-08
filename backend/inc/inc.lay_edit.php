@@ -118,12 +118,13 @@ echo "      <tr valign=\"top\">\n";
 echo "        <td class=\"head\">".$cms_lang['lay_description']."</td>\n";
 echo "        <td>\n<textarea class=\"w800\" name=\"description\" rows=\"3\" cols=\"52\">$description</textarea></td>\n";
 echo "      </tr>\n";
+$SF_layout =& sf_factoryGetObjectCache('HEADER', 'Headerinfos');
 
-
-$doctype_array = array('0' => $cms_lang['lay_doctype_none'],
+$doctype_array =$SF_layout->setNewDoctype();
+$ddoctype_array = array('0' => $cms_lang['lay_doctype_none'],
+            'html-5' => 'HTML 5',
 						'xhtml-1.0-trans' => 'XHTML 1.0 transitional',
 						'xhtml-1.0-strict' => 'XHTML 1.0 strict',
-						'html-5' => 'HTML 5',
 						'html-4.0.1-trans' => 'HTML 4.0.1 transitional');
 
 $doctype_select = '';
