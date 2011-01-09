@@ -23,7 +23,7 @@ include('tpl/standard/lang/'.$cfg_cms['backend_lang'].'/lang_general.php');
   </noscript>
 <div id="wrapper">
   <div id="header">
-    <h2 class="hide">Sefrengo Login</h2>
+    <h2>iSefrengo:: Login</h2>
   </div>
   <form name="login" action="<?php print $this->url() ?>" method="post" target="_top">
   <?php global $username, $doublelogin, $challengefail; if (isset($username) && !isset($doublelogin) && !isset($challengefail)): ?>
@@ -39,18 +39,18 @@ include('tpl/standard/lang/'.$cfg_cms['backend_lang'].'/lang_general.php');
   <div id="content">
     <p>
      <span class="hide"><?PHP echo $cms_lang['login_username'].": "; ?></span>
-     <input class="breit" name="username" type="text" value="<?php print (isset($this->auth['uname']) ? $this->auth['uname'] : '') ?>" id="username" tabindex="1" maxlength="32" onfocus="this.style.backgroundColor='#FFF5CE'" onblur="this.style.backgroundColor='#ffffff'" />
+     <input class="breit" name="username" type="text" value="<?php print (isset($this->auth['uname']) ? $this->auth['uname'] : '') ?>" id="username" tabindex="1" maxlength="32" />
      </p>
      <p>
      <span class="hide"><?PHP echo $cms_lang["login_password"].": "; ?></span>
-     <input class="breit" name="password" type="password" value="" id="password" tabindex="2" maxlength="32" onfocus="this.style.backgroundColor='#FFF5CE'" onblur="this.style.backgroundColor='#ffffff'" />
+     <input class="breit" name="password" type="password" value="" id="password" tabindex="2" maxlength="32" />
      </p>
   <div id="navi">
   <p class="floatl"><?PHP echo $cms_lang['login_pleaselogin'] ?></p>
     <p class="floatr">
-      <input type="submit" name="Submit" value="Login &raquo;" tabindex="3" class="sf_buttonAction" onmouseover="this.className='sf_buttonActionOver'" onmouseout="this.className='sf_buttonAction'" />
+      <input type="submit" name="Submit" value="Login &raquo;" tabindex="3" />
     </p>
-      <script language="javascript" src="tpl/standard/js/sniffer.js" type="text/javascript"></script>
+
       <input type="hidden" name="response"  value="" />
       <input type="hidden" name="area"  value="con" />
   </div>
@@ -60,16 +60,6 @@ include('tpl/standard/lang/'.$cfg_cms['backend_lang'].'/lang_general.php');
   <div class="footer">
     <p><?PHP echo $cms_lang['login_licence']; ?></p>
   </div>
-<script type="text/javascript">
-<!--
-  // Activate the appropriate input form field.
-  if (document.login.username.value == '') {
-    document.login.username.focus();
-  } else {
-    document.login.password.focus();
-  }
-// -->
-</script>
 <?PHP echo "\n $mysql_debug"; ?>
 </body>
 </html>
