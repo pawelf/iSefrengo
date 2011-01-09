@@ -11,7 +11,7 @@
 <body>
 <div id="wrapper">
   <div id="header">
-    <h2 class="hide">Der Sefrengo Logout</h2>
+    <h2>iSefrengo :: Logout</h2>
   </div>
   <div id="content">
     <p class="info">{MESSAGE_LOGGED_OUT} {MESSAGE_THANKS}</p>
