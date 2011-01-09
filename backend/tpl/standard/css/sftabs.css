@@ -1,4 +1,4 @@
-.sftabs{position:relative; height:50px}
+.sftabs{position:relative; height:250px}
 
 .sftabs ul.menu{list-style:none}
 .sftabs ul.menu li{list-style:none;display:block;
@@ -29,6 +29,13 @@
     padding:0;
 }
 
+.sftabs ul.menu li:first-child > div, .sftabs ul.menu li:target > div
+{
+display:block;width:97%;
+border-top:1px solid #dedede;
+border-bottom:1px solid #dedede; padding:10px
+}
+
 ul.menu li > div
 {
     border:1px solid #dedede;
@@ -56,11 +63,5 @@ ul.menu li > div:first-child {border-top:1px solid #dedede}
     border-bottom:1px solid #fff
 }
 
-.sftabs ul.menu li:target > div
-{
-    display:block; width:97%;
-    border-top:1px solid #dedede;
-    border-bottom:1px solid #dedede; padding:10px
-}
 
 
