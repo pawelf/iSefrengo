@@ -14,9 +14,12 @@ Current version number is 01.05.00 (iSefrengo 1.5) - released
 + Pear HTML_Quickform (Date Config) http://forum.sefrengo.org/index.php?s=&showtopic=2414&view=findpost&p=20875
 + New Doctype html5
 - Dedi Unterstützung teilweise entfernt
+<<<<<<< Updated upstream
 # view http://forum.sefrengo.org/index.php?showtopic=1846
 # Modul Dev http://forum.sefrengo.org/index.php?showtopic=1971
 + inc.tpl.php http://forum.sefrengo.org/index.php?s=&showtopic=1963&view=findpost&p=15470
+=======
+>>>>>>> Stashed changes
 + PHP 5.3 Anpassung
 + API erweitert Header
 
