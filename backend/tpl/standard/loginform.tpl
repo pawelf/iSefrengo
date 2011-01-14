@@ -37,12 +37,12 @@ include('tpl/standard/lang/'.$cfg_cms['backend_lang'].'/lang_general.php');
    <p class="warning"><?PHP echo $cms_lang['login_noclient']; ?></p>
   <?php endif ?>
   <div id="content">
-    <p>
-     <span class="hide"><?PHP echo $cms_lang['login_username'].": "; ?></span>
+    <p class="profile">
+     <span><?PHP echo $cms_lang['login_username'].": "; ?></span>
      <input name="username" type="text" value="<?php print (isset($this->auth['uname']) ? $this->auth['uname'] : '') ?>" id="username" tabindex="1" maxlength="32" />
      </p>
-     <p>
-     <span class="hide"><?PHP echo $cms_lang["login_password"].": "; ?></span>
+     <p class="unlock">
+     <span><?PHP echo $cms_lang["login_password"].": "; ?></span>
      <input name="password" type="password" value="" id="password" tabindex="2" maxlength="32" />
      </p>
   <div id="navi">
