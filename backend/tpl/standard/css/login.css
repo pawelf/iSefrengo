@@ -1,37 +1,16 @@
-/*
-File: login.css
-+----------------------------------------------------------------------+
-| Version: Sefrengo 1.0.3 Beta2
-+----------------------------------------------------------------------+
-| Copyright (c) 2005 the sefrengo-group <sefrengo-group@sefrengo.de>   |
-+----------------------------------------------------------------------+
-| This program is free software; you can redistribute it and/or modify |
-| it under the terms of the GNU General Public License V2              |
-|                                                                      |
-| This program is subject to the GPL license, that is bundled with     |
-| this package in the file LICENSE.TXT.                                |
-| If you did not receive a copy of the GNU General Public License      |
-| along with this program write to the Free Software Foundation, Inc., |
-| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                |
-|                                                                      |
-| This program is distributed in the hope that it will be useful,      |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the         |
-| GNU General Public License for more details.                         |
-|                                                                      |
-+----------------------------------------------------------------------+
-+ Autor: Olaf Bosch                       http:olaf-bosch.de/
-+        Andreas Fritsch
-+----------------------------------------------------------------------+
-+ Revision: 1.0.1
-+----------------------------------------------------------------------+
-+ Description: Backend Login/Logout
-+----------------------------------------------------------------------+
-+ Changes:
-+----------------------------------------------------------------------+
-+ ToDo:
-+----------------------------------------------------------------------+
- */
+/**
+* Stylesheet login.css
+*
+* The Stylesheet contains the rules for backend login/logout.
+*
+* @project iSefrengo
+* @version 1.0.1
+* @author Olaf Bosch                    olaf-bosch.de
+* @author Andreas Fritsch               batik-gbr.de
+* @copyright 2011
+* @license GPL V2
+*/
+
 @font-face {
 	font-family: 'ExistenceLight';
 	src: url('../,,/fonts/Existence-Light-webfont.eot');
@@ -107,7 +86,7 @@ body{
 	color:#f4ad14;
 }
 
-.hide{
+.profile span, .unlock span{
 	display:none;
 }
 
@@ -172,6 +151,8 @@ body{
 	background:#fff url(data:image/gif;base64,R0lGODlhFgAXAPcAAP%2F1zv30z%2Fvy0Onw%2Bffw0ujw%2BfXu0%2FzuxPPt1PTpyNvq%2B9zq%2B%2Fjou%2FXisfXhsM%2Fk%2FN%2Ff39Hh9eXhxeTgxODdx%2FHbp8Pf%2Fu3YqdrayvLTpdXX2tzVytbWv9PUwfDOnrvU8e%2FNm%2BzLl%2BzKlsnN0%2BvHkurGkOrGkenEjejCiujDjNXEp%2BfBiefAiOfBiOa%2FhOTBf%2BbAh%2BW%2Bg%2BS9guS8gL3CtuO7fc6%2Bo%2BO8gOO7f%2BK6feK4e7K8yM%2B5i%2BG2eLK7yNyva9utZqezwtutZ9usZqmztMGvk5Sz2tmpYtmpYdioYNmoYY2x3pavzdelWtakWdakV4av4dWjV9ajV5uqvNOfUdGcStGcS9GbSdCaR9CaSM%2BZRZChts%2BYRc%2BYRM6XQs2WQcySO8uSOsuROcuROISYsMqQNsqPNsqPNcmOM8mNMsiNMciMMXSTul6Mx1mEvFeDu1iDvFaBu1aCu1R%2BtlN%2FuVB9t1V7rVV7rE58uE17t1F6r1B5r1B5rU56tEp5tlF3pkh3tUl2sFB1pVB1oUV1tEV1slB0oVJymEFyskVyrD5xs0NwrEduoTxusEVtoGVoZEJto0FsoWVnZDptsEBsoz9rpDhsr0JpmENpmTdrrjZqrjxooTpnoTVnqDRmqDdmoTZjnTpilTdjmzVjnTFioTlhkzFgmzBfmzRfly9clC5blDFaji9ZjDFYiTBYii9YiytWjC1WiSpViipUiCpUiSlThilThyhShSlShShRhChQgyhQgihQgSdPgSdPgCdQgQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEHAAAALAAAAAAWABcAAAj%2FAAEIHCjQwYsmLxwQXMiwgZYzXa54QaOlAUOGFcY8cVGiIwopZS5cHHigjJATJESoJJECiZkEIwFE6cKihAgQOEWUWNElSoCRYX6gMBHCQwYPIUygAAIGwsg1M1bYxAlC54oaapxeXIMDBkqVIkicgIEjjVaGZ37EaHGibdsWMYacObvQipUbN2Do3XujSxW6BBmgOYIDR4zDMXAoSbMBMEEeapLoyEG5hxM0RSAIuDhh165HZsxcoYIlzBlJvnxJYMjhlytMgw6p4PLli41Dhi61%2BtWBYOdQghyhUsWkgHE2qlAx%2BlOKF4WBsljZ2XSqOh8FCiJwqn6K0p1XsjYDj9gFSQ%2Bp8%2Bc%2FPDCC%2FvyeSLu0%2Bko0p5On%2B56WWCiE%2F%2F6cRb5oRcsocACiyYGatAEFgppMkgccqdCiFQ26fBJHHH4gYoklimTSCCF4vFEHKL34cBYRucBSSR9wtOgiHYGIYostQUBAAEEYqFKLZ7XEssoss%2BSS4hQaQGAAQwJAMMIOQZBBxhY77ADBlAj8JFBAADs%3D) no-repeat 2px center;
 }
 
+
+
 #wrapper{
 	background:#ededed;
 	border:1px solid #fff;
@@ -182,3 +163,6 @@ body{
 	text-align:left;
 	width:361px;
 }
+
+
+
