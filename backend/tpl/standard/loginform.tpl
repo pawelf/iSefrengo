@@ -11,7 +11,7 @@ include('tpl/standard/lang/'.$cfg_cms['backend_lang'].'/lang_general.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Sefrengo CMS | Login</title>
+<title>iSefrengo CMS | Login</title>
 <link href="tpl/standard/css/login.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" href="favicon.ico" />
 </head>
@@ -39,18 +39,15 @@ include('tpl/standard/lang/'.$cfg_cms['backend_lang'].'/lang_general.php');
   <div id="content">
     <p>
      <span class="hide"><?PHP echo $cms_lang['login_username'].": "; ?></span>
-     <input class="breit" name="username" type="text" value="<?php print (isset($this->auth['uname']) ? $this->auth['uname'] : '') ?>" id="username" tabindex="1" maxlength="32" />
+     <input name="username" type="text" value="<?php print (isset($this->auth['uname']) ? $this->auth['uname'] : '') ?>" id="username" tabindex="1" maxlength="32" />
      </p>
      <p>
      <span class="hide"><?PHP echo $cms_lang["login_password"].": "; ?></span>
-     <input class="breit" name="password" type="password" value="" id="password" tabindex="2" maxlength="32" />
+     <input name="password" type="password" value="" id="password" tabindex="2" maxlength="32" />
      </p>
   <div id="navi">
-  <p class="floatl"><?PHP echo $cms_lang['login_pleaselogin'] ?></p>
-    <p class="floatr">
-      <input type="submit" name="Submit" value="Login &raquo;" tabindex="3" />
-    </p>
-
+  <p><?PHP echo $cms_lang['login_pleaselogin'] ?></p>
+          <input type="submit" name="Submit" value="Login &raquo;" tabindex="3" />
       <input type="hidden" name="response"  value="" />
       <input type="hidden" name="area"  value="con" />
   </div>
