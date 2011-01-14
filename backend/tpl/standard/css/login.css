@@ -51,9 +51,8 @@ body{
 	text-align:center;
 }
 
-.breit{
+#username, #password{
 	border:1px solid #f4ad14;
-
         border-radius:5px;
 	font-size:14px;
 	padding:5px 4px 5px 28px;
@@ -62,18 +61,17 @@ body{
 
 #username:focus, #password:focus, #username:hover, #password:hover{background-color:#FFF5CE}
 
-.floatl{
+#navi p{
 	float:left;
 	font-size:10px;
 	width:230px;
 }
 
-.floatr{
-	float:right;
+
+#navi input{font-family: Arial, Helvetica, sans-serif;
+        float:right;
 	text-align:right;
 	width:70px;
-}
-.floatr input{font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
 	color: #050505;
 	padding: 3px 5px;
@@ -88,14 +86,14 @@ body{
 		0px -1px 0px rgba(000,000,000,0.2),
 		0px 1px 0px rgba(255,255,255,1)}
 
-.floatr input:hover, .floatr input:focus, #header{
+#navi input:hover, #navi input:focus, #header{
         color: #e9e9e9;
 	background: #6e6e6e;
 	background: -webkit-gradient(linear, left top, left bottom, from(#888), to(#575757));
 	background: -moz-linear-gradient(top,  #888,  #575757);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#575757');}
 
-.floatr input:hover, .floatr input:focus{      
+#navi input:hover, #navi input:focus{      
 	border: solid 1px #555}
 
 .footer{	
@@ -157,7 +155,7 @@ body{
 
 #header h2{
 	font: 30px/35px 'ExistenceLight', Arial, sans-serif;letter-spacing: 0;
-	padding:10px 6px 4px 10px;
+	padding:10px 6px 4px 30px;
 }
 
 #navi{
