@@ -2,18 +2,17 @@
 if(! defined('CMS_CONFIGFILE_INCLUDED')){
  die('NO CONFIGFILE FOUND');
 }
-//utf 8 hack
+//utf 8 hack  Is there a need for this hack?
 header('Content-type: text/html; charset=UTF-8');
 include('tpl/standard/lang/'.$cfg_cms['backend_lang'].'/lang_general.php');
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta charset="utf-8">
 <title>iSefrengo CMS | Login</title>
-<link href="tpl/standard/css/login.css" rel="stylesheet" type="text/css" />
-<link rel="shortcut icon" href="favicon.ico" />
+<link href="tpl/standard/css/login.css" rel="stylesheet" type="text/css">
+<link rel="shortcut icon" href="favicon.ico">
 </head>
 <body>
   <noscript>
@@ -39,11 +38,11 @@ include('tpl/standard/lang/'.$cfg_cms['backend_lang'].'/lang_general.php');
   <div id="content">
     <p class="profile">
      <span><?PHP echo $cms_lang['login_username'].": "; ?></span>
-     <input name="username" type="text" value="<?php print (isset($this->auth['uname']) ? $this->auth['uname'] : '') ?>" id="username" tabindex="1" maxlength="32" />
+     <input name="username" type="text" value="<?php print (isset($this->auth['uname']) ? $this->auth['uname'] : '') ?>" id="username" tabindex="1" maxlength="32" placeholder="Username" required>
      </p>
      <p class="unlock">
      <span><?PHP echo $cms_lang["login_password"].": "; ?></span>
-     <input name="password" type="password" value="" id="password" tabindex="2" maxlength="32" />
+     <input name="password" type="password" value="" id="password" tabindex="2" maxlength="32" placeholder="Password" required>
      </p>
   <div id="navi">
   <p><?PHP echo $cms_lang['login_pleaselogin'] ?></p>
