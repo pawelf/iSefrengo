@@ -1,47 +1,33 @@
 <?PHP
-// File: $Id: inc.con_edit.php 57 2008-08-11 16:26:04Z bjoern $
-// +----------------------------------------------------------------------+
-// | Version: Sefrengo $Name:  $                                          
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>           |
-// +----------------------------------------------------------------------+
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License                 |
-// |                                                                      |
-// | This program is subject to the GPL license, that is bundled with     |
-// | this package in the file LICENSE.TXT.                                |
-// | If you did not receive a copy of the GNU General Public License      |
-// | along with this program write to the Free Software Foundation, Inc., |
-// | 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA               |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// +----------------------------------------------------------------------+
-// + Autor: $Author: bjoern $
-// +----------------------------------------------------------------------+
-// + Revision: $Revision: 57 $
-// +----------------------------------------------------------------------+
-// + Description:
-// +----------------------------------------------------------------------+
-// + Changes: 
-// +----------------------------------------------------------------------+
-// + ToDo:
-// +----------------------------------------------------------------------+
+/**
+  *
+  * Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>
+  * Copyright (c) 2010 - 2011 iSefrengo
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License
+  *
+  * This program is subject to the GPL license, that is bundled with
+  * this package in the file LICENSE.TXT.
+  * If you did not receive a copy of the GNU General Public License
+  * along with this program write to the Free Software Foundation, Inc.,
+  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  *
+  */
+if(!defined('CMS_CONFIGFILE_INCLUDED')){die('NO CONFIGFILE FOUND');}
 
-if(! defined('CMS_CONFIGFILE_INCLUDED')){
-	die('NO CONFIGFILE FOUND');
-}
-
-
-
-//mehrere Elementa auf einmal speichern
-if ($action == 'savex' && $data != '') {
-	// Event
+//mehrere Elemente auf einmal speichern
+if($action == 'savex' && $data != '')
+{
+// Event
 	fire_event('con_edit', array('path' => $cms_path,'idcatside' => $idcatside));
-    // Delete Content Cache
+// Delete Content Cache
 	sf_factoryCallMethod('UTILS', 'DbCache', null, null, 'flushByGroup', array('frontend'));
 
 	$sf_wr =& $GLOBALS['sf_factory']->getObject('HTTP', 'WebRequest');
@@ -61,7 +47,8 @@ if ($action == 'savex' && $data != '') {
 				AND container='".$array2[0]."'
 				AND number='".$array2[1]."'";
 		$db->query($sql);
-		if (!$db->affected_rows()) {
+		if(!$db->affected_rows())
+		{
 			$sql = "UPDATE
 						$cms_db[content]
 					SET number=number-1
@@ -74,169 +61,220 @@ if ($action == 'savex' && $data != '') {
 }
 
 // Content speichern
-if ($action == 'save' || $action == 'saveedit') {
-	// Event
+if($action == 'save' || $action == 'saveedit')
+{
+// Event
 	fire_event('con_edit', array('path' => $cms_path, 'idcatside' => $idcatside, 'content' => $content));
-    // Delete Content Cache
+// Delete Content Cache
 	sf_factoryCallMethod('UTILS', 'DbCache', null, null, 'flushByGroup', array('frontend'));
-	// Content-Array aufbauen
+// Content-Array aufbauen
 	$con_content = explode (';', $content);
-	if ($action == 'saveedit') {
-	    $oldContent = $content;
+	if($action == 'saveedit')
+	{
+    $oldContent = $content;
 	}
 	unset($content);
 	
 	$sf_wr =& $GLOBALS['sf_factory']->getObject('HTTP', 'WebRequest');
 	
-	foreach ($con_content as $value) {
+	foreach($con_content as $value)
+	{
 		$con_config = explode ('.', $value);
 		$con_container = $con_config['0'];
-
-		// Modul verschieben
-		if (is_numeric($entry)) {
+// Modul verschieben
+		if(is_numeric($entry))
+		{
 			$sql = "UPDATE $cms_db[content] SET number=number+1 WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."' AND container='$con_container' AND number>'$entry'";
 			$db->query($sql);
 		}
 		$con_contnbr = explode (',', $con_config[1]);
 		$con_content_type = explode (',', $con_config[2]);
-		foreach ($con_contnbr as $con_containernumber) {
-			foreach ($con_content_type as $value3) {
+		foreach($con_contnbr as $con_containernumber)
+		{
+			foreach($con_content_type as $value3)
+			{
 				$value3 = explode ('-', $value3);
 				$con_contype = $value3['0'];
 				$con_typenumber = $value3['1'];
 				$content = $sf_wr->getVal('content_'.$con_container.'_'.$con_containernumber.'_'.$con_contype.'_'.$con_typenumber);
-				if (is_array($content)) {
-					if ($con_contype == '14') {
-						// content type select
+				if(is_array($content))
+				{
+					if($con_contype == '14')
+					{
+// content type select
 						$content = implode("\n",$content);
-                    } elseif ($con_contype == '18') {
-                        // content type datetime
-                        if (!array_key_exists(0,$content)) {
-                            // Hour
-                            if (array_key_exists('h',$content)) {
-                                $content['H'] = $content['h'];
-                                if (array_key_exists('a',$content)) {
-                                    if ($content['H'] == "12") $content['H'] = "0"; 
-                                    if ($content['a']=="pm") $content['H'] = $content['H'] + 12;
-                                } else {
-                                    if (array_key_exists('A',$content)) {
-                                        if ($content['h'] == "12") $content['H'] = "0"; 
-                                        if ($content['A']=="PM") $content['H'] = $content['H'] + 12;
-                                    } 
-                                }
-                            }
-                            if (!array_key_exists('H',$content)) {
-                                $content['H'] = 12;
-                            }
-                            // Day
-                            if (!array_key_exists('d',$content)) {
-                                $content['d'] = 1;
-                            }
-                            // Months
-                            if (!array_key_exists('m',$content)) {
-                                $content['m'] = 1;
-                            }
-                            if (array_key_exists('M',$content)) {
-                                $content['m'] = $content['M'];
-                            }
-                            if (array_key_exists('F',$content)) {
-                                $content['m'] = $content['F'];
-                            }
-                            // Year
-                            if (!array_key_exists('y',$content)) {
-                                $content['y'] = 2000;
-                            }
-                            if (array_key_exists('Y',$content)) {
-                                $content['y'] = $content['Y'];
-                            }
-                            $content = mktime($content['H'],$content['i'],0,$content['m'], $content['d'], $content['y']);
-                        } else {
-                            // zerlege übergabetexte
-                            $arr_date = @explode('.', $content[1]);
-                            // prüfe ob felder vorhanden, dann erzeuge datum
-                            if (!($arr_date[1] && $arr_date[0] && $arr_date[2])) {
-                                $arr_date[0] = 1;
-                                $arr_date[1] = 1;
-                                $arr_date[2] = 2000;
-                            }
-                            $content = mktime(12,0,0,$arr_date[1], $arr_date[0], $arr_date[2]);
-                        }
-                    }
-                }
+          }elseif($con_contype == '18')
+          {
+// content type datetime
+          if(!array_key_exists(0,$content))
+          {
+// Hour
+            if(array_key_exists('h',$content))
+            {
+              $content['H'] = $content['h'];
+              if(array_key_exists('a',$content))
+              {
+                if($content['H'] == "12") $content['H'] = "0"; 
+                if($content['a']=="pm") $content['H'] = $content['H'] + 12;
+              }else{
+                if(array_key_exists('A',$content))
+                {
+                  if($content['h'] == "12") $content['H'] = "0"; 
+                  if($content['A']=="PM") $content['H'] = $content['H'] + 12;
+                } 
+              }
+            }
+            if(!array_key_exists('H',$content))
+            {
+              $content['H'] = 12;
+            }
+// Day
+            if(!array_key_exists('d',$content))
+            {
+              $content['d'] = 1;
+            }
+// Months
+            if(!array_key_exists('m',$content))
+            {
+              $content['m'] = 1;
+            }
+            if(array_key_exists('M',$content))
+            {
+              $content['m'] = $content['M'];
+            }
+            if(array_key_exists('F',$content))
+            {
+              $content['m'] = $content['F'];
+            }
+// Year
+            if(!array_key_exists('y',$content))
+            {
+              $content['y'] = 2000;
+            }
+            if(array_key_exists('Y',$content))
+            {
+              $content['y'] = $content['Y'];
+            }
+            $content = mktime($content['H'],$content['i'],0,$content['m'], $content['d'], $content['y']);
+          }else{
+// zerlege übergabetexte
+            $arr_date = @explode('.', $content[1]);
+// prüfe ob felder vorhanden, dann erzeuge datum
+            if(!($arr_date[1] && $arr_date[0] && $arr_date[2]))
+            {
+              $arr_date[0] = 1;
+              $arr_date[1] = 1;
+              $arr_date[2] = 2000;
+            }
+            $content = mktime(12,0,0,$arr_date[1], $arr_date[0], $arr_date[2]);
+          }
+        }
+      }
 
-				// neue Modul-ID vergeben
-				if (is_numeric($entry)) $new_containernumber = $entry+1;
-                                 else $new_containernumber = $con_containernumber;
+// neue Modul-ID vergeben
+		  if(is_numeric($entry)) $new_containernumber = $entry+1;
+      else
+        $new_containernumber = $con_containernumber;
 				con_edit_save_content($con_side[$idcatside]['idsidelang'], $con_container, $new_containernumber, $con_contype, $con_typenumber, $content);
 				unset($content);
-			}
+    }
 
-			// Modulverdopplung minimieren, wenn Content leer ist.
-			$sql = "SELECT * FROM $cms_db[content] WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."' AND container='$con_container' AND number='$new_containernumber'";
+// Modulverdopplung minimieren, wenn Content leer ist.
+			$sql = "SELECT
+			         * 
+			        FROM
+			          $cms_db[content]
+			        WHERE
+			          idsidelang='".$con_side[$idcatside]['idsidelang']."'
+			        AND
+			          container='$con_container'
+			        AND
+			          number='$new_containernumber'";
 			$db->query($sql);
-			if (!$db->affected_rows()) {
-                                	$sql = "UPDATE $cms_db[content] SET number=number-1 WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."' AND container='$con_container' AND number>'$new_containernumber'";
+			if(!$db->affected_rows())
+			{
+        $sql = "UPDATE
+                  $cms_db[content] SET number=number-1
+                WHERE
+                  idsidelang='".$con_side[$idcatside]['idsidelang']."'
+                AND
+                  container='$con_container' AND number>'$new_containernumber'";
 				$db->query($sql);
 			}
 		}
 
-		// Falls nichts eingetragen wurde Eintrag zurückverschieben
-		if (is_numeric($entry)) {
-			$sql = "SELECT * FROM $cms_db[content] WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."' AND container='$con_container' AND number='".($entry+1)."'";
+// Falls nichts eingetragen wurde Eintrag zurückverschieben
+		if(is_numeric($entry))
+		{
+			$sql = "SELECT * 
+			        FROM
+			          $cms_db[content]
+			        WHERE
+			          idsidelang='".$con_side[$idcatside]['idsidelang']."'
+			        AND
+			          container='$con_container' 
+			        AND 
+			          number='".($entry+1)."'";
 			$db->query($sql);
-			if (!$db->affected_rows()) {
+			if(!$db->affected_rows())
+			{
 				$sql = "UPDATE $cms_db[content] SET number=number-1 WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."' AND container='$con_container' AND number>'$entry'";
 				$db->query($sql);
 			}
-                 }
+    }
 	}
-	if ($action == 'saveedit') {
-	    $content = $oldContent;
-	    unset($oldContent);
+	if($action == 'saveedit')
+	{
+	  $content = $oldContent;
+	  unset($oldContent);
 	}
 }
 
 // Content löschen
-if ($action == 'delete') {
+if($action == 'delete')
+{
 	$con_content = explode (';', $content);
 	unset($content);
-	// Delete Content Cache
+// Delete Content Cache
 	sf_factoryCallMethod('UTILS', 'DbCache', null, null, 'flushByGroup', array('frontend'));
-	foreach ($con_content as $value) {
+	foreach($con_content as $value)
+	{
 		$con_config = explode ('.', $value);
 		$con_container = $con_config['0'];
 		$con_contnbr = $con_config['1'];
 
-		// Einträge löschen
+// Einträge löschen
 		$sql = "DELETE FROM $cms_db[content] WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."' AND container='$con_container' AND number='$con_contnbr'";
 		$db->query($sql);
 
-		// Modul verschieben
+// Modul verschieben
 		$sql = "UPDATE $cms_db[content] SET number=number-1 WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."' AND container='$con_container' AND number>'$con_contnbr'";
 		$db->query($sql);
 
-		// Änderungsdatum aktualisieren
+// Änderungsdatum aktualisieren
 		$sql = "UPDATE $cms_db[side_lang] SET lastmodified='".time()."', author='".$auth->auth['uid']."' WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."'";
 		$db->query($sql);
 
-		// Seitenkopien suchen
+// Seitenkopien suchen
 		$sql = "SELECT idcatside FROM $cms_db[side_lang] A LEFT JOIN $cms_db[cat_side] B USING(idside) WHERE A.idsidelang='".$con_side[$idcatside]['idsidelang']."'";
 		$db->query($sql);
 		while ($db->next_record()) $list[] = $db->f('idcatside');
 
-		// Status der Seite auf geändert stellen
+// Status der Seite auf geändert stellen
 		change_code_status($list, '1', 'idcatside');
 		sf_header_redirect($con_side[$idcatside]['link'], true);
 	}
 }
 
 // Modul nach oben verschieben
-if ($action == 'move_up') {
+if($action == 'move_up')
+{
 	$con_content = explode (';', $content);
-	// Delete Content Cache
+// Delete Content Cache
 	sf_factoryCallMethod('UTILS', 'DbCache', null, null, 'flushByGroup', array('frontend'));
 	unset($content);
-	foreach ($con_content as $value) {
+	foreach($con_content as $value)
+	{
 		$con_config = explode ('.', $value);
 		$con_container = $con_config['0'];
 		$entry = $con_config['1'];
@@ -247,26 +285,28 @@ if ($action == 'move_up') {
 		$sql = "UPDATE $cms_db[content] SET number='".($entry-1)."' WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."' AND container='$con_container' AND number='-1'";
 		$db->query($sql);
 	}
-	// Änderungsdatum aktualisieren
+// Änderungsdatum aktualisieren
 	$sql = "UPDATE $cms_db[side_lang] SET lastmodified='".time()."', author='".$auth->auth['uid']."' WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."'";
 	$db->query($sql);
-	// Seitenkopien suchen
+// Seitenkopien suchen
 	$sql = "SELECT idcatside FROM $cms_db[side_lang] A LEFT JOIN $cms_db[cat_side] B USING(idside) WHERE A.idsidelang='".$con_side[$idcatside]['idsidelang']."'";
 	$db->query($sql);
 	while ($db->next_record()) $list[] = $db->f('idcatside');
 
-	// Status der Seite auf geändert stellen
+// Status der Seite auf geändert stellen
 	change_code_status($list, '1', 'idcatside');
 	sf_header_redirect($con_side[$idcatside]['link'], true);
 }
 
 // Modul nach unten verschieben
-if ($action == 'move_down') {
+if($action == 'move_down')
+{
 	$con_content = explode (';', $content);
-	// Delete Content Cache
+// Delete Content Cache
 	sf_factoryCallMethod('UTILS', 'DbCache', null, null, 'flushByGroup', array('frontend'));
 	unset($content);
-	foreach ($con_content as $value) {
+	foreach($con_content as $value)
+	{
 		$con_config = explode ('.', $value);
 		$con_container = $con_config['0'];
 		$entry = $con_config['1'];
@@ -277,23 +317,23 @@ if ($action == 'move_down') {
 		$sql = "UPDATE $cms_db[content] SET number='".($entry+1)."' WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."' AND container='$con_container' AND number='-1'";
 		$db->query($sql);
 	}
-	// Änderungsdatum aktualisieren
+// Änderungsdatum aktualisieren
 	$sql = "UPDATE $cms_db[side_lang] SET lastmodified='".time()."', author='".$auth->auth['uid']."' WHERE idsidelang='".$con_side[$idcatside]['idsidelang']."'";
 	$db->query($sql);
-	// Seitenkopien suchen
+// Seitenkopien suchen
 	$sql = "SELECT idcatside FROM $cms_db[side_lang] A LEFT JOIN $cms_db[cat_side] B USING(idside) WHERE A.idsidelang='".$con_side[$idcatside]['idsidelang']."'";
 	$db->query($sql);
 	while ($db->next_record()) $list[] = $db->f('idcatside');
 
-	// Status der Seite auf geändert stellen
+// Status der Seite auf geändert stellen
 	change_code_status($list, '1', 'idcatside');
 	sf_header_redirect($con_side[$idcatside]['link'], true);
 }
 
 //Content bearbeiten
-if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
-
-	// Formularelemente includieren
+if($action == 'edit' || $action == 'saveedit' || $action == 'new')
+{
+// Formularelemente includieren
 	include_once($cms_path.'inc/fnc.type_forms.php');
 	$code .= '<head>'."\n";
 	$code .= '<title>Sefrengo | Edit- Mode</title>'."\n";
@@ -303,7 +343,7 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 	$code .= '<script type="text/javascript" src="'.$cfg_cms['cms_html_path'].'tpl/'.$cfg_cms['skin'].'/js/dynCalendarBrowserSniffer.js"></script>'."\n";
 	$code .= '<script type="text/javascript" src="'.$cfg_cms['cms_html_path'].'tpl/'.$cfg_cms['skin'].'/js/dynCalendar.js"></script>'."\n";
 	$code .= '<script type="text/javascript" src="'.$cfg_cms['cms_html_path'].'tpl/'.$cfg_cms['skin'].'/js/standard.js"></script>'."\n";
-	//disable selector content sync
+//disable selector content sync
 	$copycontent_disabled = true;
 	$code .= '<script type="text/javascript">
 		try {	
@@ -346,172 +386,172 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 //    $con_type[19]=array('type'=>'time'         ,'descr'=>'Zeit'                 ,'input'=>'$code .= type_form_time($formname, $content, $type_config, $cms_side);');
     $con_type[20]=array('type'=>'checkboxsave' ,'descr'=>'Checkbox'             ,'input'=>'$code .= type_form_checkboxsave($formname, $content, $type_config, $cms_side);');
 
-	// Content-Array erstellen
+// Content-Array erstellen
 	$sql = "SELECT
-				A.idcontent, container, number, idtype, typenumber, value
-			FROM
-				$cms_db[content] A
-				LEFT JOIN $cms_db[side_lang] B USING(idsidelang)
-			WHERE
-				B.idside='$idside'
-				AND B.idlang='$lang'";
+				    A.idcontent, container, number, idtype, typenumber, value
+			    FROM
+				    $cms_db[content] A
+				  LEFT JOIN $cms_db[side_lang] B USING(idsidelang)
+			    WHERE
+				   B.idside='$idside'
+				  AND B.idlang='$lang'";
 	$db->query($sql);
-	while ($db->next_record())
+	while($db->next_record())
 	{
 	 	$content_array[$db->f('container')][$db->f('number')][$db->f('idtype')][$db->f('typenumber')] = array($db->f('idcontent'), htmlentities($db->f('value'), ENT_COMPAT, 'UTF-8'));
 	}
 
-	// Module finden
-	if ($con_side[$idcatside]['idtplconf'] == '0') {
+// Module finden
+	if($con_side[$idcatside]['idtplconf'] == '0')
+	{
 		$idtplconf = $con_tree[$con_side[$idcatside]['idcat']]['idtplconf'];
-	} else {
+	}else{
 		$idtplconf = $con_side[$idcatside]['idtplconf'];
 	}
 
 	$modlist = browse_template_for_module('0', $idtplconf);
 
-	// Containernamen suchen
+// Containernamen suchen
 	$sql = "SELECT idlay FROM $cms_db[tpl_conf] A LEFT JOIN $cms_db[tpl] B USING(idtpl) WHERE A.idtplconf='$idtplconf'";
 	$db->query($sql);
 	$db->next_record();
 	$idlay = $db->f('idlay');
 	$list = browse_layout_for_containers($idlay);
 
-	// Browserinformationen in Array schreiben
+// Browserinformationen in Array schreiben
 	$tmp_sniffer = explode(',', $sid_sniffer);
 
-	// Bearbeitungsarray erstellen
+// Bearbeitungsarray erstellen
 	$con_content = explode (';', $content);
 	unset($content);
 
-	// Einzelne Container auflisten
-	foreach ($con_content as $value) {
-
-		// Konfiguration einlesen
+// Einzelne Container auflisten
+	foreach($con_content as $value)
+	{
+// Konfiguration einlesen
 		$con_config = explode ('.', $value);
 		$con_container = $con_config['0'];
 		$con_contnbr = explode (',', $con_config[1]);
 		$con_content_type = explode (',', $con_config[2]);
 
-		// Konfigurationsparameter mod_values extahieren und aufbereiten
+// Konfigurationsparameter mod_values extahieren und aufbereiten
 		$sql = "SELECT container_conf.config FROM ".$cms_db['container_conf']." container_conf LEFT JOIN ".$cms_db['tpl_conf']." tpl_conf USING(idtplconf) LEFT JOIN ".$cms_db['container']." container USING(idtpl) WHERE container_conf.idtplconf = $idtplconf AND container = $con_container AND container_conf.idcontainer = container.idcontainer";
 		$db->query($sql);
 		$db->next_record();
 		$tpl_config_vars = $db->f('config');
 
-		// mod_values aus Container ersetzen
+// mod_values aus Container ersetzen
 		$container = $modlist[$con_container]['output'];
 		$config = preg_split('/&/', $tpl_config_vars );
-		foreach ($config as $key1 => $value1) {
+		foreach($config as $key1 => $value1)
+		{
 			$tmp2 = explode('=', $value1);
-			if ($tmp2['1'] != '') {
-				// $mod_value Array schreiben
+			if($tmp2['1'] != '')
+      {
+// $mod_value Array schreiben
 				$cms_mod['value'][$tmp2['0']] = cms_stripslashes(urldecode($tmp2['1']));
-				// MOD_VALUE[x] ersetzen
+// MOD_VALUE[x] ersetzen
 				$container = str_replace('MOD_VALUE['.$tmp2['0'].']', str_replace("\'","'", urldecode($tmp2['1'])), $container);//'
-			}
+      }
 			unset($tmp2);
 		}
 
-		// nicht benutzte Variablen strippen
+// nicht benutzte Variablen strippen
 		$container = preg_replace('/MOD_VALUE\[\d*\]/', '', $container);
-		if( stristr ($container, '<cms:mod constant="tagmode" />') ){
+		if(stristr($container, '<cms:mod constant="tagmode" />'))
+		{
 			$container = str_replace('<cms:mod constant="tagmode" />', '', $container);
-			$container = cms_stripslashes($container);
-		//todo: 2remove
-		} elseif( stristr ($container, '<dedi:mod constant="tagmode" />') ){
-			$container = str_replace('<dedi:mod constant="tagmode" />', '', $container);
 			$container = cms_stripslashes($container);
 		}
 
-
-		// Moduloutput simulieren, zum generieren der CMS-Tag Informationen
+// Moduloutput simulieren, zum generieren der CMS-Tag Informationen
 		$sefrengotag_config = extract_cms_tags($container, 'type');
 
-		// Rowspan für Containertabelle berechnen
+// Rowspan für Containertabelle berechnen
 		$rowspan = 1;
-		foreach ($con_contnbr as $con_containernumber) {
+		foreach($con_contnbr as $con_containernumber)
+		{
 			$rowspan++;
-			foreach ($con_content_type as $value3) {
+			foreach($con_content_type as $value3)
+			{
 				$rowspan++;
 				$rowspan++;
 			}
 		}
 
 		$code .= "  <tr>\n";
-
-		// Containername
+// Containername
 		$code .= "    <td class=\"head\" width=\"110\" rowspan=\"$rowspan\"><p>";
-		if (!empty($list[$con_container]['title'])) $code .= $list[$con_container]['title'];
+		if(!empty($list[$con_container]['title'])) $code .= $list[$con_container]['title'];
 		else $code .= "$con_container. ".$cms_lang['tpl_container'];
 		$code .= "</p></td>\n";
 		unset($rowspan);
-		foreach ($con_contnbr as $con_containernumber) {
-
-			// neues Modul erstellen?
-			if ($con_containernumber == '-1') $print_containernumber = '';
+		foreach($con_contnbr as $con_containernumber)
+		{
+// neues Modul erstellen?
+			if($con_containernumber == '-1') $print_containernumber = '';
 			else $print_containernumber = $con_containernumber.'. ';
 
-			// Modulname
+// Modulname
 			$modname = (($modlist[$con_container]['verbose']) != '' ? $modlist[$con_container]['verbose'] : $modlist[$con_container]['modname']) . ((empty($modlist[$con_container]['version'])) ? '' : ' (' . $modlist[$con_container]['version'] . ')');
 			$code .= "    <td class=\"headre\"><!-- $print_containernumber -->".$modname."</td>\n";
 			$code .= "  </tr>\n";
-			foreach ($con_content_type as $value3) {
+			foreach($con_content_type as $value3)
+			{
 				$value3 = explode ('-', $value3);
 				$con_contype = $value3['0'];
 				$con_typenumber = $value3['1'];
 
-				// Name für Eingabefeld
-				// Nicht anzeigen bei Dateilink, wenn hidetarget auf true gesetzt ist
-				if ($filetarget_is_hidden == 'true' && $con_contype == 12) {
+// Name für Eingabefeld
+// Nicht anzeigen bei Dateilink, wenn hidetarget auf true gesetzt ist
+				if($filetarget_is_hidden == 'true' && $con_contype == 12)
+				{
 					$code .= "    <td></td>\n";
 					$code .= "  </tr>\n";
 					$code .= "  <tr>\n";
-
-//				} elseif ($con_contype == 15) { 
-//				    $code .="";
-                } elseif ($con_contype == 20) { 
+        }elseif($con_contype == 20){ 
 					$code .= "    <td height=\"0\">";
 					$code .= "    </td>\n";
 					$code .= "  </tr>\n";
 					$code .= "  <tr>\n";
-                } else {
-                    if (in_array($con_contype,array(1,2,3,4,6,9,10,13,14,15,16,17,18))) {
-					    $code .= "  <tr class=\"fomrstitle\">\n";
-					} else {
-					    $code .= "  <tr>\n";
+        }else{
+          if(in_array($con_contype,array(1,2,3,4,6,9,10,13,14,15,16,17,18)))
+          {
+					  $code .= "  <tr class=\"fomrstitle\">\n";
+					}else{
+					  $code .= "  <tr>\n";
 					}
 					$code .= "    <td>";
-					if (!empty($sefrengotag_config[$con_type[$con_contype]['type']][$con_typenumber]['title'])) $code .= $sefrengotag_config[$con_type[$con_contype]['type']][$con_typenumber]['title'];
+					if(!empty($sefrengotag_config[$con_type[$con_contype]['type']][$con_typenumber]['title'])) $code .= $sefrengotag_config[$con_type[$con_contype]['type']][$con_typenumber]['title'];
 					else $code .= $con_type[$con_contype]['descr'];
 					$code .= ":</td>\n";
 					$code .= "  </tr>\n";
 					$code .= "  <tr>\n";
 				}
 
-				// Name des Formularfeldes
+// Name des Formularfeldes
 				$formname = 'content_'.$con_container.'_'.$con_containernumber.'_'.$con_contype.'_'.$con_typenumber;
 
-				// benutzte WYSIWYG-Applets in Array schreiben
-				if ( ( ($tmp_sniffer['18'] != 'true' && $cfg_client['wysiwyg_applet'] == '1') 
+// benutzte WYSIWYG-Applets in Array schreiben
+				if((($tmp_sniffer['18'] != 'true' && $cfg_client['wysiwyg_applet'] == '1') 
 					|| $cfg_client['wysiwyg_applet'] == '2'
 					|| ($tmp_sniffer['18'] != 'true' || $tmp_sniffer['9'] != 'true') && $cfg_client['wysiwyg_applet'] == '3')  
-					&& $con_contype == '2' || $con_contype == '13'){
-						
-						 $used_applet[] = $formname;
+					&& $con_contype == '2' || $con_contype == '13')
+        {
+				  $used_applet[] = $formname;
 				}
 
-				// Variable für den Content
+// Variable für den Content
 				$content = $content_array[$con_container][$con_containernumber][$con_contype][$con_typenumber]['1'];
 				$type_config = $sefrengotag_config[$con_type[$con_contype]['type']][$con_typenumber];
-                if ($con_contype == '16') {
-                    $type_config['saved'] = $content_array[$con_container][$con_containernumber]['20'][$con_typenumber]['1'];
-                }
+        if($con_contype == '16')
+        {
+          $type_config['saved'] = $content_array[$con_container][$con_containernumber]['20'][$con_typenumber]['1'];
+        }
 				eval ($con_type[$con_contype]['input']);
 				unset($content);
 				unset($formname);
 				$code .= "  </tr>\n";
-
 			}
 		}
 	}
@@ -531,7 +571,7 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 	$code .= '</html>'."\n";
 
 // normale Anzeige
-} else {
+}else{
 	//sniffer init
 	$tmp_sniffer = explode(',', $sid_sniffer);
 	
@@ -545,7 +585,8 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 				AND A.idlang='$lang' 
 				AND A.idtplconf!='0'";
 	$db->query($sql);
-	if (!$db->affected_rows()) {
+	if(!$db->affected_rows())
+	{
 		$sql = "SELECT 
 					A.idtplconf, B.idtpl 
 				FROM 
@@ -557,8 +598,9 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 					AND A.idtplconf!='0'";
 		$db->query($sql);
 	}
-	if ($db->next_record()) {
-		// Templatekonfiguration suchen
+	if($db->next_record())
+	{
+// Templatekonfiguration suchen
 		$idtpl = $db->f('idtpl');
 		$sql = "SELECT 
 					A.config, A.view, A.edit, B.container, C.name, C.output, C.idmod, C.verbose
@@ -569,13 +611,14 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 				WHERE 
 					A.idtplconf='".$db->f('idtplconf')."'";
 		$db->query($sql);
-		while ($db->next_record()) {
+		while($db->next_record())
+		{
 			$container[$db->f('container')] = array ($db->f('config'), $db->f('view'), $db->f('edit'), 
 														$db->f('name'), $db->f('output'), $db->f('idmod'), 
 														$db->f('verbose'));
 		}
 
-		// Content-Array erstellen
+// Content-Array erstellen
 		$sql = "SELECT 
 					A.idcontent, container, number, idtype, typenumber, value 
 				FROM 
@@ -587,11 +630,12 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 				ORDER BY 
 					number";
 		$db->query($sql);
-		while ($db->next_record()) {
+		while($db->next_record())
+		{
 			$content[$db->f('container')][$db->f('number')][$db->f('idtype')][$db->f('typenumber')] = array($db->f('idcontent'), $db->f('value'));
 		}
 
-		// Layout suchen
+// Layout suchen
 		$sql = "SELECT 
 					A.idlay, B.doctype, B.doctype_autoinsert, B.code 
 				FROM 
@@ -613,25 +657,29 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 		
 // Container generieren
 		$list = extract_cms_tags($layout);
-		if (is_array($list)) {
-			foreach ($list as $cms_mod['container']) {
-				// Head-Container?
-				if ($cms_mod['container']['type'] == 'head') {
+		if(is_array($list))
+		{
+			foreach($list as $cms_mod['container'])
+			{
+// Head-Container?
+				if($cms_mod['container']['type'] == 'head')
+				{
 					$code = '';					
-					//head
-				$code .= "<!--START head//-->\n";
-				$code .= "<meta name=\"generator\" content=\"Sefrengo / www.sefrengo.org\" ".$SF_layout->SF_Slash_Closing_Tag($idlay).">\n";
-				$code .= '<CMSPHP> if ($cfg_client[\'url_rewrite\'] == \'2\') echo \'<base href="\'.htmlspecialchars(str_replace(\'{%http_host}\',  $_SERVER[\'HTTP_HOST\'], $cfg_client[\'url_rewrite_basepath\']), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; </CMSPHP>';
-			  $code .= '<?PHP if ($SF_pageinfos->getMetaAuthor($idcatside)!= \'\') echo \'<meta name="author" content="\'.htmlspecialchars($SF_pageinfos->getMetaAuthor($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
-				$code .= '<?PHP if ($SF_pageinfos->getMetaDescription($idcatside) != \'\') echo \'<meta name="description" content="\'.htmlspecialchars($SF_pageinfos->getMetaDescription($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
-				$code .= '<?PHP if ($SF_pageinfos->getMetaKeywords($idcatside) != \'\') echo \'<meta name="keywords" content="\'.htmlspecialchars($SF_pageinfos->getMetaKeywords($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
-				$code .= '<?PHP if ($SF_pageinfos->getMetaRobots($idcatside) != \'\') echo \'<meta name="robots" content="\'.htmlspecialchars($SF_pageinfos->getMetaRobots($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
-				$code .= '<meta http-equiv="content-type" content="text/html; charset='.$lang_charset.'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>'."\n";
-				$code .= "<meta http-equiv=\"expires\" content=\"0\"".$SF_layout->SF_Slash_Closing_Tag($idlay).">\n";
+//head
+				  $code .= "<!--START head//-->\n";
+				  $code .= "<meta name=\"generator\" content=\"Sefrengo / www.sefrengo.org\" ".$SF_layout->SF_Slash_Closing_Tag($idlay).">\n";
+				  $code .= '<CMSPHP> if ($cfg_client[\'url_rewrite\'] == \'2\') echo \'<base href="\'.htmlspecialchars(str_replace(\'{%http_host}\',  $_SERVER[\'HTTP_HOST\'], $cfg_client[\'url_rewrite_basepath\']), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; </CMSPHP>';
+			    $code .= '<?PHP if ($SF_pageinfos->getMetaAuthor($idcatside)!= \'\') echo \'<meta name="author" content="\'.htmlspecialchars($SF_pageinfos->getMetaAuthor($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				  $code .= '<?PHP if ($SF_pageinfos->getMetaDescription($idcatside) != \'\') echo \'<meta name="description" content="\'.htmlspecialchars($SF_pageinfos->getMetaDescription($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				  $code .= '<?PHP if ($SF_pageinfos->getMetaKeywords($idcatside) != \'\') echo \'<meta name="keywords" content="\'.htmlspecialchars($SF_pageinfos->getMetaKeywords($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				  $code .= '<?PHP if ($SF_pageinfos->getMetaRobots($idcatside) != \'\') echo \'<meta name="robots" content="\'.htmlspecialchars($SF_pageinfos->getMetaRobots($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				  $code .= '<meta http-equiv="content-type" content="text/html; charset='.$lang_charset.'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>'."\n";
+				  $code .= "<meta http-equiv=\"expires\" content=\"0\"".$SF_layout->SF_Slash_Closing_Tag($idlay).">\n";
 				        $sql = "SELECT C.filetype, D.dirname, B.filename FROM $cms_db[lay_upl] A LEFT JOIN $cms_db[upl] B USING(idupl) LEFT JOIN $cms_db[filetype] C USING(idfiletype) LEFT JOIN $cms_db[directory] D ON B.iddirectory=D.iddirectory WHERE idlay='$idlay'";
 					$db->query($sql);
-					while ($db->next_record()) {
-						if ($db->f('filetype') == 'js') $code .= "<script src=\"".$db->f('dirname').$db->f('filename')."\" type=\"text/javascript\"></script>\n";
+					while($db->next_record())
+					{
+						if($db->f('filetype') == 'js') $code .= "<script src=\"".$db->f('dirname').$db->f('filename')."\" type=\"text/javascript\"></script>\n";
 						else if ($db->f('filetype') == 'css') $code .= "<link rel=\"StyleSheet\" href=\"".$db->f('dirname').$db->f('filename')."\" type=\"text/css\" ".$sf_slash_closing_tag.">\n";
 					}
 					$code .= "<style type=\"text/css\">\n";
@@ -648,9 +696,10 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 					$code .= "</style>\n";
 					$code .= "<script src=\"". $cfg_cms['cms_html_path'].'tpl/'.$cfg_cms['skin'].'/js/popupmenu.js' ."\" type=\"text/javascript\"></script>\n";
           			//TODO NUR BEI GECKO EINBINDEN
-          			if($tmp_sniffer['9'] == 'true'){
-          				$code .= "<script src=\"".$cfg_cms['cms_html_path']."external/mozile/mozileLoader.js\" type=\"text/javascript\"></script>\n";
-          			}
+          if($tmp_sniffer['9'] == 'true')
+          {
+            $code .= "<script src=\"".$cfg_cms['cms_html_path']."external/mozile/mozileLoader.js\" type=\"text/javascript\"></script>\n";
+          }
 					$code .= "<script type=\"text/javascript\">\n";
 					$code .= "<!--\n";
 					$code .= "function cms_status(message) {\n";
@@ -693,162 +742,161 @@ if ($action == 'edit' || $action == 'saveedit' || $action == 'new') {
 						
 					$code .= "//-->\n";
 					$code .= "</script>\n";
-					//$code .= "<div id=\"popmenu\" name=\"popmenu\" onmouseover=\"clearhidemenu();highlightmenu(event,'on')\" onmouseout=\"highlightmenu(event,'off');dynamichide(event)\"></div>\n";
 					$code .= "<!--END head//-->\n";
 					$search[] = $cms_mod['container']['full_tag'];
 					$replace[] = $code;
 
-				// Seitenkonfigurationslayer?
-				} elseif ($cms_mod['container']['type'] == 'config') {
+// Seitenkonfigurationslayer?
+				}elseif($cms_mod['container']['type'] == 'config')
+				{
 					$search[] = $cms_mod['container']['full_tag'];
 					$replace[] = '<?PHP if ($cms_side[\'view\']) echo $con_side[$idcatside][\'config\']; ?>';
-				} else {
+				}else{
 					unset($code);
 					unset($config);
 					unset($output);
 
-					// darf Modul bearbeitet werden? Seitencontent darf bearbeitet werden
-					if ($container[$cms_mod['container']['id']]['2'] == '0' && isset($idcatside) && $cms_side['view'] == 'edit') $cms_side['edit'] = 'true';
+// darf Modul bearbeitet werden? Seitencontent darf bearbeitet werden
+					if($container[$cms_mod['container']['id']]['2'] == '0' && isset($idcatside) && $cms_side['view'] == 'edit') $cms_side['edit'] = 'true';
 					else unset($cms_side['edit']);
 
-					// darf Modul gesehen werden? Modul ist aktiviert
-					if ($container[$cms_mod['container']['id']]['1'] == '0') {
-						// Container konfigurieren
+// darf Modul gesehen werden? Modul ist aktiviert
+					if($container[$cms_mod['container']['id']]['1'] == '0')
+					{
+// Container konfigurieren
 						$code = $container[$cms_mod['container']['id']]['4'];
 						$config = preg_split('/&/', $container[$cms_mod['container']['id']]['0']);
-						foreach ($config as $key1 => $value1) {
+						foreach($config as $key1 => $value1)
+						{
 							$tmp2 = explode('=', $value1);
-							if ($tmp2['1'] != '') {
-								// $mod_value Array schreiben
+							if($tmp2['1'] != '')
+							{
+// $mod_value Array schreiben
 								$cms_mod['value'][$tmp2['0']] = cms_stripslashes(urldecode($tmp2['1']));
-								// MOD_VALUE[x] ersetzen
+// MOD_VALUE[x] ersetzen
 								$code = str_replace('MOD_VALUE['.$tmp2['0'].']', str_replace("\'","'", urldecode($tmp2['1'])), $code);
 							}
 							unset($tmp2);
 						}
 						
-						//TODO: 2REMOVE - DEDI BACKWARD COMPATIBILITY
-						$dedi_mod =& $cms_mod;
-
-						// nicht benutzte Variablen strippen
-						$code = preg_replace('/MOD_VALUE\[\d*\]/', '', $code);//'
-
+// nicht benutzte Variablen strippen
+						$code = preg_replace('/MOD_VALUE\[\d*\]/', '', $code);
 						$code = str_replace('<CMSPHP:CACHE>', '<?PHP ', $code);
 						$code = str_replace('</CMSPHP:CACHE>', ' ?>', $code);
 
-						//Im tagmode stripslashes im modul ausführen
-						if( stristr ($code, '<cms:mod constant="tagmode" />') ){
+//Im tagmode stripslashes im modul ausführen
+						if( stristr ($code, '<cms:mod constant="tagmode" />'))
+						{
 							$code = str_replace('<cms:mod constant="tagmode" />', '', $code);
 							$code = cms_stripslashes($code);
-						//todo: 2remove
-						} elseif( stristr ($code, '<dedi:mod constant="tagmode" />') ){
-							$code = str_replace('<dedi:mod constant="tagmode" />', '', $code);
-							$code = cms_stripslashes($code);
 						}
+// Das Modul existiert noch nicht in der Datenbank
+						if(!is_array($content[$cms_mod['container']['id']])) $content[$cms_mod['container']['id']]['1'] = 'neu';
 
-						// Das Modul existiert noch nicht in der Datenbank
-						if (!is_array($content[$cms_mod['container']['id']])) $content[$cms_mod['container']['id']]['1'] = 'neu';
-
-						// Alle MOD_TAGS[] im Container ersetzen
+// Alle MOD_TAGS[] im Container ersetzen
 						$used_type = extract_cms_tags($code);
 
-						// alle Module in einem Container generieren
-						foreach ($content[$cms_mod['container']['id']] as $key3 => $value3) {
-							// letztes Modul in diesem Container?
-							if (!$content[$cms_mod['container']['id']][$key3+1]) {
+// alle Module in einem Container generieren
+						foreach($content[$cms_mod['container']['id']] as $key3 => $value3)
+						{
+// letztes Modul in diesem Container?
+							if(!$content[$cms_mod['container']['id']][$key3+1])
+							{
 								$cms_mod['modul']['lastentry'] = 'true';
 								$pre_container_code = '<?php $cms_mod[\'modul\'][\'lastentry\']=\'true\'; ?>';
-							} else {
+							}else{
 								unset($cms_mod['modul']['lastentry']);
 								$pre_container_code = '<?php unset($cms_mod[\'modul\'][\'lastentry\']); ?>';
 							}
-
-							// erstes Modul generieren?
-							if ($key3 == '1') {
+// erstes Modul generieren?
+							if($key3 == '1')
+							{
 								$container_code = $code;
-								if (is_array($used_type)) {
-									// CMS-TAG in Funktionsaufruf umwandeln
-									foreach ($used_type as $value4) {
-										// CMS-TAG Konfiguration auslesen
-										// Darf Modul erstellt werden?
+								if(is_array($used_type))
+								{
+// CMS-TAG in Funktionsaufruf umwandeln
+									foreach($used_type as $value4)
+									{
+// CMS-TAG Konfiguration auslesen
+// Darf Modul erstellt werden?
 										$cms_type_config = '\'';
+// letztes Modul in diesem Container?
+										foreach($value4 as $key5=>$value5)
+										 if($key5 != 'type' && $key5 != 'id' && $key5 != 'full_tag') $cms_type_config .= '\''.$key5.'\'=>\''.str_replace('\"','"', cms_addslashes($value5)).'\',';
 
-										// letztes Modul in diesem Container?
-										foreach ($value4 as $key5=>$value5) if ($key5 != 'type' && $key5 != 'id' && $key5 != 'full_tag') $cms_type_config .= '\''.$key5.'\'=>\''.str_replace('\"','"', cms_addslashes($value5)).'\',';
-
-										// letztes Komma entfernen
+// letztes Komma entfernen
 										$cms_type_config = substr ($cms_type_config,  1, -1);
 
-										// Filemanagerklasse für Bildformatierung laden
+// Filemanagerklasse für Bildformatierung laden
 										$to_eval ='$check_type_config = array('.$cms_type_config.');';
 										eval($to_eval);
-										if($check_type_config['autoresize'] == 'true' && ! is_object($fm)){
+										if($check_type_config['autoresize'] == 'true' && ! is_object($fm))
+										{
 											$this_dir = $cms_path;
-											include_once ($cms_path.'inc/class.querybuilder_factory.php');
-											include_once ($cms_path.'inc/class.filemanager.php');
-											include_once ($cms_path.'inc/class.fileaccess.php');
-											include_once ($cms_path.'inc/class.fileaddon.php');
+											include_once($cms_path.'inc/class.querybuilder_factory.php');
+											include_once($cms_path.'inc/class.filemanager.php');
+											include_once($cms_path.'inc/class.fileaccess.php');
+											include_once($cms_path.'inc/class.fileaddon.php');
 											$db_query = new querybuilder_factory();
 											$db_query = $db_query -> get_db($db, 'cms_db', $this_dir.'inc/');
 											$fm = new filemanager();
 										}
-										if (!$value4['id']) $value4['id'] = '0';
-										if (!is_integer($value4['id'])) {
-											if (function_exists('type_output_'.strtolower($value4['type']))) {
-												if ($value4['addslashes'] == 'true'){
-													//bb testing please dont delete
-													//$container_code = 'if(! function_exists(\'type_output_'.strtolower($value4['type']).'\'){'."\n";;
-													//$container_code .=      'include_once(\''.$cms_path.'inc/fnc.type.php\');'."\n";;
-													//$container_code .= '}'."\n";
+										if(!$value4['id']) $value4['id'] = '0';
+										if(!is_integer($value4['id']))
+										{
+											if(function_exists('type_output_'.strtolower($value4['type'])))
+											{
+												if($value4['addslashes'] == 'true')
+												{
+//bb testing please dont delete
 													$container_code = str_replace($value4['full_tag'], 'type_output_'.strtolower($value4['type']).'('.$cms_mod['container']['id'].', $cms_mod[\'modul\'][\'id\'], '.$value4['id'].', array('.$cms_type_config.'))', $container_code);
-												}
-												else{
+												}else{
 													$container_code = str_replace($value4['full_tag'], '<?PHP echo type_output_'.strtolower($value4['type']).'('.$cms_mod['container']['id'].', $cms_mod[\'modul\'][\'id\'], '.$value4['id'].', array('.$cms_type_config.')); ?>', $container_code);
 												}
-											} else $container_code = $mod_lang['err_type'].$container_code;
-										} else $container_code = $mod_lang['err_id'].$container_code;
+											}else $container_code = $mod_lang['err_type'].$container_code;
+										}else $container_code = $mod_lang['err_id'].$container_code;
 									}
 								}
 
-								// Modul cachen
+// Modul cachen
 								eval('$cms_mod[\'modul\'][\'id\'] = $key3;$cms_mod[\'key\'] = \'mod\'.$cms_mod[\'container\'][\'id\'].\'_\'.$key3.\'_\'; ?>'.$pre_container_code.$container_code);
 								$container_code_final = ob_get_contents ();
 								ob_end_clean ();
 								ob_start();
 								$output = '<?php $cms_mod[\'modul\'][\'id\']=\''.$key3.'\';$cms_mod[\'key\'] = \'mod\'.$cms_mod[\'container\'][\'id\'].\'_\'.$key3.\'_\'; ?>'.$pre_container_code.$container_code_final;
 
-							// alle weiteren Module dranhängen
-							} else {
-								// Modul cachen
+// alle weiteren Module dranhängen
+							}else{
+// Modul cachen
 								eval('$cms_mod[\'modul\'][\'id\'] = $key3;$cms_mod[\'key\'] = \'mod\'.$cms_mod[\'container\'][\'id\'].\'_\'.$key3.\'_\'; ?>'.$pre_container_code.$container_code);
 								$container_code_final = ob_get_contents ();
 								ob_end_clean ();
 								ob_start();
-	                                                       	$output .= '<?php $cms_mod[\'modul\'][\'id\']=\''.$key3.'\';$cms_mod[\'key\'] = \'mod\'.$cms_mod[\'container\'][\'id\'].\'_\'.$key3.\'_\'; ?>'.$pre_container_code.$container_code_final;
+	              $output .= '<?php $cms_mod[\'modul\'][\'id\']=\''.$key3.'\';$cms_mod[\'key\'] = \'mod\'.$cms_mod[\'container\'][\'id\'].\'_\'.$key3.\'_\'; ?>'.$pre_container_code.$container_code_final;
 							}
 						}
 
-						// Container in Array schreiben
+// Container in Array schreiben
 						$search[] = $cms_mod['container']['full_tag'];
-						if (!$cms_side['edit']) $replace[] = '<!--START '.$cms_mod['container']['id'].'//--><?php unset($cms_side[\'edit\']); $cms_mod[\'container\'][\'id\']=\''.$cms_mod['container']['id'].'\'; ?>'.$output.'<!--END '.$cms_mod['container']['id'].'//-->';
+						if(!$cms_side['edit']) $replace[] = '<!--START '.$cms_mod['container']['id'].'//--><?php unset($cms_side[\'edit\']); $cms_mod[\'container\'][\'id\']=\''.$cms_mod['container']['id'].'\'; ?>'.$output.'<!--END '.$cms_mod['container']['id'].'//-->';
 						else $replace[] = '<!--START '.$cms_mod['container']['id'].'//--><?php $cms_side[\'edit\']=\'true\'; $cms_mod[\'container\'][\'id\']=\''.$cms_mod['container']['id'].'\'; ?>'.$output.'<!--END '.$cms_mod['container']['id'].'//-->';
 						unset($output);
 						unset($used_type, $cms_mod['value']);
-					} else {
-						// Modul ist nicht sichtbar
+					}else{
+// Modul ist nicht sichtbar
 						$search[] = $cms_mod['container']['full_tag'];
 						$replace[] = '';
 					}
 				}
 			}
 
-			// Seite erstellen
+// Seite erstellen
 			$code = $layout;
-			foreach ($search as $key=>$value) $code = str_replace($value, $replace[$key], $code);
-		} else $code = $layout;
-	} else $code = $cms_lang['con_notemplate'];
+			foreach($search as $key=>$value) $code = str_replace($value, $replace[$key], $code);
+		}else $code = $layout;
+	}else $code = $cms_lang['con_notemplate'];
 
-	// Dynamisches PHP beibehalten
+// Dynamisches PHP beibehalten
 	$code = str_replace('<CMSPHP>', '<?PHP ', $code);
 	$code = str_replace('</CMSPHP>', ' ?>', $code);
 }
