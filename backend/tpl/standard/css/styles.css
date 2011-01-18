@@ -348,6 +348,13 @@ table.config td.headre{
 	padding:2px 0 2px 5px;
 }
 
+table.config td.headredev{
+	background:#F7E5E5;
+	border:1px solid #B00000;
+	font:bold 10px verdana,helvetica,arial,geneva,sans-serif;
+	padding:2px 0 2px 5px;
+}
+
 table.config table td{
 	border:0px solid #D6D6D6;
 	padding:0;
