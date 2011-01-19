@@ -38,11 +38,11 @@ include('tpl/standard/lang/'.$cfg_cms['backend_lang'].'/lang_general.php');
   <div id="content">
     <p class="profile">
      <span><?PHP echo $cms_lang['login_username'].": "; ?></span>
-     <input name="username" type="text" value="<?php print (isset($this->auth['uname']) ? $this->auth['uname'] : '') ?>" id="username" tabindex="1" maxlength="32" placeholder="Username" required>
+     <input name="username" type="text" value="<?php print (isset($this->auth['uname']) ? $this->auth['uname'] : '') ?>" id="username" tabindex="1" maxlength="32" placeholder="<?PHP echo $cms_lang['login_username'].": "; ?>" required>
      </p>
      <p class="unlock">
      <span><?PHP echo $cms_lang["login_password"].": "; ?></span>
-     <input name="password" type="password" value="" id="password" tabindex="2" maxlength="32" placeholder="Password" required>
+     <input name="password" type="password" value="" id="password" tabindex="2" maxlength="32" placeholder="<?PHP echo $cms_lang["login_password"].": "; ?>" required>
      </p>
   <div id="navi">
   <p><?PHP echo $cms_lang['login_pleaselogin'] ?></p>
