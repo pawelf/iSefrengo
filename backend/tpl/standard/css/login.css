@@ -144,8 +144,8 @@ left:4px;width:16px;height:5px;margin-top:-4px; -webkit-border-top-right-radius:
 .profile:after {
 left:10px; width:6px; height:10px; margin-top:-12px; -webkit-border-top-right-radius:5px; -webkit-border-top-left-radius:5px;-webkit-border-bottom-right-radius:5px 10px; -webkit-border-bottom-left-radius:5px 10px; -moz-border-radius:5px 5px 5px 5px / 5px 5px 10px 10px; border-radius:5px 5px 5px 5px / 5px 5px 10px 10px;
 }
-.unlock:before {left:3px; width:13px; height:10px; margin-top:-4px;}
-#content p.unlock:before{content:"\0000A0 \0000B0"; color:#fff;padding:0 2px 2px 0}
+.unlock:before {left:3px; width:10px; height:12px; margin-top:-7px;}
+#content p.unlock:before{content:"\0022B8"; -webkit-border-radius:.15em;-moz-border-radius:.15em; border-radius:.15em; font: bold .9em/.5em Arial, sans-serif; text-indent: .1em; color:#fff;padding:4px 2px 0 0; -webkit-transform:rotate(-90deg); -moz-transform:rotate(-90deg); -o-transform:rotate(-90deg); -ms-transform: rotate(-90deg); transform:rotate(-90deg)}
 #content p.unlock:after { 
 left:15px; width:5px; height:5px; border:2px solid #777; border-bottom:0; margin-top:-11px;  background:transparent;  -webkit-border-radius:5px 5px 0 0;    -moz-border-radius:5px 5px 0 0;  border-radius:5px 5px 0 0;
 }
