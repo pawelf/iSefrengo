@@ -1,39 +1,27 @@
 <?PHP
-// File: $Id: inc.header.php 28 2008-05-11 19:18:49Z mistral $
-// +----------------------------------------------------------------------+
-// | Version: Sefrengo $Name:  $                                          
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>           |
-// +----------------------------------------------------------------------+
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License                 |
-// |                                                                      |
-// | This program is subject to the GPL license, that is bundled with     |
-// | this package in the file LICENSE.TXT.                                |
-// | If you did not receive a copy of the GNU General Public License      |
-// | along with this program write to the Free Software Foundation, Inc., |
-// | 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA               |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// +----------------------------------------------------------------------+
-// + Autor: $Author: mistral $
-// +----------------------------------------------------------------------+
-// + Revision: $Revision: 28 $
-// +----------------------------------------------------------------------+
-// + Description:
-// +----------------------------------------------------------------------+
-// + Changes: 
-// +----------------------------------------------------------------------+
-// + ToDo:
-// +----------------------------------------------------------------------+
-if(! defined('CMS_CONFIGFILE_INCLUDED')){
-	die('NO CONFIGFILE FOUND');
-}
-
+/**
+  *
+  * Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org> 
+  * Copyright (c) 2010 - 2011 iSefrengo
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License
+  *
+  * This program is subject to the GPL license, that is bundled with
+  * this package in the file LICENSE.TXT.
+  * If you did not receive a copy of the GNU General Public License
+  * along with this program write to the Free Software Foundation, Inc.,
+  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  *
+  * @author
+  */
+if(! defined('CMS_CONFIGFILE_INCLUDED')){die('NO CONFIGFILE FOUND');}
 
 header('Content-type: text/html; charset=UTF-8');
 // Browsern das cachen von Backendseiten verbieten
@@ -288,7 +276,7 @@ if ($tpl_frm['CLIENT_FORM'] != ''|| $tpl_frm['LANG_FORM'] != '') {
 	$tpl->parseCurrentBlock('CLIENT_LANG_SELECT');
 }
 $tpl_frm = null;
-
+$tpl_in['BACKEND_LANG'] = $cfg_cms['backend_lang'];
 $tpl_in['VERSION'] = $cfg_cms['version'];
 $tpl_in['IMGPATH'] = 'tpl/'.$cfg_cms['skin'].'/img/';
 $tpl_in['MAIN_MENU_ENTRYS'] = $out;

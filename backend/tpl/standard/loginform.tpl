@@ -1,13 +1,11 @@
 <?php
-if(! defined('CMS_CONFIGFILE_INCLUDED')){
- die('NO CONFIGFILE FOUND');
-}
+if(! defined('CMS_CONFIGFILE_INCLUDED')){die('NO CONFIGFILE FOUND');}
 //utf 8 hack  Is there a need for this hack?
 header('Content-type: text/html; charset=UTF-8');
 include('tpl/standard/lang/'.$cfg_cms['backend_lang'].'/lang_general.php');
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="<?php echo $cfg_cms['backend_lang']; ?>">
 <head>
 <meta charset="utf-8">
 <title>iSefrengo CMS | Login</title>
