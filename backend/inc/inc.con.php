@@ -1,42 +1,28 @@
 <?PHP
-// File: $Id: inc.con.php 52 2008-07-20 16:16:33Z bjoern $
-// +----------------------------------------------------------------------+
-// | Version: Sefrengo $Name:  $
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>           |
-// +----------------------------------------------------------------------+
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License                 |
-// |                                                                      |
-// | This program is subject to the GPL license, that is bundled with     |
-// | this package in the file LICENSE.TXT.                                |
-// | If you did not receive a copy of the GNU General Public License      |
-// | along with this program write to the Free Software Foundation, Inc., |
-// | 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA               |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// +----------------------------------------------------------------------+
-// + Autor: $Author: bjoern $
-// +----------------------------------------------------------------------+
-// + Revision: $Revision: 52 $
-// +----------------------------------------------------------------------+
-// + Description:
-// +----------------------------------------------------------------------+
-// + Changes:
-// +----------------------------------------------------------------------+
-// + ToDo:
-// +----------------------------------------------------------------------+
+/**
+  *
+  * Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org> 
+  * Copyright (c) 2010 - 2011 iSefrengo
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License
+  *
+  * This program is subject to the GPL license, that is bundled with
+  * this package in the file LICENSE.TXT.
+  * If you did not receive a copy of the GNU General Public License
+  * along with this program write to the Free Software Foundation, Inc.,
+  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  *
+  * @author
+  */
+if(! defined('CMS_CONFIGFILE_INCLUDED')){die('NO CONFIGFILE FOUND');}
 
-
-
-
-if(! defined('CMS_CONFIGFILE_INCLUDED')){
-	die('NO CONFIGFILE FOUND');
-}
 
 /******************************************************************************
  1. Benötigte Funktionen und Klassen includieren
@@ -619,7 +605,7 @@ if (is_array($catlist)) {
 			// Ordner: anlegen/ kopieren
 			if ($perm -> have_perm(2, 'cat', $con_tree[$a]['idcat']) ){
 				$tpl_cat_values['BUTTON_NEWCAT'] = make_image_link('main.php?area=con_configcat&parent='.$con_tree[$a]['idcat'].'&idtplconf=0', 'but_newcat.gif', $cms_lang['con_folder_new'],  '16', '16');
-				$tpl_cat_values['BUTTON_COPYCAT'] = make_image_link('main.php?area=con_copycat&idcat='.$con_tree[$a]['idcat'], 'but_copy_cat.gif', 'Ordner kopieren',  '16', '16');
+				$tpl_cat_values['BUTTON_COPYCAT'] = make_image_link('main.php?area=con_copycat&idcat='.$con_tree[$a]['idcat'], 'but_copy_cat.gif', $cms_lang['con_folder_copy'],  '16', '16');
 			}
 			else{
 				$tpl_cat_values['BUTTON_COPYCAT'] = $tpl_cat_values['BUTTON_NEWCAT'] = make_image('space.gif', '',  '16', '16');
@@ -848,7 +834,7 @@ if (is_array($catlist)) {
 
 							//Seite koieren
 							if( $perm->have_perm(18, 'cat', $tmp_side['idcat']) ) {
-								$tpl_side_values['BUTTON_COPY'] =   "<a href=\"".$sess->url('main.php?area=con_copyside&idcatside='.$tmp_side['idcatside'].'&idcat='.$tmp_side['idcat'])."\"><img src=\"tpl/".$cfg_cms['skin']."/img/but_duplicate.gif\" alt=\"Seite kopieren\" title=\"Seite kopieren\" width=\"16\" height=\"16\" /></a>";
+								$tpl_side_values['BUTTON_COPY'] =   "<a href=\"".$sess->url('main.php?area=con_copyside&idcatside='.$tmp_side['idcatside'].'&idcat='.$tmp_side['idcat'])."\"><img src=\"tpl/".$cfg_cms['skin']."/img/but_duplicate.gif\" alt=\"".$cms_lang['con_side_copy']."\" title=\"".$cms_lang['con_side_copy']."\" width=\"16\" height=\"16\" /></a>";
 							} else {
 								$tpl_side_values['BUTTON_COPY'] = make_image('space.gif', '',  '16', '16');
 							}

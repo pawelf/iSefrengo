@@ -1,7 +1,27 @@
-<?php
-if(! defined('CMS_CONFIGFILE_INCLUDED')){
-	die('NO CONFIGFILE FOUND');
-}
+<?PHP
+/**
+  *
+  * Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org> 
+  * Copyright (c) 2010 - 2011 iSefrengo
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License
+  *
+  * This program is subject to the GPL license, that is bundled with
+  * this package in the file LICENSE.TXT.
+  * If you did not receive a copy of the GNU General Public License
+  * along with this program write to the Free Software Foundation, Inc.,
+  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  *
+  * @author
+  */
+if(! defined('CMS_CONFIGFILE_INCLUDED')){die('NO CONFIGFILE FOUND');}
 
 $cms_lang['con_action']					= 'Aktionen';
 $cms_lang['con_back_to_overview']					= 'Zur&uuml;ck zur &Uuml;bersicht';
@@ -30,6 +50,7 @@ $cms_lang['con_configcat_description']			= 'Beschreibung';
 $cms_lang['con_defaulttitle']				= 'Neue Seite';
 $cms_lang['con_editside']				= 'Seite bearbeiten';
 $cms_lang['con_expanded']				= 'Ordner &ouml;ffnen';
+$cms_lang['con_folder_copy']				= 'Ordner kopieren';
 $cms_lang['con_folder_new']				= 'neuen Ordner anlegen';
 $cms_lang['con_folder_view']				= 'alle Ordner anzeigen';
 $cms_lang['con_folder_visible']['0']			= 'Ordner online schalten.';
@@ -76,6 +97,7 @@ $cms_lang['con_side_offline']				= 'offline';
 $cms_lang['con_side_time']				= 'zeitgesteuert';
 $cms_lang['con_unlock']					= 'Ordner freigeben';
 $cms_lang['con_unlock_side']				= 'Seite freigeben';
+$cms_lang['con_side_copy'] = 'Seite kopieren';
 
 $cms_lang['con_side_not_locked_for_other_editors'] = 'Seite ist f&uuml;r alle Redakteure zug&auml;nglich';
 $cms_lang['con_side_locked_for_other_editors'] = 'Seite ist f&uuml;r andere Redakteure gesperrt';
