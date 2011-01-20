@@ -1,4 +1,26 @@
-<?php
+<?PHP
+/**
+  *
+  * Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>
+  * Copyright (c) 2011 iSefrengo
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License
+  *
+  * This program is subject to the GPL license, that is bundled with
+  * this package in the file LICENSE.TXT.
+  * If you did not receive a copy of the GNU General Public License
+  * along with this program write to the Free Software Foundation, Inc.,
+  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  *
+  * @author
+  */
 class SF_UTILS_Mail extends SF_API_Object {
     var $charset = 'utf-8';
     var $crlf = "\n";
@@ -66,7 +88,7 @@ class SF_UTILS_Mail extends SF_API_Object {
 					LEFT JOIN  ".$this->db_names['users_groups']." UG USING(user_id)
 					LEFT JOIN  ".$this->db_names['groups']." G USING(idgroup)
 				WHERE 
-					U.name = '".$this->db->qstr($name)."'";
+					G.name = '".$this->db->qstr($name)."'";
 					
 		$rs = $this->db->Execute($sql);
 		$to_return = true;

@@ -20,7 +20,7 @@
   *
   * @author
   */
-class SF_UTILS_COMPAT extends SF_API_Object
+class SF_UTILS_Compat extends SF_API_Object
 {
 /**
   *
