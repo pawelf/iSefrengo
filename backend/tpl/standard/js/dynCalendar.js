@@ -39,8 +39,8 @@
 		this.imagesPath     = arguments[2] ? arguments[2] : 'tpl/standard/img/';
 		this.layerID        = arguments[3] ? arguments[3] : 'dynCalendar_layer_' + dynCalendar_layers.length;
 
-		this.offsetX        = 15;
-		this.offsetY        = -100;
+		this.offsetX        = 5;
+		this.offsetY        = 5;
 
 		this.useMonthCombo  = true;
 		this.useYearCombo   = true;

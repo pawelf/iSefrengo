@@ -10,7 +10,8 @@ Current version number is 01.05.00 (iSefrengo 1.5) - released
 ------------------------------------------------------------------------------------------------
 
 # Backend Sprache http://forum.sefrengo.org/index.php?showtopic=1135
-#  Mailversand Gruppe http://forum.sefrengo.org/index.php?showtopic=2600
+# Mailversand Gruppe http://forum.sefrengo.org/index.php?showtopic=2600
+# Kalender http://forum.sefrengo.org/index.php?showtopic=1613
 ^ Pear angepasst
 + Modul Tabs jQuery
 - Modul Tabs OverLib
