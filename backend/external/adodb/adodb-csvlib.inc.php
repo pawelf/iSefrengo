@@ -8,7 +8,7 @@ $ADODB_INCLUDED_CSV = 1;
 
 /* 
 
-  V4.64 20 June 2005  (c) 2000-2005 John Lim (jlim@natsoft.com.my). All rights reserved.
+  V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
   Released under both BSD license and Lesser GPL library license. 
   Whenever there is any discrepancy between the two licenses, 
   the BSD license will take precedence. See License.txt. 
@@ -54,7 +54,7 @@ $ADODB_INCLUDED_CSV = 1;
 		$line = "====1,$tt,$sql\n";
 		
 		if ($rs->databaseType == 'array') {
-			$rows =& $rs->_array;
+			$rows = $rs->_array;
 		} else {
 			$rows = array();
 			while (!$rs->EOF) {	
@@ -64,13 +64,14 @@ $ADODB_INCLUDED_CSV = 1;
 		}
 		
 		for($i=0; $i < $max; $i++) {
-			$o =& $rs->FetchField($i);
+			$o = $rs->FetchField($i);
 			$flds[] = $o;
 		}
 	
 		$savefetch = isset($rs->adodbFetchMode) ? $rs->adodbFetchMode : $rs->fetchMode;
 		$class = $rs->connection->arrayClass;
-		$rs2 =& new $class();
+		$rs2 = new $class();
+		$rs2->timeCreated = $rs->timeCreated; # memcache fix
 		$rs2->sql = $rs->sql;
 		$rs2->oldProvider = $rs->dataProvider; 
 		$rs2->InitArrayFields($rows,$flds);
@@ -90,7 +91,7 @@ $ADODB_INCLUDED_CSV = 1;
 *			error occurred in sql INSERT/UPDATE/DELETE, 
 *			empty recordset is returned
 */
-	function &csv2rs($url,&$err,$timeout=0, $rsclass='ADORecordSet_array')
+	function csv2rs($url,&$err,$timeout=0, $rsclass='ADORecordSet_array')
 	{
 		$false = false;
 		$err = false;
@@ -129,7 +130,7 @@ $ADODB_INCLUDED_CSV = 1;
 						return $false;
 					}
 					
-					$rs =& new $rsclass($val=true);
+					$rs = new $rsclass($val=true);
 					$rs->fields = array();
 					$rs->timeCreated = $meta[1];
 					$rs->EOF = true;
@@ -224,7 +225,7 @@ $ADODB_INCLUDED_CSV = 1;
 					$flds = false;
 					break;
 				}
-				$fld =& new ADOFieldObject();
+				$fld = new ADOFieldObject();
 				$fld->name = urldecode($o2[0]);
 				$fld->type = $o2[1];
 				$fld->max_length = $o2[2];
@@ -252,7 +253,7 @@ $ADODB_INCLUDED_CSV = 1;
 			if (get_magic_quotes_runtime()) $err .= ". Magic Quotes Runtime should be disabled!";
 			return $false;
 		}
-		$rs =& new $rsclass();
+		$rs = new $rsclass();
 		$rs->timeCreated = $ttl;
 		$rs->InitArrayFields($arr,$flds);
 		return $rs;
@@ -261,6 +262,7 @@ $ADODB_INCLUDED_CSV = 1;
 
 	/**
 	* Save a file $filename and its $contents (normally for caching) with file locking
+	* Returns true if ok, false if fopen/fwrite error, 0 if rename error (eg. file is locked)
 	*/
 	function adodb_write_file($filename, $contents,$debug=false)
 	{ 
@@ -280,27 +282,31 @@ $ADODB_INCLUDED_CSV = 1;
 			$mtime = substr(str_replace(' ','_',microtime()),2); 
 			// getmypid() actually returns 0 on Win98 - never mind!
 			$tmpname = $filename.uniqid($mtime).getmypid();
-			if (!($fd = @fopen($tmpname,'a'))) return false;
-			$ok = ftruncate($fd,0);			
-			if (!fwrite($fd,$contents)) $ok = false;
+			if (!($fd = @fopen($tmpname,'w'))) return false;
+			if (fwrite($fd,$contents)) $ok = true;
+			else $ok = false;
 			fclose($fd);
-			chmod($tmpname,0644);
-			// the tricky moment
-			@unlink($filename);
-			if (!@rename($tmpname,$filename)) {
-				unlink($tmpname);
-				$ok = false;
-			}
-			if (!$ok) {
-				if ($debug) ADOConnection::outp( " Rename $tmpname ".($ok? 'ok' : 'failed'));
+			
+			if ($ok) {
+				@chmod($tmpname,0644);
+				// the tricky moment
+				@unlink($filename);
+				if (!@rename($tmpname,$filename)) {
+					unlink($tmpname);
+					$ok = 0;
+				}
+				if (!$ok) {
+					if ($debug) ADOConnection::outp( " Rename $tmpname ".($ok? 'ok' : 'failed'));
+				}
 			}
 			return $ok;
 		}
 		if (!($fd = @fopen($filename, 'a'))) return false;
 		if (flock($fd, LOCK_EX) && ftruncate($fd, 0)) {
-			$ok = fwrite( $fd, $contents );
+			if (fwrite( $fd, $contents )) $ok = true;
+			else $ok = false;
 			fclose($fd);
-			chmod($filename,0644);
+			@chmod($filename,0644);
 		}else {
 			fclose($fd);
 			if ($debug)ADOConnection::outp( " Failed acquiring lock for $filename<br>\n");
