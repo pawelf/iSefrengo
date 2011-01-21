@@ -13,20 +13,19 @@ Current version number is 01.05.00 (iSefrengo 1.5) - released
 # Mailversand Gruppe http://forum.sefrengo.org/index.php?showtopic=2600
 # Kalender http://forum.sefrengo.org/index.php?showtopic=1613
 # Hardcodierter Text http://forum.sefrengo.org/index.php?showtopic=1769
-^ Pear angepasst
-+ Modul Tabs jQuery
-- Modul Tabs OverLib
-+ Pear HTML_Quickform (Date Config) http://forum.sefrengo.org/index.php?s=&showtopic=2414&view=findpost&p=20875
-+ New Doctype html5
-- Dedi Unterstützung teilweise entfernt
-<<<<<<< Updated upstream
 # view http://forum.sefrengo.org/index.php?showtopic=1846
 # Modul Dev http://forum.sefrengo.org/index.php?showtopic=1971
+# Pear HTML_Quickform (Date Config) http://forum.sefrengo.org/index.php?s=&showtopic=2414&view=findpost&p=20875
+^ Pear angepasst
+^ adoDB PHP5 only
++ Login Html5 Css3
++ Modul Tabs jQuery
++ New Doctype Html5 als Auswahl
 + inc.tpl.php http://forum.sefrengo.org/index.php?s=&showtopic=1963&view=findpost&p=15470
-=======
->>>>>>> Stashed changes
 + PHP 5.3 Anpassung
 + API erweitert Header
+- Modul Tabs OverLib
+- Dedi Unterstützung teilweise entfernt
 
 Current version number is 01.04.04 (Sefrengo 1.4.4) - released 12.08.2010
 
