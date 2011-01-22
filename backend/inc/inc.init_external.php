@@ -1,50 +1,41 @@
 <?PHP
-// File: $Id: inc.init_external.php 307 2010-08-12 15:43:52Z andre $
-// +----------------------------------------------------------------------+
-// | Version: Sefrengo $Name:  $                                          
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>           |
-// +----------------------------------------------------------------------+
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License                 |
-// |                                                                      |
-// | This program is subject to the GPL license, that is bundled with     |
-// | this package in the file LICENSE.TXT.                                |
-// | If you did not receive a copy of the GNU General Public License      |
-// | along with this program write to the Free Software Foundation, Inc., |
-// | 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA               |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// +----------------------------------------------------------------------+
-// + Autor: $Author: andre $
-// +----------------------------------------------------------------------+
-// + Revision: $Revision: 307 $
-// +----------------------------------------------------------------------+
-// + Description:
-// +----------------------------------------------------------------------+
-// + Changes: 
-// +----------------------------------------------------------------------+
-// + ToDo:
-// +----------------------------------------------------------------------+
-
-if (function_exists('set_magic_quotes_runtime')) {
-    @set_magic_quotes_runtime (0);
-}
 /**
-// zeige alle Fehlermeldungen, aber keine Warnhinweise und Deprecated-Meldungen
-if (defined('E_DEPRECATED'))
+  *
+  * Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org> 
+  * Copyright (c) 2010 - 2011 iSefrengo
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License
+  *
+  * This program is subject to the GPL license, that is bundled with
+  * this package in the file LICENSE.TXT.
+  * If you did not receive a copy of the GNU General Public License
+  * along with this program write to the Free Software Foundation, Inc.,
+  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  *
+  * @author
+  */
+//if(! defined('CMS_CONFIGFILE_INCLUDED')){die('NO CONFIGFILE FOUND');}
+
+if(function_exists('set_magic_quotes_runtime'))
 {
-	error_reporting (E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+  @set_magic_quotes_runtime (0);
 }
-else
+
+// zeige alle Fehlermeldungen, aber keine Warnhinweise und Deprecated-Meldungen
+if(defined('E_DEPRECATED'))
 {
+  error_reporting (E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+}else{
 	error_reporting (E_ALL & ~E_NOTICE);
 }
-*/
+
 error_reporting (E_ALL & ~E_NOTICE);
 
 //send header
