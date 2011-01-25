@@ -118,4 +118,5 @@ $cms_lang['con_changed_up'] = '&Auml;nderung auf';
 $cms_lang['con_changed_down'] = '&Auml;nderung ab';
 $cms_lang['con_author_up'] = 'Autor auf';
 $cms_lang['con_author_down'] = 'Autor ab';
+$cms_lang['con_quicksort'] = 'Quicksort';
 ?>
