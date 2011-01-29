@@ -421,6 +421,12 @@ function make_image_link ($url = '#', $image = 'space.gif', $description = '', $
 				($height != '') ? " height=\"$height\"" : '', 
 				($popup == '') ? " alt=\"$description\" title=\"$description\"" : 'alt=""');
 }
+function make_link ($url = '#', $description = '', $content = '', $anchor ='') {
+	global $sess, $cfg_cms, $cms_lang;
+
+	$mlink ='<a title="'.$description.'" href="'.$sess->url($url). $anchor .'">'.$content.'</a>'; 
+	return $mlink;
+}
 
 function make_image_link2 ($url = '#', $image = 'space.gif', $description = '', $width = '', $height = '', $target = '', $popup = '', $popupheader = '', $class = '', $hash = '', $name = '', $linktext = '', $imgclass = '' ) {
 	global $sess, $cfg_cms, $cms_lang;
