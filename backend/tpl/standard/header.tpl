@@ -15,14 +15,6 @@
   <script src="tpl/standard/js/standard.js" type="text/javascript"></script>
   <script src="tpl/standard/js/iSefrengo.js" type="text/javascript"></script>
   <link rel="shortcut icon" href="favicon.ico" />
-  <script type="text/javascript">
-  <!--
-function delete_confirm() {
-  if(confirm('{DELETE_MSG}')) return true;
-  else return false;
-}
-  //-->
-  </script>
 </head>
 <body onload="{ONLOAD_FUNCTION}return true;">
 <!--<div id="sf_overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>-->
