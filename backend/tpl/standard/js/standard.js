@@ -221,4 +221,9 @@ function confirm_to_url(msg,url,to) {
   window.location.href = string_url;
   return !confirm_to;
 }
+
+function delete_confirm() {
+  if(confirm('{DELETE_MSG}')) return true;
+  else return false;
+}
 //-->
