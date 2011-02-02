@@ -123,7 +123,7 @@ label{
 }
 
 #header .logout a,#header .lizenz a{
-	color:#fff;
+	color:#fffacd;
 }
 
 #header .logout a:hover,#header .lizenz a:hover{
@@ -150,6 +150,9 @@ background: -moz-linear-gradient(top, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f
 	margin-right:4px;
 	padding:4px .6em 5px .6em;
 	text-decoration:none;
+	border-width: 1px 1px 0 1px;
+	border-color:#730800;
+	border-style:solid
 }
 
 #header #menu-layer0 a:hover{
@@ -158,9 +161,7 @@ background: -moz-linear-gradient(top, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f
 	background: -webkit-gradient(linear, left top, left bottom, from(#888), to(#575757));
 	background: -moz-linear-gradient(top,  #888,  #575757);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#575757');
-	border-width: 1px 1px 0 1px;
-	border-color:#222;
-	border-style:solid
+
 	
 }
 
