@@ -1,37 +1,29 @@
 <?PHP
-// File: $Id: index.php 308 2010-08-12 15:44:41Z andre $
-// +----------------------------------------------------------------------+
-// | Version: Sefrengo $Name:  $                                          
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>           |
-// +----------------------------------------------------------------------+
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License                 |
-// |                                                                      |
-// | This program is subject to the GPL license, that is bundled with     |
-// | this package in the file LICENSE.TXT.                                |
-// | If you did not receive a copy of the GNU General Public License      |
-// | along with this program write to the Free Software Foundation, Inc., |
-// | 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA               |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// +----------------------------------------------------------------------+
-// + Autor: $Author: andre $
-// +----------------------------------------------------------------------+
-// + Revision: $Revision: 308 $
-// +----------------------------------------------------------------------+
-// + Description:
-// +----------------------------------------------------------------------+
-// + Changes: 
-// +----------------------------------------------------------------------+
-// + ToDo:
-// +----------------------------------------------------------------------+
+/**
+  *
+  * Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org> 
+  * Copyright (c) 2010 - 2011 iSefrengo
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License
+  *
+  * This program is subject to the GPL license, that is bundled with
+  * this package in the file LICENSE.TXT.
+  * If you did not receive a copy of the GNU General Public License
+  * along with this program write to the Free Software Foundation, Inc.,
+  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  *
+  * @author
+  */
 header('Content-type: text/html; charset=UTF-8');
-class gb_template {
+class gb_template
+{
 	function insert($Loop, $TemplateName, $ToInsert)
 	{
 		global $TemplateArray, $TemplateLoopArray;
@@ -124,7 +116,8 @@ class setup {
               'updates_from.01.04.01.sql',
               'updates_from.01.04.02.sql',
 							'updates_from.01.04.03.sql',
-							'updates_from.01.05.00.sql');
+							'updates_from.01.05.00.sql',
+							'updates_from.01.05.01.sql');
 
 	/**
 	* Konstruktor. Catch all globals
@@ -134,7 +127,7 @@ class setup {
 		$this -> catch_globals();
 		$this -> version['prior'] = '01';
 		$this -> version['minor'] = '05';
-		$this -> version['fix']   = '00';
+		$this -> version['fix']   = '01';
 		$this -> version_text = $this -> version['prior'];
 		$this -> version_text .= '.';
 		$this -> version_text .= $this -> version['minor'];
