@@ -1,37 +1,15 @@
-/*
-File: styles.css
-+----------------------------------------------------------------------+
-| Version: Sefrengo 1.0.3 Beta2
-+----------------------------------------------------------------------+
-| Copyright (c) 2005 the sefrengo-group <sefrengo-group@sefrengo.de>   |
-+----------------------------------------------------------------------+
-| This program is free software; you can redistribute it and/or modify |
-| it under the terms of the GNU General Public License V2              |
-|                                                                      |
-| This program is subject to the GPL license, that is bundled with     |
-| this package in the file LICENSE.TXT.                                |
-| If you did not receive a copy of the GNU General Public License      |
-| along with this program write to the Free Software Foundation, Inc., |
-| 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA                |
-|                                                                      |
-| This program is distributed in the hope that it will be useful,      |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the         |
-| GNU General Public License for more details.                         |
-|                                                                      |
-+----------------------------------------------------------------------+
-+ Autor: Olaf Bosch (http:olaf-bosch.de/)
-+----------------------------------------------------------------------+
-+ Revision: 1.0.0
-+----------------------------------------------------------------------+
-+ Description: Backend
-+----------------------------------------------------------------------+
-+ Changes:
-+----------------------------------------------------------------------+
-+ ToDo:
-+----------------------------------------------------------------------+
-
-ein paar grundsaetzliche Werte */
+/**
+* Stylesheet style.css
+*
+* The Stylesheet contains the rules for backend style
+*
+* @project iSefrengo
+* @version 1.0.1
+* @author Olaf Bosch                    olaf-bosch.de
+* @author Andreas Fritsch               batik-gbr.de
+* @copyright 2011
+* @license GPL V2
+*/
 *{
 	margin:0;
 	padding:0;
@@ -42,7 +20,6 @@ a img{
 }
 
 body{
-	/*background:url(../img/bg_body.gif) #EFEFEF repeat-x top;*/
 	background-color: #efefef;
 	color:#000000;
 	font:100.01% verdana,helvetica,arial,geneva,sans-serif;
@@ -152,7 +129,8 @@ background: -moz-linear-gradient(top, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f
 	text-decoration:none;
 	border-width: 1px 1px 0 1px;
 	border-color:#730800;
-	border-style:solid
+	border-style:solid;
+	border-radius: 5px 5px 0 0
 }
 
 #header #menu-layer0 a:hover{
@@ -190,15 +168,14 @@ background:#730800;
 
 #header .menu-akt a{
 	background:#a00;
-	border:1px solid #888;
-        border-bottom:none;
 	color:#fffacd;
 	display:block;
 	float:left;
 	font-size:.7em;
-	margin:0 4px -1px;
+	margin:0 4px -2px;
 	padding:2px .6em 2px .6em;
 	text-decoration:none;
+        border-radius: 5px 5px 0 0
 }
 
 #header .menu-akt a:hover{
