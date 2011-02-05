@@ -68,6 +68,13 @@ li a:active:before {
     background:#000;
 }
 
+/**
+* ----------------------------------------------------------
+* @section CSS GUI ICONS 
+* based on http://nicolasgallagher.com/pure-css-gui-icons/
+* Dual licensed under MIT and GNU GPLv2 © Nicolas Gallagher 
+* -----------------------------------------------------------
+*/
 
 /* EDIT
 ------------------------------------------------------------------------------------------------------------------------------- */
@@ -105,15 +112,6 @@ li a:active:before {
 .edit a:active:after {
     background:#000;
 }
-
-
-/**
-* ----------------------------------------------------------
-* @section CSS GUI ICONS 
-* based on http://nicolasgallagher.com/pure-css-gui-icons/
-* Dual licensed under MIT and GNU GPLv2 © Nicolas Gallagher 
-* -----------------------------------------------------------
-*/
 
 
 /* DELETE
