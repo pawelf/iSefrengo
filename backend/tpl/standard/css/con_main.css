@@ -1,0 +1,592 @@
+/**
+* Stylesheet backend.css
+*
+* The Stylesheet contains rules to the con_main.tpl
+*
+* @project iSefrengo
+* @version 1.0.1
+* @author Andreas Fritsch               batik-gbr.de
+* @copyright 2011
+* @license GPL V2
+*/
+ul, li{list-style:none; margin:0; padding:0; font:1em/1.4 Helvetica, Arial, sans;}
+h3{margin-top:0.5em; font: bold 1.5em Arial, sans;border: 1px solid #888; color:#575757; border-radius:5px; padding:0 5px;background: #ffffff;
+background: -moz-linear-gradient(top, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f6f6 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#f1f1f1), color-stop(51%,#e1e1e1), color-stop(100%,#f6f6f6)); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 );}
+h3 span{float:right; width:190px; font-size:0.9em}
+h3 a{text-decoration:none; color:#888; margin-left:.5em}
+.folder li {margin-top:10px; border-radius:5px; padding-top: 3px; text-indent:1em}
+.folder > li {color: #e9e9e9; font-weight: bold;  background: #6e6e6e;background: -webkit-gradient(linear, left top, left bottom, from(#888), to(#575757));background: -moz-linear-gradient(top,  #888,  #575757);	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#888888', endColorstr='#575757');}
+.pages li{ background-color:#ccc; color:#000; border:1px solid #ccc; border-radius:0; border-bottom:none; margin:0}
+.pages li a{color:#730800; text-decoration:none}
+.pages li a:hover{color:#000}
+.pages li:hover, .pages li:hover:nth-child(odd){background-color:#fffacd}
+.folder .pages > li:last-child{border-bottom:1px solid #ccc; border-bottom-left-radius:5px; border-bottom-right-radius:5px}
+.pages  ul li{border:none}
+.pages  ul li:last-child{border:none}
+.pages > li:nth-child(odd) {background-color:#fff}
+.actions{float:right;clear:both; margin-right:0.2em }
+.actions li a{color:#000; font-weight:bold; font-size:12px; text-decoration:none; text-indent:0; width:250px}
+.actions li:hover{overflow:visible}
+.folder .actions li:hover a{text-indent:-40px; z-index:20; color:transparent; text-shadow:rgba(255,250,205,0.1) 0 -15px 3px, #111 0 -15px 0, #fffacd 0 -15px 5px} 
+.actions li{display: inline; float:left; width:25px; position:relative; margin:0 0 0.3em; z-index:1; overflow:hidden;}
+.pages .actions li{background-color: transparent}
+
+.actions li a:link, 
+.actions li a:visited {
+    display:block;
+    border:0;
+    padding-left:28px;
+    color:#730800;
+}
+
+.actions li a:hover, 
+.actionsli a:focus, 
+.actions li a:active {
+    color:#000;
+    background:transparent;
+}
+
+.actions li:before, 
+.actions li:after,
+.actions li a:before, 
+.actions li a:after {
+    content:"";
+    position:absolute;
+    top:60%;
+    left:0;
+}
+
+.actions li a:before, 
+.actions li a:after {
+    margin:-6px 0 0;
+    background:#730800;
+}
+
+li a:hover:before, 
+li a:focus:before, 
+li a:active:before {
+    background:#000;
+}
+
+
+/* EDIT
+------------------------------------------------------------------------------------------------------------------------------- */
+
+.actions .edit a:before {
+    left:3px;
+    width:5px;
+    height:5px;
+    margin-top:2px;
+    background:#730800;
+    -webkit-transform:skew(-10deg, -10deg);
+    -moz-transform:skew(-10deg, -10deg);
+    -o-transform:skew(-10deg, -10deg);
+    transform:skew(-10deg, -10deg);
+}
+
+.actions .edit a:after {
+    left:3px;
+    width:13px;
+    height:6px;
+    border-left:1px solid #fff;
+    margin-top:-3px;
+    /* css3 */
+    -webkit-transform:rotate(-45deg);
+    -moz-transform:rotate(-45deg);
+    -o-transform:rotate(-45deg);
+    transform:rotate(-45deg);
+}
+
+.edit a:hover:before,
+.edit a:focus:before,
+.edit a:active:before,
+.edit a:hover:after,
+.edit a:focus:after,
+.edit a:active:after {
+    background:#000;
+}
+
+
+/**
+* ----------------------------------------------------------
+* @section CSS GUI ICONS 
+* based on http://nicolasgallagher.com/pure-css-gui-icons/
+* Dual licensed under MIT and GNU GPLv2 © Nicolas Gallagher 
+* -----------------------------------------------------------
+*/
+
+
+/* DELETE
+----------------------------------------- */
+
+.actions .delete a:before {
+    left:6px; 
+    width:5px; 
+    height:15px; 
+    margin-top:-7px;
+    background:#730800;
+    /* css3 */
+    -webkit-transform:rotate(45deg);
+    -moz-transform:rotate(45deg);
+    -o-transform:rotate(45deg);
+    transform:rotate(45deg);
+}
+
+.actions .delete a:after {
+    left:1px; 
+    width:15px; 
+    height:5px; 
+    margin-top:-2px; 
+    background:#730800;
+    /* css3 */
+    -webkit-transform:rotate(45deg);
+    -moz-transform:rotate(45deg);
+    -o-transform:rotate(45deg);
+    transform:rotate(45deg);
+}
+
+.actions .delete a:hover:before, 
+.actions .delete a:focus:before, 
+.actions .delete a:active:before,
+.actions .delete a:hover:after, 
+.actions .delete a:focus:after, 
+.actions .delete a:active:after {
+    background:#000;
+}
+/* HOME
+-------------------------------------- */
+
+.actions .home a:before {
+    left:1px;
+    border-style:solid;
+    border-color:transparent;
+    border-width:8px 7px;
+    border-bottom-color:#730800;
+    margin-top:-16px;
+    background:transparent;
+}
+
+.actions .home a:after {
+    left:3px; 
+    width:2px; 
+    height:4px; 
+    border-style:solid;
+    border-color:#730800 #730800 transparent;
+    border-width:3px 4px 0;
+    margin-top:0;
+    background:transparent;
+}
+
+.home a:hover:before, 
+.home a:focus:before, 
+.home a:active:before {
+    border-bottom-color:#000;
+    background:transparent;
+}
+
+.home a:hover:after, 
+.home a:focus:after, 
+.home a:active:after {
+    border-color:#000 #000 transparent;
+}
+
+/* NOTHOME
+--------------------------------------------*/
+.actions .nothome a:before {
+    left:3px;
+    width:7px;
+    height:7px;
+    margin-top:-5px;
+    border-width:7px 0 0 2px;
+    border-style:solid;
+    border-color:#730800;
+    background:transparent;
+    /* css3 */
+    -webkit-transform:skewY(-8deg);
+    -moz-transform:skewY(-8deg);
+    -o-transform:skewY(-8deg);
+    transform:skewY(-8deg);
+}
+
+
+.actions .nothome a:after {
+    left:9px;
+    width:6px;
+    height:7px;
+    margin-top:-3px;
+    background:#730800;
+    /* css3 */
+    -webkit-transform:skewY(-6deg);
+    -moz-transform:skewY(-6deg);
+    -o-transform:skewY(-6deg);
+    transform:skewY(-6deg);
+}
+
+.actions .nothome a:hover:before, 
+.actions .nothome a:focus:before, 
+.actions .nothome a:active:before {
+    border-color:#000;
+    background:transparent;
+}
+
+.actions .nothome a:hover:after, 
+.actions .nothome a:focus:after, 
+.actions .nothome a:active:after {
+    background:#000;
+}
+
+/* LOCK / UNLOCK
+---------------------------------------*/
+
+.actions .lock:before,
+.actions .lock:after,
+.actions .unlock:before,
+.actions .unlock:after {
+    z-index:10; 
+    left:8px;
+    width:3px;
+    height:3px;
+    margin-top:-2px;
+    background:#fff;
+    /* css3 */
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    border-radius:3px;
+}
+
+.actions .lock:before,
+.actions .unlock:before {
+    left:9px;
+    width:1px;
+    height:4px;
+    margin-top:0px;
+}
+
+.actions .lock a:before,
+.actions .unlock a:before {
+    left:3px;
+    width:13px;
+    height:10px;
+    margin-top:-4px;
+}
+
+.actions .lock a:after,
+.actions .unlock a:after {
+    left:5px;
+    width:5px;
+    height:5px;
+    border:2px solid #730800;
+    border-bottom:0;
+    margin-top:-10px;
+    background:transparent;
+    /* css3 */
+    -webkit-border-radius:5px 5px 0 0;
+    -moz-border-radius:5px 5px 0 0;
+    border-radius:5px 5px 0 0;
+}
+
+.actions .unlock a:after {
+    left:12px;
+}
+
+.lock a:hover:after, 
+.lock a:focus:after, 
+.lock a:active:after,
+.unlock a:hover:after, 
+.unlock a:focus:after, 
+.unlock a:active:after {
+    border-color:#000;
+}
+
+/* PREVIEWS
+---------------------------------------*/
+.actions .previews a:before {
+    width:6px;
+    height:6px;
+    border:3px solid #730800;
+    background:transparent;
+    /* css3 */
+    -webkit-border-radius:12px;
+    -moz-border-radius:12px;
+    border-radius:12px;
+}
+
+.actions .previews a:after {
+    left:10px;
+    width:3px;
+    height:7px;
+    margin-top:0;
+    /* css3 */
+    -webkit-transform:rotate(-45deg);
+    -moz-transform:rotate(-45deg);
+    -o-transform:rotate(-45deg);
+    transform:rotate(-45deg);
+}
+
+.previews a:hover:before, 
+.previews a:focus:before, 
+.previews a:active:before {
+    border-color:#000;
+    background:transparent;
+}
+
+.previews a:hover:after, 
+.previews a:focus:after, 
+.previews a:active:after {
+    background:#000;
+}
+
+
+/* VIEW / NOVIEW
+---------------------------------------*/
+.actions .noview:before,
+.actions .view:before {
+    left:3px;
+    left:3px;
+    width:14px;
+    height:14px;
+    margin-top:-8px;
+    background:#730800;
+    -webkit-border-top-left-radius:12px;
+    -webkit-border-bottom-right-radius:12px;
+    -moz-border-radius:12px 0 12px 0; 
+    border-radius:12px 0 12px 0;
+    -webkit-transform:rotate(45deg);
+    -moz-transform:rotate(45deg);
+    -o-transform:rotate(45deg);
+    transform:rotate(45deg);
+}
+
+.actions .view:after {
+    left:6px;
+    width:4px;
+    height:4px;
+    border:2px solid #fff;
+    margin-top:-5px;
+    -webkit-border-radius:6px;
+    -moz-border-radius:6px; 
+    border-radius:6px;
+}
+.actions .noview:after {
+    left:3px;
+    width:14px;
+    height:1px;
+    margin-top:-1px;
+    background:#fff;
+   -webkit-border-radius:6px;
+    -moz-border-radius:6px; 
+    border-radius:6px;
+}
+.actions .noview:hover:before, .actions .view:hover:before{background:#000}
+
+/* CLONE
+---------------------------------------*/
+
+.actions .clone a:before, 
+.actions .clone a:after {
+    width:12px;
+    height:8px;
+    border:1px solid #730800;
+    margin-top:-4px;
+    background:#fff;
+}
+ 
+.actions .clone a:after {
+    left:3px;
+    margin-top:-7px;
+}
+
+.clone a:hover:before, 
+.clone a:focus:before, 
+.clone a:active:before,
+ .clone a:hover:after, 
+ .clone a:focus:after, 
+ .clone a:active:after {
+    border-color:#000;
+    background:#fff;
+}
+/* FILE
+---------------------------------------*/
+
+.actions .file a:before {
+    left:5px;
+    width:8px;
+    height:10px;
+    border:2px solid #730800;
+    background:transparent;
+    -moz-border-radius-topleft:5px;
+    -webkit-border-top-left-radius:5px;
+    border-top-left-radius:5px;
+}
+
+.actions .file a:after {
+    left:2px;
+    border-width:3.5px;
+    border-style:solid;
+    border-color:transparent #730800 #730800 transparent;
+    margin-top:-9px;
+    background:transparent;
+}
+.actions .file:after {
+    left:8px;
+    width:6px;
+    height:1px;
+    margin-top:-2px;
+    border-top:2px double;
+    border-bottom: 2px double;
+    border-color:#730800;
+    background:transparent;
+}
+.actions .file:hover:after,
+.file a:hover:before,
+.file a:focus:before,
+.file a:active:before {
+    border-color:#000;
+    background:transparent;
+}
+
+.file a:hover:after,
+.file a:focus:after,
+.file a:active:after {
+    border-color:transparent #000 #000 transparent;
+}
+/* FOLDER
+---------------------------------------*/
+
+.actions .mfolder a:before {
+    left:4px;
+    width:16px;
+    height:12px;
+    margin-top:-6px;
+    /* css3 */
+    -webkit-border-bottom-right-radius:1px;
+    -webkit-border-bottom-left-radius:1px;
+    -moz-border-radius:0 0 1px 1px;
+    border-radius:0 0 1px 1px;    
+}
+
+.actions .mfolder a:after {
+    left:6px;
+    width:6px;
+    height:2px;
+    margin-top:-8px;
+    background:#730800;
+    /* css3 */
+    -webkit-border-top-right-radius:1px;
+    -webkit-border-top-left-radius:1px;
+    -moz-border-radius:1px 1px 0 0;
+    border-radius:1px 1px 0 0;
+}
+
+.mfolder a:hover:after,
+.mfolder a:focus:after,
+.mfolder a:active:after {
+    background:#000;
+}
+
+/* QUICKUP/ QUICKDOWN
+---------------------------------------*/
+.actions li.quickdown, .actions li.quickup, .actions li.quicktop, .actions li.quickbottom{height:14px}
+.actions .quickdown a:before, .actions .quickbottom a:before, .actions .quickup a:before, .actions .quicktop a:before {
+    left:4px;
+    width:7px;
+    height:7px;
+    border-width:0 0 3px 3px;
+    border-style:solid;
+    border-color:#730800;
+    margin-top:-6px;
+    background:transparent;
+    /* css3 */
+    -webkit-transform:rotate(-45deg);
+    -moz-transform:rotate(-45deg);
+    -o-transform:rotate(-45deg);
+    transform:rotate(-45deg);
+}
+
+.actions .quickdown a:after, .actions .quickbottom a:after, .actions .quickup a:after, .actions .quicktop a:after {
+   left:7px; 
+    width:4px; 
+    height:11px; 
+    margin-top:-8px;
+    background:#730800;
+}
+
+.actions .quickup a:after, .actions .quicktop a:after {
+margin-top:-5px;
+}
+.actions .quickbottom:after, .actions .quicktop:after{
+    left:3px; 
+    width:12px; 
+    height:3px; 
+    margin-top:3px;
+    background:#730800;
+}
+.actions .quicktop:after{
+margin-top:-8px;
+}
+
+.actions .quickbottom:hover:after, .actions .quicktop:hover:after{
+    background:#000;
+}
+.actions .quickdown a:hover:before, 
+.actions .quickdown a:focus:before, 
+.actions .quickdown a:active:before,
+.actions .quickbottom a:hover:before, 
+.actions .quickbottom a:focus:before, 
+.actions .quickbottom a:active:before {
+    border-color:#730800;
+    background:transparent;
+}
+
+.actions .quickup a:hover:before, 
+.actions .quickup a:focus:before, 
+.actions .quickup a:active:before,
+.actions .quicktop a:hover:before, 
+.actions .quicktop a:focus:before, 
+.actions .quicktop a:active:before,
+.actions .quickdown a:hover:before, 
+.actions .quickdown a:focus:before, 
+.actions .quickdown a:active:before,
+.actions .quickbottom a:hover:before, 
+.actions .quickbottom a:focus:before, 
+.actions .quickbottom a:active:before{
+border-color:#000
+}
+
+.actions .quickup a:hover:after, 
+.actions .quickup a:focus:after, 
+.actions .quickup a:active:after,
+.actions .quicktop a:hover:after, 
+.actions .quicktop a:focus:after, 
+.actions .quicktop a:active:after,
+.actions .quickdown a:hover:after, 
+.actions .quickdown a:focus:after, 
+.actions .quickdown a:active:after,
+.actions .quickbottom a:hover:after, 
+.actions .quickbottom a:focus:after, 
+.actions .quickbottom a:active:after {
+    background:#000;
+
+}
+.actions .quickup a:before, .actions .quicktop a:before {
+    left:4px;
+    border-width:3px 0 0 3px;
+    /* css3 */
+    -webkit-transform:rotate(45deg);
+    -moz-transform:rotate(45deg);
+    -o-transform:rotate(45deg);
+    transform:rotate(45deg);
+}
+
+.actions select{float:left}
+.pg > a:first-child{border:2px solid #730800; font-size:5px; position:relative;bottom:3px}
+.pg > a:hover{border-color:#000}
+.folder > li > a:before{position:relative;top:-4px; left:-2px; font-size: 7px; color:#730800; font-weight:bold; border:2px solid #730800;}
+.folder > li > a{text-decoration:none; color:#fff}
+.folder > li > a:before{border:none; color:#fff; font-size: 12px; }
+.folder > li > a.zu:before{content:"\0025B6"}
+.folder > li > a.open:before{content:"\0025BC"}
+.folder > li >a:hover, a.open:hover:before, a.zu:hover:before{color:#730800; background:transparent}
+
+
+
