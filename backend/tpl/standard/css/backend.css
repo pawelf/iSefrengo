@@ -1,0 +1,15 @@
+/**
+* Stylesheet backend.css
+*
+* The Stylesheet is the wrapper for all backend stylesheets
+*
+* @project iSefrengo
+* @version 1.0.1
+* @author Andreas Fritsch               batik-gbr.de
+* @copyright 2011
+* @license GPL V2
+*/
+@import url("styles.css");
+@import url("dynCalendar.css");
+@import url("sftabs.css");
+@import url("con_main.css");
