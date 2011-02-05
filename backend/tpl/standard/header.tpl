@@ -5,9 +5,7 @@
   <meta charset="utf-8">
   <meta name="robots" content="noindex, nofollow" />
   <title>Sefrengo {VERSION}</title>
-  <link rel="stylesheet" type="text/css" href="tpl/standard/css/styles.css" />
-  <link rel="stylesheet" href="tpl/standard/css/dynCalendar.css" type="text/css" />
-  <link rel="stylesheet" type="text/css" href="tpl/standard/css/sftabs.css" />
+  <link rel="stylesheet" type="text/css" href="tpl/standard/css/backend.css" />
   <!--[if lt IE 7]>
   <link rel="stylesheet" type="text/css" href="tpl/standard/css/ie.css" />
   <![endif]-->
