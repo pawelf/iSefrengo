@@ -410,6 +410,13 @@ function make_image ($image = 'space.gif', $description = '', $width = '', $heig
 	return $image_final;
 }
 
+function make_link($url = '#', $description = '', $content = '', $anchor ='')
+{
+  global $sess, $cfg_cms, $cms_lang;
+    $mlink ='<a title="'.$description.'" href="'.$sess->url($url). $anchor .'">'.$content.'</a>'; 
+  return $mlink;
+}
+
 function make_image_link ($url = '#', $image = 'space.gif', $description = '', $width = '', $height = '', $target = '', $popup = '', $anchor ='') {
 	global $sess, $cfg_cms, $cms_lang;
 
@@ -420,12 +427,6 @@ function make_image_link ($url = '#', $image = 'space.gif', $description = '', $
 				($width != '') ? " width=\"$width\"" : '', 
 				($height != '') ? " height=\"$height\"" : '', 
 				($popup == '') ? " alt=\"$description\" title=\"$description\"" : 'alt=""');
-}
-function make_link ($url = '#', $description = '', $content = '', $anchor ='') {
-	global $sess, $cfg_cms, $cms_lang;
-
-	$mlink ='<a title="'.$description.'" href="'.$sess->url($url). $anchor .'">'.$content.'</a>'; 
-	return $mlink;
 }
 
 function make_image_link2 ($url = '#', $image = 'space.gif', $description = '', $width = '', $height = '', $target = '', $popup = '', $popupheader = '', $class = '', $hash = '', $name = '', $linktext = '', $imgclass = '' ) {
@@ -506,7 +507,7 @@ function get_validator($name) {
 	return $validator;
 }
 
-function sf_header_redirect($url_location, $shutdown = true) {
+function sf_header_redirect1($url_location, $shutdown = true) {
 	global $area;
 		echo ($url_location);
 	$url_location = str_replace('&amp;', '&', $url_location);
