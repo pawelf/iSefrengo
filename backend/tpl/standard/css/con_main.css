@@ -10,7 +10,7 @@
 * @license GPL V2
 */
 ul, li{list-style:none; margin:0; padding:0; font:1em/1.4 Helvetica, Arial, sans;}
-h3{margin-top:0.5em; font: bold 1.5em Arial, sans;border: 1px solid #888; color:#575757; border-radius:5px; padding:0 5px;background: #ffffff;
+h3{margin-top:0.5em; font: bold 1.5em Helvetica, Arial, sans;border: 1px solid #888; color:#575757; border-radius:5px; padding:0 5px;background: #ffffff;
 background: -moz-linear-gradient(top, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f6f6 100%); background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#f1f1f1), color-stop(51%,#e1e1e1), color-stop(100%,#f6f6f6)); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 );}
 h3 span{float:right; width:190px; font-size:0.9em}
 h3 a{text-decoration:none; color:#888; margin-left:.5em}
