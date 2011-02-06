@@ -19,7 +19,7 @@
   * GNU General Public License for more details.
   *
   *
-  * @author
+  * @author Torsten Hofmann 
   */
 if(!defined('CMS_CONFIGFILE_INCLUDED')){die('NO CONFIGFILE FOUND');}
 /**
@@ -695,16 +695,16 @@ $tpl->setCurrentBlock('FOLDER');
 						  $tmp_pic = 'but_offpublish.gif';
 						  $tmp_descr = $tmp_descr2;
 						  $tmp_link = $tmp_link2;
-						  $tmp_class = 'viewa';
+						  $tmp_class = 'viewoff';
 					  }else $tmp_pic = 'but_offline.gif';
-					    $tmp_class = 'viewb';
+					    $tmp_class = 'noview';
 				  }else{
 					  if($cfg_client['publish'] == '1' && $con_tree[$a]['status'] == 'true')
 					  {
 						  $tmp_pic = 'but_onpublish.gif';
 						  $tmp_descr = $tmp_descr2;
 						  $tmp_link = $tmp_link2;
-						  $tmp_class = 'viewc';
+						  $tmp_class = 'viewoff';
 					   }else $tmp_pic = 'but_online.gif';
 					   $tmp_class = 'view';
 				   }
@@ -948,8 +948,7 @@ $tpl->parseCurrentBlock('QUICK');
                 }
 //make_image_link('main.php?area=con&amp;action=side_start&amp;idcatside='.$tmp_side['idcatside'].'&amp;is_start='.$tmp_side['is_start'], 'but_start_no.gif', $cms_lang['con_actions']['10'][$tmp_side['is_start']],  '16', '16','','','#sideanchor');
 							}
-//ANMERKUNG hier PLATZHALER für KLASSE
-// Seite: online/offline/publish schalten
+// Seite: online/offline/publish schalten (view/noview/viewoff)
 							if($perm->have_perm(23, 'side', $tmp_side['idcatside'], $tmp_side['idcat']))
 							{
 								$tmp_link   = 'main.php?area=con&amp;action=side_visible&amp;idside=' . $tmp_side['idside'] . '&amp;idcat=' . $tmp_side['idcat'] . '&amp;online=' . $tmp_side['online'];
@@ -965,9 +964,9 @@ $tpl->parseCurrentBlock('QUICK');
 										$tmp_pic = 'but_offpublish.gif';
 										$tmp_descr = $tmp_descr2;
 										$tmp_link = $tmp_link2;
-										$tmp_class = 'viewa';
+										$tmp_class = 'viewoff';
 									}else $tmp_pic = 'but_offline.gif';
-									$tmp_class = 'viewb';
+									$tmp_class = 'noview';
 								}else{
 // online oder zeitgesteuert
 									if(((int)$con_tree[$a]['visible'] & 0x03) == 0x00)
@@ -977,9 +976,9 @@ $tpl->parseCurrentBlock('QUICK');
 											$tmp_pic = 'but_offpublish.gif';
 											$tmp_descr = $tmp_descr2;
 											$tmp_link = $tmp_link2;
-											$tmp_class = 'viewa';
+											$tmp_class = 'noview';
 										}else $tmp_pic = 'but_onoffline.gif';
-										$tmp_class = 'viewc';
+										$tmp_class = 'viewoff';
 									}else{
 										if($cfg_client['publish'] == '1' && $con_side[$a][$tmp_side['idcatside']]['status'] == 'true')
 										{
