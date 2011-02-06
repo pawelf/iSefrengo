@@ -43,7 +43,7 @@
         <li class="mfolder"><a href="{LINK_NEWCAT}" title="{NAME_NEWCAT}">{NAME_NEWCAT}</a></li>
         <li class="clone"><a href="{LINK_COPYCAT}" title="{NAME_COPYCAT}">{NAME_COPYCAT}</a></li>
         <li class="{CLASS_LOCK}"><a href="{LINK_LOCK}" title="{NAME_LOCK}">{NAME_LOCK}</a></li>
-        <li class="view"><a href="{LINK_PUBLISH}" title="{NAME_PUBLISH}">{NAME_PUBLISH}</a></li>
+        <li class="{CLASS_PUBLISH}"><a href="{LINK_PUBLISH}" title="{NAME_PUBLISH}">{NAME_PUBLISH}</a></li>
         <li class="delete"><a href="{LINK_DELETE}" title="{NAME_DELETE}">{NAME_DELETE}</a></li>
         <li class="previews"><a href="{LINK_PREVIEW}" title="{NAME_PREVIEW}">{NAME_PREVIEW}</a></li><!-- END FOLDER --><!-- BEGIN QUICKFOLDER -->
         {CAT_ACTIONS}<!-- END QUICKFOLDER -->
@@ -56,7 +56,7 @@
             <li class="edit"><a href="{LINK_EDIT}" title="{NAME_EDIT}">{NAME_EDIT}</a></li>
             <li class="clone"><a href="{LINK_COPY}" title="{NAME_COPY}">{NAME_COPY}</a></li>
             <li class="{CLASS_LOCK}"><a href="{LINK_LOCK}" title="{NAME_LOCK}">{NAME_LOCK}</a></li>
-            <li class="view"><a href="{LINK_PUBLISH}" title="{NAME_PUBLISH}">{NAME_PUBLISH}</a></li>
+            <li class="{CLASS_PUBLISH}"><a href="{LINK_PUBLISH}" title="{NAME_PUBLISH}">{NAME_PUBLISH}</a></li>
             <li class="delete"><a href="{LINK_DELETE}" title="{NAME_DELETE}" onclick="return delete_confirm()">{NAME_DELETE}</a></li>
             <li class="previews"><a href="{LINK_PREVIEW}" title="{NAME_PREVIEW}">{NAME_PREVIEW}</a></li><!-- END Seite --><!-- BEGIN QUICK -->
             {SIDE_ACTIONS}<!-- END QUICK -->
