@@ -52,7 +52,7 @@
         <li class="pg"><a href="{LINK_SIDECONFIG}" title="{NAME_SIDECONFIG}">&#8803;</a>
         <a href="{LINK_SIDENAME}" title="{TITLE_SIDENAME}">{NAME_SIDENAME}</a>{SIDEANCHOR}
           <ul class="actions"><!-- BEGIN Seite -->
-            <li class="home"><a href="{LINK_STARTPAGE}" title="{NAME_STARTPAGE}">{NAME_STARTPAGE}</a></li>
+            <li class="{CLASS_STARTPAGE}"><a href="{LINK_STARTPAGE}" title="{NAME_STARTPAGE}">{NAME_STARTPAGE}</a></li>
             <li class="edit"><a href="{LINK_EDIT}" title="{NAME_EDIT}">{NAME_EDIT}</a></li>
             <li class="clone"><a href="{LINK_COPY}" title="{NAME_COPY}">{NAME_COPY}</a></li>
             <li class="{CLASS_LOCK}"><a href="{LINK_LOCK}" title="{NAME_LOCK}">{NAME_LOCK}</a></li>
