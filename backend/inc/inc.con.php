@@ -939,10 +939,11 @@ $tpl->parseCurrentBlock('QUICK');
 								if($tmp_side['is_start'] == '1')
 								{
 								  $tpl_side_values['LINK_STARTPAGE'] = "";
+								  $tpl_side_values['CLASS_STARTPAGE'] = "home";
                   $tpl_side_values['NAME_STARTPAGE'] = $cms_lang['con_actions']['10'][$tmp_side['is_start']];
 //<img src=\"tpl/".$cfg_cms['skin']."/img/but_start_yes.gif\" alt=\"".$cms_lang['con_actions']['10'][$tmp_side['is_start']]."\" title=\"".$cms_lang['con_actions']['10'][$tmp_side['is_start']]."\" width=\"16\" height=\"16\" />";
 						    }else{
-								  $tpl_side_values['CLASS_STARTPAGE'] = "";
+								  $tpl_side_values['CLASS_STARTPAGE'] = "nothome";
 								  $tpl_side_values['LINK_STARTPAGE'] = 'main.php?area=con&amp;action=side_start&amp;idcatside='.$tmp_side['idcatside'].'&amp;is_start='.$tmp_side['is_start'];
 								  $tpl_side_values['NAME_STARTPAGE'] = $cms_lang['con_actions']['10'][$tmp_side['is_start']];
                 }
