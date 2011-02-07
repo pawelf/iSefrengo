@@ -695,7 +695,7 @@ $tpl->setCurrentBlock('FOLDER');
 						  $tmp_pic = 'but_offpublish.gif';
 						  $tmp_descr = $tmp_descr2;
 						  $tmp_link = $tmp_link2;
-						  $tmp_class = 'viewoff';
+						  $tmp_class = 'offpublish';
 					  }else $tmp_pic = 'but_offline.gif';
 					    $tmp_class = 'noview';
 				  }else{
@@ -704,7 +704,7 @@ $tpl->setCurrentBlock('FOLDER');
 						  $tmp_pic = 'but_onpublish.gif';
 						  $tmp_descr = $tmp_descr2;
 						  $tmp_link = $tmp_link2;
-						  $tmp_class = 'viewoff';
+						  $tmp_class = 'onpublish';
 					   }else $tmp_pic = 'but_online.gif';
 					   $tmp_class = 'view';
 				   }
@@ -950,6 +950,15 @@ $tpl->parseCurrentBlock('QUICK');
 //make_image_link('main.php?area=con&amp;action=side_start&amp;idcatside='.$tmp_side['idcatside'].'&amp;is_start='.$tmp_side['is_start'], 'but_start_no.gif', $cms_lang['con_actions']['10'][$tmp_side['is_start']],  '16', '16','','','#sideanchor');
 							}
 // Seite: online/offline/publish schalten (view/noview/viewoff)
+/**
+<img src="tpl/standard/img/but_online.gif">     view
+<img src="tpl/standard/img/but_onpublish.gif"> onpublish
+<img src="tpl/standard/img/but_onoffline.gif"> viewoff
+<img src="tpl/standard/img/but_offpublish.gif"> offpublish
+<img src="tpl/standard/img/but_offline.gif">   noview
+<img src="tpl/standard/img/but_time.gif">      time
+*/
+
 							if($perm->have_perm(23, 'side', $tmp_side['idcatside'], $tmp_side['idcat']))
 							{
 								$tmp_link   = 'main.php?area=con&amp;action=side_visible&amp;idside=' . $tmp_side['idside'] . '&amp;idcat=' . $tmp_side['idcat'] . '&amp;online=' . $tmp_side['online'];
@@ -965,7 +974,7 @@ $tpl->parseCurrentBlock('QUICK');
 										$tmp_pic = 'but_offpublish.gif';
 										$tmp_descr = $tmp_descr2;
 										$tmp_link = $tmp_link2;
-										$tmp_class = 'viewoff';
+										$tmp_class = 'offpublish';
 									}else $tmp_pic = 'but_offline.gif';
 									$tmp_class = 'noview';
 								}else{
@@ -977,7 +986,7 @@ $tpl->parseCurrentBlock('QUICK');
 											$tmp_pic = 'but_offpublish.gif';
 											$tmp_descr = $tmp_descr2;
 											$tmp_link = $tmp_link2;
-											$tmp_class = 'noview';
+											$tmp_class = 'offpublish';
 										}else $tmp_pic = 'but_onoffline.gif';
 										$tmp_class = 'viewoff';
 									}else{
@@ -986,9 +995,9 @@ $tpl->parseCurrentBlock('QUICK');
 											$tmp_pic = 'but_onpublish.gif';
 											$tmp_descr = $tmp_descr2;
 											$tmp_link = $tmp_link2;
-											$tmp_class = 'view';
+											$tmp_class = 'onpublish';
 										}else{
-					            $tmp_pic = (((int)$tmp_side['online'] & 0x02) == 0x02) ? 'but_time.gif': 'but_online.gif';
+					            $tmp_pic = (((int)$tmp_side['online'] & 0x02) == 0x02) ? $tmp_class='time': $tmp_class='view';
 										}
 									}
 								}
