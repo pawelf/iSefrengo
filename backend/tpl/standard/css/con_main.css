@@ -334,7 +334,8 @@ li a:active:before {
 }
 
 
-/* VIEW / NOVIEW/ VIEWOFF
+/* VIEW / NOVIEW/ VIEWOFF/ 
+*  TIME/ ONPUBLISH/ OFFPUBLISH
 ---------------------------------------*/
 .actions .viewoff:before,
 .actions .noview:before,
@@ -378,6 +379,69 @@ li a:active:before {
     border-radius:6px;
 }
 .actions .noview:hover:before, .actions .view:hover:before{background:#000}
+
+.actions .time a:before,
+.actions .time a:after {
+    left:2px;
+    width:13px;
+    height:13px;
+    border:2px solid #730800;
+    margin-top:-9px;
+    background:transparent;
+}
+
+.actions .time a:before {
+    -webkit-border-radius:18px; 
+    -moz-border-radius:18px; 
+    border-radius:18px;
+}
+
+
+.actions .time a:after {
+    left:10px; 
+    width:4px; 
+    height:5px; 
+    border-width:0 0 2px 2px; 
+    margin-top:-6px; 
+    background:transparent;
+}
+
+
+.time a:hover:before,
+.time a:focus:before,
+.time a:active:before,
+.time a:hover:after,
+.time a:focus:after,
+.time a:active:after {
+    border-color:#000;
+    background:transparent;
+}
+
+.actions .offpublish a:before,
+.actions .onpublish a:before {
+    width:16px;
+    height:16px;
+    margin-top:-8px;
+left:2px;
+    -webkit-border-radius:16px;
+    -moz-border-radius:16px;
+    border-radius:16px;
+}
+.actions .offpublish a:before{background:#888}
+.actions .offpublish a:hover:before{background:#730800}
+
+.actions .offpublish a:after,
+.actions .onpublish a:after {
+    left:7px;
+    width:2px;
+    height:8px;
+    border:2px solid #fff;
+    border-width:0 2px;
+    margin-top:-4px;
+    background:transparent;
+}
+
+
 
 /* CLONE
 ---------------------------------------*/
