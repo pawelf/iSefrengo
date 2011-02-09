@@ -19,13 +19,13 @@
   * GNU General Public License for more details.
   *
   *
-  * @author Torsten Hofmann 
+  * @author
   */
 if(!defined('CMS_CONFIGFILE_INCLUDED')){die('NO CONFIGFILE FOUND');}
-/**
-  * include Funktionen und Klassen includieren
-  */
+
+/** include Funktionen und Klassen includieren */
 include('inc/fnc.con.php');
+
 /**
  * Class to check if a doublet/ clone Page of an idcatside exists
  *
@@ -38,9 +38,9 @@ class cmsPageDoubletAudit
 	* @return arr
   */
 	private $idsideStore = array();
-/**
-	* Construtor, generates data for idatsidecheking
-	*/
+	
+/** Construtor, generates data for idatsidecheking */
+  
   public function __construct()
   {
     global $db, $cms_db, $lang;
@@ -78,9 +78,7 @@ class cmsPageDoubletAudit
 
 $sefrengoPDA = new cmsPageDoubletAudit;
 
-/**
-  * Eventuelle Actions/ Funktionen abarbeiten
-  */
+/** Eventuelle Actions/ Funktionen abarbeiten */
 if($change_show_tree == 'delete_cache')
 {
 	 $action = 'delete_cache';
@@ -221,13 +219,10 @@ switch($action)
 	break;
 }
 
-/**
-  * Eventuelle Dateien zur Darstellung includieren
-  */
+/** Eventuelle Dateien zur Darstellung includieren */
+
 include('inc/inc.header.php');
-/**
-  * Bildschirmausgabe aufbereiten und ausgeben
-  */
+/** Bildschirmausgabe aufbereiten und ausgeben */
 // Aufbau des Arrays $con_tree
 $sql = "SELECT
          B.idcat, B.parent, B.sortindex, C.idcatlang, C.author, C.created, C.lastmodified,
@@ -459,9 +454,7 @@ if($perm->have_perm(9, 'area_con',0) || $perm->have_perm(25, 'area_con',0)
 
 $tpl->setCurrentBlock();
 $tpl_data['LANG_STRUCTURE_AND_SIDE'] = $cms_lang['con_structureandsides'];
-/*$tpl_data['BUTTON_EXPAND'] = make_image_link('main.php?area=con&amp;action=expand&expanded=3&idcat='.$show_tree, 'but_plus_small.gif', $cms_lang['con_allexpanded'],  '16', '11');*/
 $tpl_data['BUTTON_EXPAND'] = make_link('main.php?area=con&amp;action=expand&expanded=3&idcat='.$show_tree, $cms_lang['con_allexpanded'], '&#8862;', '');
-/*$tpl_data['BUTTON_MINIMIZE'] = make_image_link('main.php?area=con&amp;action=expand&expanded=2&idcat='.$show_tree, 'but_minus_small.gif', $cms_lang['con_nooneexpanded'],  '16', '11');*/
 $tpl_data['BUTTON_MINIMIZE'] = make_link('main.php?area=con&amp;action=expand&expanded=2&idcat='.$show_tree, $cms_lang['con_nooneexpanded'],  '&#8863;', '');
 $tpl_data['LANG_ACTIONS'] = $cms_lang['con_action'];
 $tpl->setVariable($tpl_data);
@@ -528,15 +521,13 @@ if(is_array($catlist))
 		{
 		  $tpl_cat_values['LINK_CAT_EXPAND'] ='main.php?area=con&amp;action=expand&idcat='.$con_tree[$a]['idcat'].'&expanded=1';
 		  $tpl_cat_values['CLASS_CAT_EXPAND'] ='open';
-$tpl_cat_values['TITLE_CAT_EXPAND'] = $cms_lang['con_noexpanded'];
-//$tpl_cat_values['BUTTON_CAT_EXPAND'] = make_image_link('main.php?area=con&amp;action=expand&idcat='.$con_tree[$a]['idcat'].'&expanded=1', 'but_minus.gif', $cms_lang['con_noexpanded'],  '16', '16','','','#catanchor');
+      $tpl_cat_values['TITLE_CAT_EXPAND'] = $cms_lang['con_noexpanded'];
 // Link Expand schliessen
-	}else{
+	  }else{
 		  $tpl_cat_values['LINK_CAT_EXPAND'] ='main.php?area=con&amp;action=expand&idcat='.$con_tree[$a]['idcat'].'&expanded=0';
 		  $tpl_cat_values['CLASS_CAT_EXPAND'] ='zu';
 		  $tpl_cat_values['TITLE_CAT_EXPAND'] = $cms_lang['con_expanded'];
-//$tpl_cat_values['BUTTON_CAT_EXPAND'] = make_image_link('main.php?area=con&amp;action=expand&idcat='.$con_tree[$a]['idcat'].'&expanded=0', 'but_plus.gif', $cms_lang['con_expanded'],  '16', '16','','','#catanchor');
-}
+    }
 // Ordner konfigurieren Infotextpopup/ Link konfiguriert
 		if($con_tree[$a]['tplname'])
 		{
@@ -545,10 +536,9 @@ $tpl_cat_values['TITLE_CAT_EXPAND'] = $cms_lang['con_noexpanded'];
 // Konfigurationslink
 			  if($perm->have_perm(3, 'cat', $con_tree[$a]['idcat']))
 			  {
-$tpl_cat_values['LINK_CAT_CONFIG']	= 'main.php?area=con_configcat&idcat='.$con_tree[$a]['idcat'].'&idtplconf='.$con_tree[$a]['idtplconf'];	  	
-$tpl_cat_values['TITLE_CAT_CONFIG'] = $cms_lang['con_cat_config'];
-//$tpl_cat_values['BUTTON_CAT_CONFIG'] = make_image_link('main.php?area=con_configcat&idcat='.$con_tree[$a]['idcat'].'&idtplconf='.$con_tree[$a]['idtplconf'], 'but_folder_info.gif', $cms_lang['con_cat_config'], '16', '16', '', $folder_popup);
-			  }else{
+          $tpl_cat_values['LINK_CAT_CONFIG']	= 'main.php?area=con_configcat&idcat='.$con_tree[$a]['idcat'].'&idtplconf='.$con_tree[$a]['idtplconf'];	  	
+          $tpl_cat_values['TITLE_CAT_CONFIG'] = $cms_lang['con_cat_config'];
+    	  }else{
 $tpl_cat_values['BUTTON_CAT_CONFIG'] = make_image('but_folder_info.gif', $cms_lang['con_cat_config'], '16', '16',$folder_popup);
 			  }
 // unkonfiguriert
@@ -611,49 +601,39 @@ $tpl_cat_values['BUTTON_CAT_CONFIG'] = make_image('but_folder_info.gif', $cms_la
 					  }elseif($b['level'] <= $showit){
 						  $hideit = 0; $showit=0;
 				    }
-//DELETE	
-//echo $b['name']. " reallevel: ".$b['level'] ."showit: $showit <br>";
+
 					if($hideit != 1 && $perm->have_perm(9, 'cat', $b['idcat'])  && $b['idcat']!=$con_tree[$a]['parent'])
-						  $cat_actions .= '<option value="'.$sess->urlRaw($mv_url."&amp;target=".$b['idcat']). '#catanchor">'.$b['name'].'</option>'."\n";
+					  $cat_actions .= '<option value="'.$sess->urlRaw($mv_url."&amp;target=".$b['idcat']). '#catanchor">'.$b['name'].'</option>'."\n";
 				  }
 				  $hideit=0; $showit=0;
 				  $cat_actions .= '        </select>'."\n";
 // Ordner: nach oben verschieben
 				  if($con_tree[$a]['sortindex'] > 1)
-$cat_actions .= '<li class="quickup">';
-$cat_actions .= make_link('main.php?area=con&amp;action=catupdown&amp;dir=up&amp;sort=true&amp;sortindex='.$con_tree[$a]['sortindex'].'&amp;idcat='.$a.'&amp;parent='.$con_tree[$a]['parent'], $cms_lang['con_sideup'],'','#catanchor')." \n";
-$cat_actions .= '</li>';
+            $cat_actions .= '<li class="quickup">'.make_link('main.php?area=con&amp;action=catupdown&amp;dir=up&amp;sort=true&amp;sortindex='.$con_tree[$a]['sortindex'].'&amp;idcat='.$a.'&amp;parent='.$con_tree[$a]['parent'], $cms_lang['con_catup'],'','#catanchor').'</li>'."\n";
 //DELETE
 //else $cat_actions .= "\n<img src=\"tpl/".$cfg_cms['skin']."/img/space.gif\" width=\"16\" height=\"16\" alt=\"\" /> \n";
 // Ordner: nach unten verschieben
 				  if(end($tlo_tree[$con_tree[$a]['parent']]) != $a)
-$cat_actions .= '<li class="quickdown">';
-$cat_actions .= make_link('main.php?area=con&amp;action=catupdown&amp;dir=down&amp;sort=true&amp;sortindex='.$con_tree[$a]['sortindex'].'&amp;idcat='.$a.'&parent='.$con_tree[$a]['parent'], $cms_lang['con_sidedown'],'','#catanchor')." \n";
-$cat_actions .= '</li>';
+            $cat_actions .= '<li class="quickdown">'.make_link('main.php?area=con&amp;action=catupdown&amp;dir=down&amp;sort=true&amp;sortindex='.$con_tree[$a]['sortindex'].'&amp;idcat='.$a.'&parent='.$con_tree[$a]['parent'], $cms_lang['con_catdown'],'','#catanchor').'</li>'."\n";
 //DELETE	
 //else $cat_actions .= "\n<img src=\"tpl/".$cfg_cms['skin']."/img/space.gif\" width=\"16\" height=\"16\" alt=\"\" />\n";
 // Ordner: nach ganz oben verschieben
 				  if($con_tree[$a]['sortindex'] > 1)
-$cat_actions .= '<li class="quicktop">';
-$cat_actions .= make_link("main.php?area=con&amp;action=catupdown&amp;dir=top&amp;sort=true&amp;idcat=$a&amp;sortindex=".$con_tree[$a]['sortindex'].'&parent='.$con_tree[$a]['parent'], $cms_lang['con_sideup'],'','#catanchor')." \n";
-$cat_actions .= '</li>';
+            $cat_actions .= '<li class="quicktop">'.make_link("main.php?area=con&amp;action=catupdown&amp;dir=top&amp;sort=true&amp;idcat=$a&amp;sortindex=".$con_tree[$a]['sortindex'].'&parent='.$con_tree[$a]['parent'], $cms_lang['con_catupup'],'','#catanchor').'</li>'."\n";
 //DELETE	
 //else $cat_actions .= "\n<img src=\"tpl/".$cfg_cms['skin']."/img/space.gif\" width=\"16\" height=\"16\" alt=\"\" />\n";
 // Ordner: nach ganz unten verschieben
 				  if(end($tlo_tree[$con_tree[$a]['parent']]) != $a)
-$cat_actions .= '<li class="quickbottom">';
-$cat_actions .=make_link("main.php?area=con&amp;action=catupdown&amp;dir=bottom&amp;sort=true&amp;idcat=$a&amp;sortindex=".$con_tree[$a]['sortindex'].'&parent='.$con_tree[$a]['parent'], $cms_lang['con_sidedown'],'','#catanchor')." \n";
-$cat_actions .= '</li>';
+            $cat_actions .= '<li class="quickbottom">'.make_link("main.php?area=con&amp;action=catupdown&amp;dir=bottom&amp;sort=true&amp;idcat=$a&amp;sortindex=".$con_tree[$a]['sortindex'].'&parent='.$con_tree[$a]['parent'], $cms_lang['con_catdowndown'],'','#catanchor').'</li>'."\n";
 //DELETE	
 //else $cat_actions .= "\n<img src=\"tpl/".$cfg_cms['skin']."/img/space.gif\" width=\"16\" height=\"16\" alt=\"\" />\n";
-
-			  }
-		$tpl_cat_values['CAT_ACTIONS'] = $cat_actions;
-$tpl->parseCurrentBlock('QUICKFOLDER');
+			    }
+		      $tpl_cat_values['CAT_ACTIONS'] = $cat_actions;
+          $tpl->parseCurrentBlock('QUICKFOLDER');
 // Normale Ansicht
 		  }else{
 //$cat_actions = '';
-$tpl->setCurrentBlock('FOLDER');
+        $tpl->setCurrentBlock('FOLDER');
 // Ordner: neue Seite erstellen
 			  if($con_tree[$a]['idtplconf'] != '0' && $perm->have_perm(18, 'cat', $con_tree[$a]['idcat']))
 			  { 
@@ -696,8 +676,10 @@ $tpl->setCurrentBlock('FOLDER');
 						  $tmp_descr = $tmp_descr2;
 						  $tmp_link = $tmp_link2;
 						  $tmp_class = 'offpublish';
-					  }else $tmp_pic = 'but_offline.gif';
+					  }else
+					    $tmp_pic = 'but_offline.gif';
 					    $tmp_class = 'noview';
+					    $tmp_descr = $cms_lang['con_folder_visible'][0];
 				  }else{
 					  if($cfg_client['publish'] == '1' && $con_tree[$a]['status'] == 'true')
 					  {
@@ -705,8 +687,10 @@ $tpl->setCurrentBlock('FOLDER');
 						  $tmp_descr = $tmp_descr2;
 						  $tmp_link = $tmp_link2;
 						  $tmp_class = 'onpublish';
-					   }else $tmp_pic = 'but_online.gif';
-					   $tmp_class = 'view';
+					   }else
+					     $tmp_pic = 'but_online.gif';
+					     $tmp_descr = $cms_lang['con_folder_visible'][1];
+					     $tmp_class = 'view';
 				   }
 				   $tpl_cat_values['LINK_PUBLISH'] = $tmp_link.'#sideanchor';
 				   $tpl_cat_values['NAME_PUBLISH'] = $tmp_descr;
@@ -714,7 +698,9 @@ $tpl->setCurrentBlock('FOLDER');
 //DELETE	
 //make_image_link($tmp_link, $tmp_pic, $tmp_descr, '16', '16','','','#sideanchor');
 				   unset($tmp_link,$tmp_pic,$tmp_descr);
-			   }else $tpl_cat_values['BUTTON_PUBLISH'] = make_image('space.gif', '', '16', '16');
+			   }else
+$tpl_side_values['NAME_PUBLISH'] = 'Ordner Bug melden Sie sich beim Autor';
+//$tpl_cat_values['BUTTON_PUBLISH'] = make_image('space.gif', '', '16', '16');
 // Ordner: löschen
 			   if($perm->have_perm(5, 'cat', $con_tree[$a]['idcat']))
 			   {
@@ -882,15 +868,12 @@ unset($cat_actions);
 						{
 							if($perm->have_perm(25, 'side', $tmp_side['idcatside'], $tmp_side['idcat']))
 							{
-		$tpl->setCurrentBlock('QUICK');
+		            $tpl->setCurrentBlock('QUICK');
 								$sort_actions = '';
 // Seite: nach oben verschieben
 								if($sidelist[$a]['1'] != $tmp_side['idcatside'])
 								{
-//$tpl_side_values['TITLE_ACTIONS'] = $cms_lang['con_sideup'];
-$sort_actions .= '<li class="quickup">';
-$sort_actions .= make_link('main.php?area=con&amp;action=sideup&amp;sort=true&amp;sortindex='.$tmp_side['sortindex'].'&amp;idcat='.$tmp_side['idcat'].'&amp;idside='.$tmp_side['idside'].'&amp;idside='.$tmp_side['idside'], $cms_lang['con_sideup'],'','#catanchor')."\n";
-$sort_actions .= "</li>";
+                  $sort_actions .= '<li class="quickup">'.make_link('main.php?area=con&amp;action=sideup&amp;sort=true&amp;sortindex='.$tmp_side['sortindex'].'&amp;idcat='.$tmp_side['idcat'].'&amp;idside='.$tmp_side['idside'].'&amp;idside='.$tmp_side['idside'], $cms_lang['con_sideup'],'','#catanchor').'</li>'."\n";
 //$sort_actions .= make_image_link('main.php?area=con&amp;action=sideup&amp;sort=true&amp;sortindex='.$tmp_side['sortindex'].'&amp;idcat='.$tmp_side['idcat'].'&amp;idside='.$tmp_side['idside'].'&amp;idside='.$tmp_side['idside'], 'but_sideup.gif', $cms_lang['con_sideup'], '16', '16','','','#catanchor')."\n";
 						}elseif($tmp_count > 1){ $sort_actions .= '';}
 //$sort_actions .= "<img src=\"tpl/".$cfg_cms['skin']."/img/space.gif\" width=\"16\" height=\"16\" alt=\"\" /> \n";
@@ -898,19 +881,14 @@ $sort_actions .= "</li>";
 								if(end($sidelist[$a]) != $tmp_side['idcatside'])
 								{
 //$tpl_side_values['TITLE_ACTIONS'] = $cms_lang['con_sidedown'];
-$sort_actions .= '<li class="quickdown">';
-$sort_actions .= make_link('main.php?area=con&amp;action=sidedown&amp;sort=true&amp;sortindex='.$tmp_side['sortindex'].'&amp;idcat='.$tmp_side['idcat'].'&amp;idside='.$tmp_side['idside'], $cms_lang['con_sidedown'],'','#catanchor')."\n";
-$sort_actions .= '</li>';
+                  $sort_actions .= '<li class="quickdown">'.make_link('main.php?area=con&amp;action=sidedown&amp;sort=true&amp;sortindex='.$tmp_side['sortindex'].'&amp;idcat='.$tmp_side['idcat'].'&amp;idside='.$tmp_side['idside'], $cms_lang['con_sidedown'],'','#catanchor').'</li>'."\n";
 //$sort_actions .= make_image_link('main.php?area=con&amp;action=sidedown&amp;sort=true&amp;sortindex='.$tmp_side['sortindex'].'&amp;idcat='.$tmp_side['idcat'].'&amp;idside='.$tmp_side['idside'], 'but_sidedown.gif', $cms_lang['con_sidedown'], '16', '16','','','#catanchor')."\n";
 						}elseif($tmp_count > 1){ $sort_actions .= "";}
 //$sort_actions .= "<img src=\"tpl/".$cfg_cms['skin']."/img/space.gif\" width=\"16\" height=\"16\" alt=\"\" /> \n";
 // Seite: nach ganz oben verschieben
 								if($sidelist[$a]['1'] != $tmp_side['idcatside'])
 								{
-//$tpl_side_values['TITLE_ACTIONS'] = $cms_lang['con_sideup'];
-$sort_actions .= '<li class="quickup">';
-$sort_actions .= make_link("main.php?area=con&amp;action=sidetop&amp;sort=true&amp;idcat=$a&amp;idcatside=".$tmp_side['idcatside']."&amp;sortindex=".$tmp_side['sortindex'], $cms_lang['con_sideup'],'','#catanchor')."\n";
-$sort_actions .= '</li>';
+                  $sort_actions .= '<li class="quicktop">'.make_link("main.php?area=con&amp;action=sidetop&amp;sort=true&amp;idcat=$a&amp;idcatside=".$tmp_side['idcatside']."&amp;sortindex=".$tmp_side['sortindex'], $cms_lang['con_sideupup'],'','#catanchor').'</li>'."\n";
 //$sort_actions .= make_image_link("main.php?area=con&amp;action=sidetop&amp;sort=true&amp;idcat=$a&amp;idcatside=".$tmp_side['idcatside']."&amp;sortindex=".$tmp_side['sortindex'], 'but_sidetop.gif', $cms_lang['con_sideup'], '16', '16','','','#catanchor')."\n";
 						}elseif($tmp_count > 1){ $sort_actions .= "";}
 //$sort_actions .= "<img src=\"tpl/".$cfg_cms['skin']."/img/space.gif\" width=\"16\" height=\"16\" alt=\"\" />\n";
@@ -918,9 +896,7 @@ $sort_actions .= '</li>';
 								if(end($sidelist[$a]) != $tmp_side['idcatside'])
 								{
 //$tpl_side_values['TITLE_ACTIONS'] = $cms_lang['con_sidedown'];
-$sort_actions .= '<li class="quickdown">';
-$sort_actions .= make_link("main.php?area=con&amp;action=sidebottom&amp;sort=true&amp;idcat=$a&amp;idcatside=".$tmp_side['idcatside']."&amp;sortindex=".$tmp_side['sortindex'], $cms_lang['con_sidedown'],'','#catanchor')." \n";
-$sort_actions .= '</li>';
+                  $sort_actions .= '<li class="quickbottom">'.make_link("main.php?area=con&amp;action=sidebottom&amp;sort=true&amp;idcat=$a&amp;idcatside=".$tmp_side['idcatside']."&amp;sortindex=".$tmp_side['sortindex'], $cms_lang['con_sidedowndown'],'','#catanchor').'</li>'."\n";
 //$sort_actions .= make_image_link("main.php?area=con&amp;action=sidebottom&amp;sort=true&amp;idcat=$a&amp;idcatside=".$tmp_side['idcatside']."&amp;sortindex=".$tmp_side['sortindex'], 'but_sidebottom.gif', $cms_lang['con_sidedown'], '16', '16','','','#catanchor')." \n";
 						}elseif($tmp_count > 1){ $sort_actions .= "";}
 //$sort_actions .= "<img src=\"tpl/".$cfg_cms['skin']."/img/space.gif\" width=\"16\" height=\"16\" alt=\"\" />\n";
@@ -948,7 +924,8 @@ $tpl->parseCurrentBlock('QUICK');
 								  $tpl_side_values['NAME_STARTPAGE'] = $cms_lang['con_actions']['10'][$tmp_side['is_start']];
                 }
 //make_image_link('main.php?area=con&amp;action=side_start&amp;idcatside='.$tmp_side['idcatside'].'&amp;is_start='.$tmp_side['is_start'], 'but_start_no.gif', $cms_lang['con_actions']['10'][$tmp_side['is_start']],  '16', '16','','','#sideanchor');
-							}
+              }
+							
 // Seite: online/offline/publish schalten (view/noview/viewoff)
 /**
 <img src="tpl/standard/img/but_online.gif">     view
@@ -958,11 +935,10 @@ $tpl->parseCurrentBlock('QUICK');
 <img src="tpl/standard/img/but_offline.gif">   noview
 <img src="tpl/standard/img/but_time.gif">      time
 */
-
-							if($perm->have_perm(23, 'side', $tmp_side['idcatside'], $tmp_side['idcat']))
-							{
-								$tmp_link   = 'main.php?area=con&amp;action=side_visible&amp;idside=' . $tmp_side['idside'] . '&amp;idcat=' . $tmp_side['idcat'] . '&amp;online=' . $tmp_side['online'];
-								$tmp_link2  = 'main.php?area=con&amp;action=side_publish&amp;idcatside='.$tmp_side['idcatside'].'&amp;idcat='.$a;
+              if($perm->have_perm(23, 'side', $tmp_side['idcatside'], $tmp_side['idcat']))
+              {
+							  $tmp_link   = 'main.php?area=con&action=side_visible&idside=' . $tmp_side['idside'] . '&idcat=' . $tmp_side['idcat'] . '&online=' . $tmp_side['online'];
+								$tmp_link2  = 'main.php?area=con&action=side_publish&idcatside='.$tmp_side['idcatside'].'&idcat='.$a;
 								$tmp_descr  = $cms_lang['con_side_visible'][$tmp_side['online']];
 								$tmp_descr2 = $cms_lang['con_publish'];
 
@@ -975,9 +951,11 @@ $tpl->parseCurrentBlock('QUICK');
 										$tmp_descr = $tmp_descr2;
 										$tmp_link = $tmp_link2;
 										$tmp_class = 'offpublish';
-									}else $tmp_pic = 'but_offline.gif';
-									$tmp_class = 'noview';
-								}else{
+									}else
+									  $tmp_pic = 'but_offline.gif';
+									  $tmp_class = 'noview';
+								    $tmp_descr = $cms_lang['con_side_visible']['0'];
+                }else{
 // online oder zeitgesteuert
 									if(((int)$con_tree[$a]['visible'] & 0x03) == 0x00)
 									{
@@ -987,26 +965,34 @@ $tpl->parseCurrentBlock('QUICK');
 											$tmp_descr = $tmp_descr2;
 											$tmp_link = $tmp_link2;
 											$tmp_class = 'offpublish';
-										}else $tmp_pic = 'but_onoffline.gif';
-										$tmp_class = 'viewoff';
+										}else
+										  $tmp_pic = 'but_onoffline.gif';
+										  $tmp_class = 'viewoff';
+										   $tmp_descr = $cms_lang['con_side_visible']['1'];
 									}else{
-										if($cfg_client['publish'] == '1' && $con_side[$a][$tmp_side['idcatside']]['status'] == 'true')
-										{
+								    if($cfg_client['publish'] == '1' && $con_side[$a][$tmp_side['idcatside']]['status'] == 'true')
+								    {
 											$tmp_pic = 'but_onpublish.gif';
 											$tmp_descr = $tmp_descr2;
 											$tmp_link = $tmp_link2;
 											$tmp_class = 'onpublish';
 										}else{
-					            $tmp_pic = (((int)$tmp_side['online'] & 0x02) == 0x02) ? $tmp_class='time': $tmp_class='view';
+                      $tmp_class = (((int)$tmp_side['online'] & 0x02) == 0x02) ? 'time': 'view';
+                    //$tmp_pic   = (((int)$tmp_side['online'] & 0x02) == 0x02) ? 'but_time.gif': 'but_online.gif';
+                      $tmp_descr = (((int)$tmp_side['online'] & 0x02) == 0x02) ? $cms_lang['con_side_visible']['2']: $cms_lang['con_side_visible']['0'];
 										}
 									}
 								}
-$tpl_side_values['LINK_PUBLISH'] = $tmp_link.'#sideanchor';
-$tpl_side_values['NAME_PUBLISH'] = $tmp_descr;
-$tpl_side_values['CLASS_PUBLISH'] = $tmp_class;
-//make_image_link($tmp_link, $tmp_pic, $tmp_descr, '16', '16','','','#sideanchor');
-								unset($tmp_link,$tmp_pic,$tmp_description);
-							}else $tpl_side_values['BUTTON_PUBLISH'] = make_image('space.gif', '', '16', '16');
+                $tpl_side_values['LINK_PUBLISH'] = $tmp_link.'#sideanchor';
+                $tpl_side_values['NAME_PUBLISH'] = $tmp_descr;
+                $tpl_side_values['CLASS_PUBLISH'] = $tmp_class;								
+//echo '<img src="tpl/standard/img/'.$tmp_pic.'">';
+//$tpl_side_values['BUTTON_PUBLISH'] = make_image_link($tmp_link, $tmp_pic, $tmp_descr, '16', '16','','','#sideanchor');
+								unset($tmp_link, $tmp_pic, $tmp_description);
+							}else
+$tpl_side_values['NAME_PUBLISH'] = 'Seiten Bug melden Sie sich beim Autor';
+//$tpl_side_values['BUTTON_PUBLISH'] = make_image('space.gif', '', '16', '16');
+
 // Seite: bearbeiten
 							if($perm->have_perm(19, 'side', $tmp_side['idcatside'], $tmp_side['idcat']))
 							{
@@ -1071,13 +1057,14 @@ $tpl_side_values['CLASS_PUBLISH'] = $tmp_class;
                 $tpl_side_values['NAME_LOCK'] = $lock_text;
 //make_image_link('main.php?action=side_lock&idcatside='.$tmp_side['idcatside'].'&idside='.$tmp_side['idside'].'&lock='.$lock_val, $lock_icon, $lock_text,  '16', '16','','','#sideanchor');
 							}else{
-								$tpl_side_values['BUTTON_LOCK'] =make_image('space.gif', '',  '16', '16');
+								echo '123';
+				$tpl_side_values['BUTTON_LOCK'] =make_image('space.gif', '',  '16', '16');
 							}
 // Seite: Vorschau
 							$tpl_side_values['LINK_PREVIEW'] = $tmp_side['link'];
               $tpl_side_values['NAME_PREVIEW'] = $cms_lang['con_preview'];
 //make_image_link($tmp_side['link'], 'but_preview.gif', $cms_lang['con_preview'], '16', '16', '_blank');
-							//$tpl_side_values['SIDE_ACTIONS'] = '';
+							$tpl_side_values['SIDE_ACTIONS'] = '';
 							unset($side_actions);
 						}
 //$tpl->parseCurrentBlock('SEITE');
