@@ -12,12 +12,34 @@
 */
 
 @font-face {
-	font-family: 'ExistenceLight';
-	src: url('../,,/fonts/Existence-Light-webfont.eot');
-	src: local('☺'), url('../../fonts/Existence-Light-webfont.woff') format('woff'), url('../../fonts/Existence-Light-webfont.ttf') format('truetype'), url('../../fonts/Existence-Light-webfont.svg#webfont6NYzKAep') format('svg');
-	font-weight: normal;
-	font-style: normal;
+    font-family: 'QuicksandLight';
+    src:          url('../../fonts/Quicksand/Quicksand_Light-webfont.woff') format('woff'),
+         url('../../fonts/Quicksand/Quicksand_Light-webfont.ttf') format('truetype'),
+         url('../../fonts/Quicksand/Quicksand_Light-webfont.svg#webfontbpxkzhcL') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
+@font-face {
+    font-family: 'QuicksandLight';
+    src:          url('../../fonts/Quicksand/Quicksand_Bold-webfont.woff') format('woff'),
+         url('../../fonts/Quicksand/Quicksand_Bold-webfont.ttf') format('truetype'),
+         url('../../fonts/Quicksand/Quicksand_Bold-webfont.svg#webfontaEJ3th29') format('svg');
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'QuicksandBook';
+    src:          url('../../fonts/Quicksand/Quicksand_Book-webfont.woff') format('woff'),
+         url('../../fonts/Quicksand/Quicksand_Book-webfont.ttf') format('truetype'),
+         url('../../fonts/Quicksand/Quicksand_Book-webfont.svg#webfontaTtWxJ4l') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 *{
 	margin:0;
 	padding:0;
@@ -26,9 +48,8 @@
 body{
 	background:#777;
 	color:#999;
-	font:.8em Verdana,Arial,Helvetica,sans-serif;
-	text-align:center;
-}
+	font:.9em/.9em 'QuicksandLight',Verdana,Arial,Helvetica,sans-serif;
+	}
 
 #username, #password{
 	border:1px solid #f4ad14;
@@ -42,12 +63,11 @@ body{
 
 #navi p{
 	float:left;
-	font-size:10px;
 	width:230px;
 }
 
 
-#navi input{font-family: Arial, Helvetica, sans-serif;
+#navi input{
         float:right;
 	text-align:right;
 	width:70px;
@@ -77,7 +97,8 @@ body{
 
 .footer{	
 	color:#fff;
-	font-size:10px;
+	font-size:.8em;
+        text-align:center;
 	margin:15px auto 0 auto;
 	width:361px;
 }
@@ -94,7 +115,7 @@ body{
 	background:#FFF5CE;
 	border-bottom:1px solid #FBC900;
 	color:#B00000;
-	font-size:.8em;
+	font-size:.9em;
 	font-weight:bold;
 	padding:5px;
 	text-align:center;
@@ -116,7 +137,7 @@ padding:26px 30px 15px 30px;
 border-top-left-radius:5px;border-top-right-radius:5px;	border-bottom:3px solid #fff;height:48px;
 }
 #header h2{
-font: 30px/35px 'ExistenceLight', Arial, sans-serif;letter-spacing: 0;padding:10px 6px 4px 30px;
+font: 30px/35px 'QuicksandBook', Arial, sans-serif;letter-spacing: 0;padding:10px 6px 4px 30px;
 }
 #navi{
 height:40px;margin-top:10px;
