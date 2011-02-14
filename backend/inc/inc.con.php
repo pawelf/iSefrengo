@@ -979,7 +979,7 @@ $tpl->parseCurrentBlock('QUICK');
 										}else{
                       $tmp_class = (((int)$tmp_side['online'] & 0x02) == 0x02) ? 'time': 'view';
                     //$tmp_pic   = (((int)$tmp_side['online'] & 0x02) == 0x02) ? 'but_time.gif': 'but_online.gif';
-                      $tmp_descr = (((int)$tmp_side['online'] & 0x02) == 0x02) ? $cms_lang['con_side_visible']['2']: $cms_lang['con_side_visible']['0'];
+                      $tmp_descr = (((int)$tmp_side['online'] & 0x02) == 0x02) ? $cms_lang['con_side_visible']['2']: $cms_lang['con_side_visible']['1'];
 										}
 									}
 								}
