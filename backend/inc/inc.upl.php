@@ -1,39 +1,28 @@
 <?PHP
-// File: $Id: inc.upl.php 28 2008-05-11 19:18:49Z mistral $
-// +----------------------------------------------------------------------+
-// | Version: Sefrengo $Name:  $                                          
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>           |
-// +----------------------------------------------------------------------+
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License                 |
-// |                                                                      |
-// | This program is subject to the GPL license, that is bundled with     |
-// | this package in the file LICENSE.TXT.                                |
-// | If you did not receive a copy of the GNU General Public License      |
-// | along with this program write to the Free Software Foundation, Inc., |
-// | 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA               |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// +----------------------------------------------------------------------+
-// + Autor: $Author: mistral $
-// +----------------------------------------------------------------------+
-// + Revision: $Revision: 28 $
-// +----------------------------------------------------------------------+
-// + Description:
-// +----------------------------------------------------------------------+
-// + Changes: 
-// +----------------------------------------------------------------------+
-// + ToDo:
-// +----------------------------------------------------------------------+
+/**
+  *
+  * Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>
+  * Copyright (c) 2010 - 2011 iSefrengo
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License
+  *
+  * This program is subject to the GPL license, that is bundled with
+  * this package in the file LICENSE.TXT.
+  * If you did not receive a copy of the GNU General Public License
+  * along with this program write to the Free Software Foundation, Inc.,
+  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  *
+  * @author
+  */
+if(!defined('CMS_CONFIGFILE_INCLUDED')){die('NO CONFIGFILE FOUND');}
 
-if(! defined('CMS_CONFIGFILE_INCLUDED')){
-	die('NO CONFIGFILE FOUND');
-}
 
 /******************************************************************************
  1. Benötigte Funktionen und Klassen includieren
@@ -416,7 +405,7 @@ function show_files($idopen) {
 					$actionname     = 'editfile';
 					$linkokay       = 'javascript:document.fmedit.submit()';
 					$str_filename   = $cms_lang['upl_copyfilename'] . ':<br /><input type="text" name="newfilename" value="' . (($newfilename)?$newfilename:$db->f('filename')) . '" size="30" maxlength="255" />';
-					$str_titel      = $cms_lang['upl_titel'] . ':<br /><input type="text" name="newtitle" value="' . (($newtitle)?$newtitle:$db->f('titel')) . '" size="30" maxlength="200" />';
+					$str_titel      = $cms_lang['upl_titel'] . ':<br /><input type="text" name="newtitle" value="' . (($newtitle)?$newtitle:htmlentities($db->f('titel'), ENT_QUOTES, 'UTF-8')) . '" size="30" maxlength="200" />';
 					$str_descrption = $cms_lang['upl_description'] . ':<br /><textarea name="newdescription" rows="3" cols="50">' . (($newdescription)?$newdescription:$db->f('description')) . '</textarea>';
 
 					$tmp[$tpl_name.'_NAME']        = $str_filename;
