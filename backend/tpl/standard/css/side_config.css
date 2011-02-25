@@ -1,0 +1,32 @@
+fieldset{background: #ffffff;margin-top:1em; border: 1px solid #888; border-radius:5px; padding-left:1em}
+fieldset p{padding:.5em}
+fieldset p > input, fieldset textarea{background:#ccc; border-radius:3px}
+fieldset p > input:focus, fieldset textarea:focus{background:lightyellow}
+fieldset p{margin:0}
+fieldset p.moduldesc{clear:both; border:none; width:20%;}
+fieldset h4{font-size:150%}
+fieldset p.moduldesc label{float:none}
+fieldset p.modulconfig{background:#efefef; border:1px solid #ccc; border-right:none;width:80%; float:right; border-radius: 3px 0 0 3px}
+fieldset p.modulconfig select{width:15%; float:left}
+.template{float:left; width:80%}
+
+.sf_buttonAction{clear:both}
+.forms{width:80%;margin-top:-2em; }
+.buttonwrap{clear:both; border:none; width:80%; float:right}
+.forms select{float:left; width:20%; margin-left:2em}
+fieldset fieldset legend{background:transparent; color:#222; font-weight-bold}
+fieldset fieldset{ border:none}
+legend{background:#730800;color:#fff; border-radius:3px; padding:3px 7px; font-weight:bold}
+fieldset label{float:left; font-weight: bold; width:18%; clear:both; }
+fieldset select {width:60%}
+fieldset ul.rights li {float:left}
+fieldset a{color:#222;text-decoration:none; }
+fieldset ul.rights a{border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px;box-shadow: inset 0 1px 3px #fff, inset 0 -15px rgba(0, 0, 0, 0.1), 0 0 3px rgba(0, 0, 0, 0.3);
+ -o-box-shadow: inset 0 1px 3px #fff, inset 0 -15px rgba(0, 0, 0, 0.1), 0 0 3px rgba(0, 0, 0, 0.3);
+ -webkit-box-shadow: inset 0 1px 3px #fff, inset 0 -15px rgba(0, 0, 0, 0.1), 0 0 3px rgba(0, 0, 0, 0.3);
+ -moz-box-shadow: inset 0 1px 3px #fff, inset 0 -15px rgba(0, 0, 0, 0.1), 0 0 3px rgba(0, 0, 0, 0.3); 
+ padding: 0.2em 0.5em; max-width:20%; width:auto; margin:0 1em 0 0; } 
+fieldset ul.rights a:hover{background:#eee; color:#730800}
+fieldset fieldset label{float:none}
+.w800{	width:75%;}
+.w600{	width:55%;}
