@@ -1,34 +1,26 @@
 <?PHP
-// File: $Id: class.user_perms.php 28 2008-05-11 19:18:49Z mistral $
-// +----------------------------------------------------------------------+
-// | Version: Sefrengo $Name:  $                                          
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>           |
-// +----------------------------------------------------------------------+
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License                 |
-// |                                                                      |
-// | This program is subject to the GPL license, that is bundled with     |
-// | this package in the file LICENSE.TXT.                                |
-// | If you did not receive a copy of the GNU General Public License      |
-// | along with this program write to the Free Software Foundation, Inc., |
-// | 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA               |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// +----------------------------------------------------------------------+
-// + Autor: $Author: mistral $
-// +----------------------------------------------------------------------+
-// + Revision: $Revision: 28 $
-// +----------------------------------------------------------------------+
-// + Description:
-// +----------------------------------------------------------------------+
-// | Authors: Björn Brockmann <bjoern@project-gooseberry.de>              |
-// |          Jürgen Brändle <braendle@web.de>                            |
-// +----------------------------------------------------------------------+
+/**
+  *
+  * Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>
+  * Copyright (c) 2010 - 2011 iSefrengo
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License
+  *
+  * This program is subject to the GPL license, that is bundled with
+  * this package in the file LICENSE.TXT.
+  * If you did not receive a copy of the GNU General Public License
+  * along with this program write to the Free Software Foundation, Inc.,
+  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  *
+  * @author
+  */
 // | Changed: 20.02.2004 - Jürgen Brändle                                 |
 // |          Erweiterung von get_rights_panel um Parent-Rechte           |
 // |          23.02.2004 - Björn Brockmann                                |
@@ -153,8 +145,9 @@
  * @since	ALPHA
  * @version 0.9 / 20060620
 **/
-class cms_perms {
-	//Benutzereigenschaften - nur im Modus $simulate = true sichtbar
+class cms_perms
+{
+//Benutzereigenschaften - nur im Modus $simulate = true sichtbar
 	var $simulate, $user_id, $user_nick, $user_name, $user_surname, $user_email, $user_is_active, $user_is_deletable;
 	//Gruppeneigenschaften - nur im Modus $simulate = true sichtbar
 	var $name, $description, $group_is_deletable, $group_is_active;
@@ -1822,6 +1815,15 @@ class cms_perms {
 		$rights_list = "";
 		$this->db->query($sql);
 		while ($this->db->next_record()) {
+			$rights_list .= ''."\n";
+			$rights_list .= $cms_lang[$this->db->f('lang_desc')]."\n";
+			$rights_list .= '';
+			$rights_list .= '<input type="radio" name="'.$prefix.'uright' . $countRights . '" value="-' . $this->db->f('bitmask') . '" />'."\n";
+			$rights_list .= '';
+			$rights_list .= '<input type="radio" name="'.$prefix.'uright' . $countRights . '" value="' . $this->db->f('bitmask') . '" />'."\n";
+			$rights_list .= ''."\n";
+			$countRights++;
+/**
 			$rights_list .= '<tr onmouseover="this.style[\'background\']=\'#FFF5CE\';" onmouseout="this.style[\'background\']=\'#FFFFFF\';">'."\n";
 			$rights_list .= '  <td class="first nowrap" align="left">' . $cms_lang[$this->db->f('lang_desc')] . '</td>'."\n";
 			$rights_list .= '  <td align="center" width=\'50\'>';
@@ -1830,6 +1832,7 @@ class cms_perms {
 			$rights_list .= '<input type="radio" name="'.$prefix.'uright' . $countRights . '" value="' . $this->db->f('bitmask') . '" /></td>'."\n";
 			$rights_list .= '</tr>'."\n";
 			$countRights++;
+*/
 		}
 		//checkbox - vorhandene rechte ueberschreiben
 		if (! is_object($this->perm_addon[$type])) {
@@ -1837,12 +1840,20 @@ class cms_perms {
 			$this->perm_addon[$type] =& $addon->getAddonObject();
 		}
 		if ( $this->perm_addon[$type]->showDeleteChildsCheckbox($type)) {
+			$rights_list .= '';
+			$rights_list .= '<i>Vorhandene Rechte zur&uuml;cksetzen</i>';
+			$rights_list .= ''."\n";
+			$rights_list .= '';
+			$rights_list .= '<input type="checkbox" name="'.$prefix.'rmueberschreiben" id="'.$prefix.'rmueberschreiben" value="1" />'."\n";
+			$rights_list .= '';
+/**
 			$rights_list .= '<tr onmouseover="this.style[\'background\']=\'#FFF5CE\';" onmouseout="this.style[\'background\']=\'#FFFFFF\';">';
 			$rights_list .= '  <td class="first nowrap" align="left">' . '<i>Vorhandene Rechte zur&uuml;cksetzen</i>' . '</td>';
 			$rights_list .= '  <td align="center">'."\n";
 			$rights_list .= '</td>';
 			$rights_list .= '  <td align="center" bgcolor="#EBD5C7"><input type="checkbox" name="'.$prefix.'rmueberschreiben" id="'.$prefix.'rmueberschreiben" value="1" /></td>'."\n";
 			$rights_list .= '</tr>';
+*/		
 		} else {
 			$rights_list .= '<input type="hidden" name="'.$prefix.'rmueberschreiben" id="'.$prefix.'rmueberschreiben" value="" />'."\n";
 		}
@@ -1864,6 +1875,21 @@ class cms_perms {
 		$panel .= '</p>'."\n";
 
 		// Spaltenüberschriften
+		$panel .= ''."\n";
+		$panel .= ''."\n";
+		$panel .= $cms_lang['panel_rechte']."\n";
+		$panel .= $cms_lang['panel_denied']."\n";
+		$panel .= $cms_lang['panel_granted']."\n";
+		$panel .= '';
+		$panel .= ''."\n";
+		$panel .= '<div class="rightsscrolldiv">'."\n";
+		$panel .= ''."\n";
+		// Rechtezeilen
+		$panel .= $rights_list;
+		$panel .= ''."\n";
+		$panel .= '</div>'."\n";
+/**
+		// Spaltenüberschriften
 		$panel .= '<table>'."\n";
 		$panel .= '<tr>'."\n";
 		$panel .= '  <th class=\'first\'>' . $cms_lang['panel_rechte'] . '</th>'."\n";
@@ -1877,7 +1903,7 @@ class cms_perms {
 		$panel .= $rights_list;
 		$panel .= '</table>'."\n";
 		$panel .= '</div>'."\n";
-		
+*/		
 		
 		// Zeile für alle Rechte, zunächst noch gesperrt ...
 //		$panel .= '<!--tr onmouseover="this.style[\'background\']=\'#C7D5EB\';" onmouseout="this.style[\'background\']=\'#DBE3EF\';">';
