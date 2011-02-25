@@ -125,4 +125,11 @@ $cms_lang['con_changed_down'] = '&Auml;nderung ab';
 $cms_lang['con_author_up'] = 'Autor auf';
 $cms_lang['con_author_down'] = 'Autor ab';
 $cms_lang['con_quicksort'] = 'Quicksort';
+
+$cms_lang['con_rewrite_sidetitel']		= 'Seiten URL';
+$cms_lang['con_rewrite_cattitel']			= 'Ordner Alias';
+$cms_lang['con_rewrite_sideauto']			= 'URL automatisch vergeben';
+$cms_lang['con_rewrite_catauto']			= 'ALIAS automatisch vergeben';
+$cms_lang['con_rewrite_sideurl']			= 'URL dieser Seite';
+$cms_lang['con_rewrite_caturl']			  = 'URL dieses Ordners';
 ?>
