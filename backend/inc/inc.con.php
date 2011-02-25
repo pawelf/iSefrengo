@@ -391,22 +391,26 @@ unset($tpl_folderlist);
 tree_level_order('0', 'folderlist', 'true');
 if(is_array($folderlist))
 {
-	foreach($folderlist as $a)
-	{
-		if(!$perm->have_perm(1, 'cat', $a))
-		continue;
-		for($i=0; $i < $folderlist_level[$a]; $i++) 
-		  $tpl_folderlist['FOLDERLIST_VALUE'] = $a;
-      $tpl_folderlist['FOLDERLIST_ENTRY'] = $con_tree[$a]['name'];
-		  $catmove_list[$a]['level'] = $folderlist_level[$a];
-		  $catmove_list[$a]['name'] = $tpl_folderlist['FOLDERLIST_ENTRY'];
-		  $catmove_list[$a]['idcat'] = $a;
+  foreach($folderlist as $a)
+  {
+		$spaces = '';
+		if(! $perm -> have_perm(1, 'cat', $a)) continue;
+
+		for($i=0; $i< $folderlist_level[$a]; $i++)
+		$spaces = $spaces.'&nbsp;&nbsp;';
+		$tpl_folderlist['FOLDERLIST_VALUE'] = $a;
+		$tpl_folderlist['FOLDERLIST_ENTRY'] = $spaces.'&nbsp;-&nbsp;'.$con_tree[$a]['name'];
+
+		$catmove_list[$a]['level'] = $folderlist_level[$a];
+		$catmove_list[$a]['name'] = $tpl_folderlist['FOLDERLIST_ENTRY'];
+		$catmove_list[$a]['idcat'] = $a;
+
 		if($show_tree == $a)
 		  $tpl_folderlist['FOLDERLIST_SELECTED'] = 'selected';
 		else
 		  $tpl_folderlist['FOLDERLIST_SELECTED'] = '';
-		  $tpl->setVariable($tpl_folderlist);
-		  $tpl->parseCurrentBlock();
+		$tpl->setVariable($tpl_folderlist);
+		$tpl->parseCurrentBlock();
 	}
 	unset($tpl_folderlist);
 }
@@ -642,7 +646,9 @@ $tpl_cat_values['BUTTON_CAT_CONFIG'] = make_image('but_folder_info.gif', $cms_la
 //DELETE
 //make_image_link('main.php?area=con_configside&idcat='.$con_tree[$a]['idcat'].'&idtplconf=0', 'but_newside.gif', $cms_lang['con_actions']['20'],  '16', '16');
 			  }else{
-			    $tpl_cat_values['NAME_NEWSIDE'] =make_image('space.gif', '',  '16', '16');
+			    $tpl_cat_values['LINK_NEWSIDE'] = 'main.php?area=con_configside&amp;idcat='.$con_tree[$a]['idcat'].'&amp;idtplconf=0';
+			    $tpl_cat_values['NAME_NEWSIDE'] = $cms_lang['con_actions']['20'];
+//make_image('space.gif', '',  '16', '16');
         }
 // Ordner: anlegen/ kopieren
 			  if($perm->have_perm(2, 'cat', $con_tree[$a]['idcat']))
