@@ -15,7 +15,6 @@
   <link rel="shortcut icon" href="favicon.ico" />
 </head>
 <body onload="{ONLOAD_FUNCTION}return true;">
-<!--<div id="sf_overDiv" style="position:absolute; visibility:hidden; z-index:1000;"></div>-->
 <div id="header">
 <p id="version" class="lizenz">
 <a href="http://www.sefrengo.org/" target="_blank">Sefrengo V {VERSION}</a> | <a href="license.html" target="_blank">Lizenz</a>
