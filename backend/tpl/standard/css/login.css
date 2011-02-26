@@ -48,7 +48,7 @@
 body{
 	background:#777;
 	color:#999;
-	font:.9em/.9em 'QuicksandLight',Verdana,Arial,Helvetica,sans-serif;
+	font:.9em/.9em Verdana,Arial,Helvetica,sans-serif;
 	}
 
 #username, #password{
