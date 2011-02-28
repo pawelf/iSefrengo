@@ -1304,3 +1304,6 @@ table.config td .dynamic-tab-pane-control td{
 tr.fomrstitle td {
     font-weight:bold;
 }
+
+.forms{position:relative; top:30px; width:50px; text-align:right}
+.forms a.action{color:#222; font-weight:bold}
