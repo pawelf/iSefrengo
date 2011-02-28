@@ -9,7 +9,7 @@
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id: System.php 276386 2009-02-24 23:52:56Z dufuz $
+ * @version    CVS: $Id: System.php 307683 2011-01-23 21:56:12Z dufuz $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -51,7 +51,7 @@ $GLOBALS['_System_temp_files'] = array();
 * @author     Tomas V.V. Cox <cox@idecnet.com>
 * @copyright  1997-2006 The PHP Group
 * @license    http://opensource.org/licenses/bsd-license.php New BSD License
-* @version    Release: 1.9.1
+* @version    Release: 1.9.2
 * @link       http://pear.php.net/package/PEAR
 * @since      Class available since Release 0.1
 * @static
