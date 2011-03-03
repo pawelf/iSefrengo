@@ -36,7 +36,7 @@
  * @author    Bastian Onken <bastianonken@php.net>
  * @copyright 2010 Bastian Onken
  * @license   http://www.php.net/license/3_01.txt  PHP License 3.01
- * @version   Release: 0.2.4
+ * @version   Release: 1.0.0
  * @link      http://pear.php.net/package/HTML_TagCloud
  * @link      http://search.cpan.org/~lyokato/HTML-TagCloud-Extended-0.10/lib/HTML/TagCloud/Extended.pm
  * @since     Class available since Release 0.1.0
