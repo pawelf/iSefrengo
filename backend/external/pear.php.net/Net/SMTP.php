@@ -18,7 +18,7 @@
 // |          Damian Alejandro Fernandez Sosa <damlists@cnba.uba.ar>      |
 // +----------------------------------------------------------------------+
 //
-// $Id: SMTP.php 308070 2011-02-07 03:01:27Z jon $
+// $Id: SMTP.php 309108 2011-03-11 05:22:05Z jon $
 
 require_once 'PEAR.php';
 require_once 'Net/Socket.php';
@@ -110,7 +110,7 @@ class Net_SMTP
      * @var int
      * @access private
      */
-    var $_timeout = null;
+    var $_timeout = 0;
 
     /**
      * The most recent server response code.
@@ -161,7 +161,7 @@ class Net_SMTP
      * @since   1.0
      */
     function Net_SMTP($host = null, $port = null, $localhost = null,
-        $pipelining = false, $timeout = null)
+        $pipelining = false, $timeout = 0)
     {
         if (isset($host)) {
             $this->host = $host;
@@ -650,7 +650,8 @@ class Net_SMTP
         $challenge = base64_decode($this->_arguments[0]);
         $digest = &Auth_SASL::factory('digestmd5');
         $auth_str = base64_encode($digest->getResponse($uid, $pwd, $challenge,
-                                                       $this->host, "smtp"));
+                                                       $this->host, "smtp",
+                                                       $authz));
 
         if (PEAR::isError($error = $this->_put($auth_str))) {
             return $error;
