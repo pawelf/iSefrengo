@@ -1308,4 +1308,4 @@ tr.fomrstitle td {
 .forms{position:relative; top:30px; width:50px; text-align:right}
 .forms a.action{color:#222; font-weight:bold}
 
-#clientform > select {position:relative; top:-35px; right:0; z-index:100}
+#clientform > select {position:absolute; top:-35px; right:10px; z-index:100}
