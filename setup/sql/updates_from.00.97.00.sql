@@ -44,7 +44,7 @@ CREATE TABLE cms_db_cache (
   groups varchar(32) NOT NULL default '',
   PRIMARY KEY  (name,sid),
   KEY changed (changed)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #21.03.2004 correct permnames - toggle clientslang to clientlangs
 UPDATE cms_values set value = 'clients,clientlangs' where group_name = 'user_perms' AND key1 ='cms_access' AND key2 = 'area_clients';

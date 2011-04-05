@@ -32,7 +32,7 @@ CREATE TABLE `cms_values` (
   KEY `key3` (`key3`),
   KEY `key4` (`key4`),
   KEY `conf_sortindex` (`conf_sortindex`)
-) TYPE=MyISAM AUTO_INCREMENT=4195 ;
+) ENGINE=MyISAM AUTO_INCREMENT=4195 ;
 
 #
 # Daten für Tabelle `cms_values`

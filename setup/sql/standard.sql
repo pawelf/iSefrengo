@@ -20,7 +20,7 @@ CREATE TABLE cms_backendmenu (
   entry_validate varchar(255) default NULL,
   PRIMARY KEY  (idbackendmenu),
   KEY idclient (idclient)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_backendmenu`
@@ -75,7 +75,7 @@ CREATE TABLE cms_cat (
   KEY rootparent (rootparent),
   KEY sortindex (sortindex),
   KEY idclient (idclient)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_cat`
@@ -91,7 +91,7 @@ DROP TABLE IF EXISTS cms_cat_expand;
 CREATE TABLE cms_cat_expand (
   idusers int(6) NOT NULL default '0',
   idcat int(6) NOT NULL default '0'
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_cat_expand`
@@ -124,7 +124,7 @@ CREATE TABLE cms_cat_lang (
   KEY rewrite_alias (rewrite_alias),
   KEY idtplconf (idtplconf),
   KEY visible (visible)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_cat_lang`
@@ -148,7 +148,7 @@ CREATE TABLE cms_cat_side (
   KEY idcat (idcat),
   KEY idside (idside),
   KEY sortindex (sortindex)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_cat_side`
@@ -169,7 +169,7 @@ CREATE TABLE cms_clients (
   created int(10) NOT NULL default '0',
   lastmodified int(10) NOT NULL default '0',
   PRIMARY KEY  (idclient)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 #
 # Daten für Tabelle `cms_clients`
 #
@@ -192,7 +192,7 @@ CREATE TABLE cms_clients_lang (
   PRIMARY KEY  (idclientslang),
   KEY idclient (idclient),
   KEY idlang (idlang)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_clients_lang`
@@ -215,7 +215,7 @@ CREATE TABLE cms_code (
   PRIMARY KEY  (idcode),
   KEY idlang (idlang),
   KEY idcatside (idcatside)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_code`
@@ -236,7 +236,7 @@ CREATE TABLE cms_container (
   PRIMARY KEY  (idcontainer),
   KEY container (container),
   KEY idmod (idmod)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_container`
@@ -259,7 +259,7 @@ CREATE TABLE cms_container_conf (
   PRIMARY KEY  (idcontainerconf),
   KEY idtplconf (idtplconf),
   KEY idcontainer (idcontainer)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_container_conf`
@@ -291,7 +291,7 @@ CREATE TABLE cms_content (
   KEY number (number),
   KEY typenumber (typenumber),
   FULLTEXT KEY value (value)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_content`
@@ -323,7 +323,7 @@ CREATE TABLE cms_content_external (
   KEY number (number),
   KEY typenumber (typenumber),
   FULLTEXT KEY value (value)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_content_external`
@@ -349,7 +349,7 @@ CREATE TABLE cms_css (
   lastmodified timestamp(14) NOT NULL,
   created timestamp(14) NOT NULL,
   PRIMARY KEY  (idcss)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_css`
@@ -381,7 +381,7 @@ CREATE TABLE cms_css_upl (
   idupl int(6) NOT NULL default '0',
   intSort int(4) NOT NULL default '0',
   PRIMARY KEY  (idcssupl)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 #
 # Daten für Tabelle `cms_css_upl`
 #
@@ -405,7 +405,7 @@ CREATE TABLE cms_directory (
   lastmodified timestamp(14) NOT NULL,
   created timestamp(14) NOT NULL,
   PRIMARY KEY  (iddirectory)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_directory`
@@ -433,7 +433,7 @@ CREATE TABLE cms_filetype (
   lastmodified timestamp(14) NOT NULL,
   created timestamp(14) NOT NULL,
   PRIMARY KEY  (idfiletype)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_filetype`
@@ -472,7 +472,7 @@ CREATE TABLE cms_groups (
   is_deletable tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (idgroup),
   KEY idgroup (idgroup)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_groups`
@@ -498,7 +498,7 @@ CREATE TABLE cms_js (
   created timestamp(14) NOT NULL,
   KEY idjs (idjs),
   KEY idupl (idupl)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_js`
@@ -528,7 +528,7 @@ CREATE TABLE cms_lang (
   lastmodified int(10) NOT NULL default '0',
   PRIMARY KEY  (idlang),
   KEY rewrite_key (rewrite_key)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 #
 # Daten für Tabelle `cms_lang`
 #
@@ -554,7 +554,7 @@ CREATE TABLE cms_lay (
   lastmodified int(10) NOT NULL default '0',
   PRIMARY KEY  (idlay),
   KEY idclient (idclient)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 #
@@ -575,7 +575,7 @@ CREATE TABLE cms_lay_upl (
   PRIMARY KEY  (idlayupl),
   KEY idlay (idlay),
   KEY idupl (idupl)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_lay_upl`
@@ -612,7 +612,7 @@ CREATE TABLE cms_mod (
   checked enum('1','0') NOT NULL default '0',
   PRIMARY KEY  (idmod),
   KEY idclient (idclient)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_mod`
@@ -664,7 +664,7 @@ CREATE TABLE cms_perms (
   KEY idlang (idlang),
   FULLTEXT KEY type (type),
   FULLTEXT KEY id (id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 
@@ -692,7 +692,7 @@ CREATE TABLE cms_plug (
   verbose varchar(100) default NULL,
   checked enum('1','0') NOT NULL default '0',
   PRIMARY KEY  (idplug)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 #
@@ -708,7 +708,7 @@ CREATE TABLE cms_repository (
   value text NOT NULL,
   PRIMARY KEY  (idrepository),
   KEY idclient (idclient)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 #
@@ -724,7 +724,7 @@ CREATE TABLE cms_sessions (
   user_id INT(11) NOT NULL,
   PRIMARY KEY  (name,sid),
   KEY changed (changed)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_sessions`
@@ -742,7 +742,7 @@ CREATE TABLE cms_side (
   idclient int(6) NOT NULL default '0',
   PRIMARY KEY  (idside),
   KEY idclient (idclient)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_side`
@@ -786,7 +786,7 @@ CREATE TABLE cms_side_lang (
   KEY rewrite_use_automatic (rewrite_use_automatic),
   KEY rewrite_url (rewrite_url),
   KEY idtplconf (idtplconf)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_side_lang`
@@ -814,7 +814,7 @@ CREATE TABLE cms_tpl (
   PRIMARY KEY  (idtpl),
   KEY idlay (idlay),
   KEY idclient (idclient)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 #
 # Daten für Tabelle `cms_tpl`
 #
@@ -830,7 +830,7 @@ CREATE TABLE cms_tpl_conf (
   idtplconf int(6) NOT NULL auto_increment,
   idtpl int(6) NOT NULL default '0',
   PRIMARY KEY  (idtplconf)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 #
@@ -887,7 +887,7 @@ CREATE TABLE cms_upl (
   created timestamp(14) NOT NULL,
   PRIMARY KEY  (idupl),
   KEY titel (titel)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_upl`
@@ -908,7 +908,7 @@ CREATE TABLE cms_uplcontent (
   idupl int(6) NOT NULL default '0',
   uplcontent mediumblob,
   PRIMARY KEY  (idupl)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_uplcontent`
@@ -976,7 +976,7 @@ CREATE TABLE cms_users (
   PRIMARY KEY  (user_id),
   UNIQUE KEY username (username),
   KEY user_id (user_id)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_users`
@@ -1001,7 +1001,7 @@ CREATE TABLE cms_users_groups (
   KEY idgroup (idgroup),
   KEY user_id_2 (user_id),
   KEY idgroup_2 (idgroup)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 #
 # Daten für Tabelle `cms_users_groups`
@@ -1024,4 +1024,4 @@ CREATE TABLE cms_db_cache (
   item varchar(25),
   PRIMARY KEY  (name,sid),
   KEY changed (changed)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;

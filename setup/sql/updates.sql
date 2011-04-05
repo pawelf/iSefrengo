@@ -129,7 +129,7 @@ CREATE TABLE cms_uplcontent (
   idupl int(6) NOT NULL default '0',
   uplcontent mediumblob,
   PRIMARY KEY  (idupl)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 # neue Values 13.08.2003
 DELETE FROM cms_values WHERE group_name = 'cfg_client' AND conf_sortindex IN ('305', '306', '701', '702');
@@ -310,7 +310,7 @@ CREATE TABLE cms_plug (
   source_id int(6) unsigned NOT NULL default '0',
   is_install enum('0','1') NOT NULL default '0',
   PRIMARY KEY  (idplug)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 CREATE TABLE cms_repository (
   idrepository int(6) unsigned NOT NULL auto_increment,
   source int(6) unsigned NOT NULL default '0',
@@ -319,7 +319,7 @@ CREATE TABLE cms_repository (
   value text NOT NULL,
   PRIMARY KEY  (idrepository),
   KEY idclient (idclient)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 
 # 24.11. usertable modification by symap
@@ -710,7 +710,7 @@ CREATE TABLE cms_backendmenu (
   entry_validate varchar(255) default NULL,
   PRIMARY KEY  (idbackendmenu),
   KEY idclient (idclient)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 INSERT INTO cms_backendmenu VALUES (1, 0, 0, 10, 'nav_1_0', 'root', 'single', 'root');
 INSERT INTO cms_backendmenu VALUES (2, 0, 0, 20, 'nav_2_0', 'root', 'single', 'root');
 INSERT INTO cms_backendmenu VALUES (3, 0, 0, 30, 'nav_3_0', 'root', 'single', 'root');
