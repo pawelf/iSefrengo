@@ -19,6 +19,7 @@ $cms_lang['setuse_default_layout']				= 'Layoutvorlage';
 $cms_lang['setuse_errorpage']					= '404 Fehlerseite bei nicht existierender idcatside/ idcat als idcatside';
 $cms_lang['setuse_loginpage']					= 'idcatside f&uuml;r Login-Timeoutseite';
 $cms_lang['setuse_cache']						= 'Frontendseiten cachen';
+$cms_lang['setuse_debug']						= 'Debug Kommentage anzeigen';
 $cms_lang['setuse_session_frontend_domain']		= 'Session Frontend Domain';
 $cms_lang['setuse_url_rewrite']				= 'Apache mod_rewrite Support';
 $cms_lang['setuse_url_langid_in_defaultlang']		= 'ID der Standardsprache in URL zeigen';
