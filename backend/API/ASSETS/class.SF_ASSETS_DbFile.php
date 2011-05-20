@@ -279,7 +279,7 @@ class SF_ASSETS_DbFile extends SF_API_Object {
 			$addon->newFile();
 			$this->data['file']['created'] = $timestamp;
 			$this->data['file']['lastmodified'] = $timestamp;
-			$this->data['file']['author'] = $auth->auth['uid'];
+			$this->data['file']['author'] = ((int) $auth->auth['uid']==0) ? 2 : $auth->auth['uid'];
 			$this->db->AutoExecute($this->db_names['upl'], $this->data['file'], 'INSERT');
 			$this->data['file']['idupl'] = $this->db->Insert_ID();
 		}

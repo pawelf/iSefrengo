@@ -114,6 +114,29 @@ class SF_API_ObjectFactory {
 
         return true;
     } 
+/**
+  *
+  */
+    function classExists($package, $classname, $class_prefix = 'SF')
+    {
+		$include_paths = explode(PATH_SEPARATOR, ini_get('include_path'));
+		
+		$file = strtoupper($package) . '/class.' 
+              . $class_prefix . '_' . str_replace('/', '_', strtoupper($package)) 
+              . '_' . $classname . '.php';
+
+		foreach ($include_paths as $path) 
+		{
+			$include = $path.DIRECTORY_SEPARATOR.$file;
+       		
+       		if (is_file($include) && is_readable($include)) 
+       		{
+       			return TRUE;
+			}
+		}
+
+		return FALSE;
+    }
 
     /**
     * Get Object Forced

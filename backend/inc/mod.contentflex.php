@@ -9,7 +9,7 @@ if(! defined('CMS_CONFIGFILE_INCLUDED')){
 // Version 1.2.0 - 1.n.n
 // by Alexander M. Korn (amk@gmx.info)
 
-$mvars['contentflex']= "contentflex: Version 1.8.1";
+$mvars['contentflex']= "contentflex: Version 1.8.6";
 
 //if ($mvars['test'] == "true") { echo "<br />mvars:";	print_r($mvars); }
 // Template mit den CMS-Tags ersetzen

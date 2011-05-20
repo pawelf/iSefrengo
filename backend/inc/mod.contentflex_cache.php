@@ -16,7 +16,7 @@ if(! defined('CMS_CONFIGFILE_INCLUDED')){
 //    $modv['version'] = "true";
 //}
 
-$modv['contentflex_cache']= "contentflex_cache: Version 1.8.2";
+$modv['contentflex_cache']= "contentflex_cache: Version 1.8.6";
 
 //if ($mod['test'] == "true") { echo "<br />mod:";	print_r($mod); }
 //if ($modv['test'] == "true") { echo "<br />modv:";	print_r($modv); }
@@ -764,6 +764,162 @@ if(! function_exists(txt2htmllist)){
 
 	}
 }
+
+
+if(! function_exists(element_ifstatements)){
+  /**
+  * 
+  *
+  * @param		
+  * @return		
+  * @access		
+  */
+	function element_ifstatements($tpl='',$elarray,$elkey,$elvalue) {
+
+		global $cfg_client;
+
+		if (strpos($elkey,'image:')!==false)
+			if (strpos($elvalue,$cfg_client['space'])!==false)
+				echo $elvalue='';
+		
+			$_AS['temp']=array();
+
+			if(strpos($tpl,'{if_')===false || empty($tpl))
+				return $tpl;
+			
+			// global if-value-statement
+			if(strpos($tpl,'{if_'.$elkey.'=')!==false) {
+				preg_match_all('/\{if_'.$elkey.'=(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
+				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
+					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
+					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
+					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
+						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
+						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);							
+					}
+						
+					if ($elvalue!=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
+					  $tpl = preg_replace('#\{if_'.$elkey.'='.$_AS['temp']['compelement'].'\}(.*)\{/if_'.$elkey.'='.$_AS['temp']['compelement'].'\}#sU','',$tpl);
+					} else {
+					  $tpl = str_replace(array('{if_'.$elkey.'='.$_AS['temp']['temp_results'][1][$ek].'}','{/if_'.$elkey.'='.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
+					}
+				}
+			}		
+	
+			// global if-value-statement
+			if(strpos($tpl,'{if_not_'.$elkey.'=')!==false) {
+				preg_match_all('/\{if_not_'.$elkey.'=(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
+				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
+					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
+					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
+					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
+						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
+						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);							
+					}
+			
+					if ($elvalue!=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
+					  $tpl = str_replace(array('{if_not_'.$elkey.'='.$_AS['temp']['temp_results'][1][$ek].'}','{/if_not_'.$elkey.'='.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
+					} else {
+					  $tpl = preg_replace('#\{if_not_'.$elkey.'='.$_AS['temp']['compelement'].'\}(.*)\{/if_not_'.$elkey.'='.$_AS['temp']['compelement'].'\}#sU','',$tpl);
+					}
+				}
+			}
+
+			// global if-value-statement
+			if(strpos($tpl,'{if_'.$elkey.'>')!==false) {
+				preg_match_all('/\{if_'.$elkey.'>(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
+				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
+					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
+					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
+				
+					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
+						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
+						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);				
+						
+					}				
+					if ($elvalue<=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
+					  $tpl = preg_replace('#\{if_'.$elkey.'>'.$_AS['temp']['compelement'].'\}(.*)\{/if_'.$elkey.'>'.$_AS['temp']['compelement'].'\}#sU','',$tpl);
+					} else {
+					  $tpl = str_replace(array('{if_'.$elkey.'>'.$_AS['temp']['temp_results'][1][$ek].'}','{/if_'.$elkey.'>'.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
+					}
+				}
+			}		
+	
+			// global if-value-statement
+			if(strpos($tpl,'{if_not_'.$elkey.'>')!==false) {
+				preg_match_all('/\{if_not_'.$elkey.'>(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
+				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
+					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
+					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
+					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
+						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
+						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);							
+					}
+					if ($elvalue<=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
+					  $tpl = str_replace(array('{if_not_'.$elkey.'>'.$_AS['temp']['temp_results'][1][$ek].'}','{/if_not_'.$elkey.'>'.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
+					} else {
+					  $tpl = preg_replace('#\{if_not_'.$elkey.'>'.$_AS['temp']['compelement'].'\}(.*)\{/if_not_'.$elkey.'>'.$_AS['temp']['compelement'].'\}#sU','',$tpl);
+					}
+				}
+			}		
+		
+			// global if-value-statement
+			if(strpos($tpl,'{if_'.$elkey.'<')!==false) {
+				preg_match_all('/\{if_'.$elkey.'<(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
+				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
+					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
+					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
+					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
+						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
+						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);		
+			
+					}
+					if ($elvalue>=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
+					  $tpl = preg_replace('#\{if_'.$elkey.'<'.$_AS['temp']['compelement'].'\}(.*)\{/if_'.$elkey.'<'.$_AS['temp']['compelement'].'\}#sU','',$tpl);
+					} else {
+					  $tpl = str_replace(array('{if_'.$elkey.'<'.$_AS['temp']['temp_results'][1][$ek].'}','{/if_'.$elkey.'<'.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
+					}
+				}
+			}		
+	
+			// global if-value-statement
+			if(strpos($tpl,'{if_not_'.$elkey.'<')!==false) {
+				preg_match_all('/\{if_not_'.$elkey.'<(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
+				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
+					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
+					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
+					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
+						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
+						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);							
+					}
+					if ($elvalue>=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
+					  $tpl = str_replace(array('{if_not_'.$elkey.'<'.$_AS['temp']['temp_results'][1][$ek].'}','{/if_not_'.$elkey.'<'.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
+					} else {
+					  $tpl = preg_replace('#\{if_not_'.$elkey.'<'.$_AS['temp']['compelement'].'\}(.*)\{/if_not_'.$elkey.'<'.$_AS['temp']['compelement'].'\}#sU','',$tpl);
+					}
+				}
+			}		
+
+			// global if-statement
+			if(strpos($tpl,'{if_'.$elkey.'}')!==false)
+				if (empty($elvalue))
+				  $tpl = preg_replace('#\{if_'.$elkey.'\}(.*)\{/if_'.$elkey.'\}#sU','',$tpl);
+				else
+				  $tpl = str_replace(array('{if_'.$elkey.'}','{/if_'.$elkey.'}'), array('',''), $tpl);
+
+			// global if-not-statement
+			if(strpos($tpl,'{if_not_'.$elkey.'}')!==false)
+				if (empty($elvalue))
+			  	$tpl = str_replace(array('{if_not_'.$elkey.'}','{/if_not_'.$elkey.'}'), array('',''), $tpl);
+				else
+				 	$tpl = preg_replace('#\{if_not_'.$elkey.'\}(.*)\{/if_not_'.$elkey.'\}#sU','',$tpl);
+				 	
+			return $tpl;
+	
+	
+	}
+}
+
 // ************************************************************************************************
 // Seite neu laden
 if (!function_exists('clear_cache')) {
@@ -1192,6 +1348,7 @@ if (strpos($modv['tpl_inner'],'{username}')!==FALSE || strpos($modv['tpl_inner']
 	$elements1['email'] = $db->f('email');
 }
 
+
 // **** spezial Tags definieren und ersetzen **************************************************************
 
  
@@ -1214,28 +1371,54 @@ if (strpos($modv['tpl_inner'],'{if_')!==false) {
 	unset($modv['statement_elements']);
 	preg_match_all('#\{if_(.*)\}#sU',$modv['tpl_inner'],$modv['statement_elements']);
 	foreach ($modv['statement_elements'][1] as $v){
-		$v=substr($v,0,strpos($v,'='));
+		if (strpos($v,'=')!==false)
+			$v=substr($v,0,strpos($v,'='));
+		if (strpos($v,'<')!==false)
+			$v=substr($v,0,strpos($v,'<'));
+		if (strpos($v,'>')!==false)
+			$v=substr($v,0,strpos($v,'>'));
+
 	 if (strpos($modv['tpl_inner'],'{'.str_replace('not_','',$v).'}')===false &&
 	     strpos($modv['tpl_addon_inner'],'{'.str_replace('not_','',$v).'}')===false)
 		$modv['tpl_addon_inner'].='{'.str_replace('not_','',$v).'}';
 	}
 }
 
+
 // **** Editbutton einfuegen, wenn ein File-Element Image-Element vorhanden ist.
 // adding statements elements temporarly
 $modv['tpl_inner_temp'] = $modv['tpl_inner'].$modv['tpl_addon_inner'];
-$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,9}):1\}/" ,"{editfile:1}{file\\1:1}"  ,$modv['tpl_inner_temp'],1);
-$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,9}):2\}/" ,"{editfile:2}{file\\1:2}"  ,$modv['tpl_inner_temp'],1);
-$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,9}):3\}/" ,"{editfile:3}{file\\1:3}"  ,$modv['tpl_inner_temp'],1);
-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):1\}/","{editimage:1}{image\\1:1}",$modv['tpl_inner_temp'],1);
-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):2\}/","{editimage:2}{image\\1:2}",$modv['tpl_inner_temp'],1);
-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):3\}/","{editimage:3}{image\\1:3}",$modv['tpl_inner_temp'],1);
-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):4\}/","{editimage:4}{image\\1:4}",$modv['tpl_inner_temp'],1);
-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):5\}/","{editimage:5}{image\\1:5}",$modv['tpl_inner_temp'],1);
-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):6\}/","{editimage:6}{image\\1:6}",$modv['tpl_inner_temp'],1);
-$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,9}):1\}/" ,"{editlink:1}{link\\1:1}"  ,$modv['tpl_inner_temp'],1);
-$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,9}):2\}/" ,"{editlink:2}{link\\1:2}"  ,$modv['tpl_inner_temp'],1);
-$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,9}):3\}/" ,"{editlink:3}{link\\1:3}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):1\}/" ,"{editfile:1}{file\\1:1}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):2\}/" ,"{editfile:2}{file\\1:2}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):3\}/" ,"{editfile:3}{file\\1:3}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):4\}/" ,"{editfile:4}{file\\1:4}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):5\}/" ,"{editfile:5}{file\\1:5}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):6\}/" ,"{editfile:6}{file\\1:6}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):7\}/" ,"{editfile:7}{file\\1:7}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):8\}/" ,"{editfile:8}{file\\1:8}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):9\}/" ,"{editfile:9}{file\\1:9}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):10\}/" ,"{editfile:10}{file\\1:10}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):1\}/","{editimage:1}{image\\1:1}",$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):2\}/","{editimage:2}{image\\1:2}",$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):3\}/","{editimage:3}{image\\1:3}",$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):4\}/","{editimage:4}{image\\1:4}",$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):5\}/","{editimage:5}{image\\1:5}",$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):6\}/","{editimage:6}{image\\1:6}",$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):7\}/","{editimage:7}{image\\1:7}",$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):8\}/","{editimage:8}{image\\1:8}",$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):9\}/","{editimage:9}{image\\1:9}",$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):10\}/","{editimage:10}{image\\1:10}",$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):1\}/" ,"{editlink:1}{link\\1:1}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):2\}/" ,"{editlink:2}{link\\1:2}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):3\}/" ,"{editlink:3}{link\\1:3}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):4\}/" ,"{editlink:4}{link\\1:4}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):5\}/" ,"{editlink:5}{link\\1:5}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):6\}/" ,"{editlink:6}{link\\1:6}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):7\}/" ,"{editlink:7}{link\\1:7}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):8\}/" ,"{editlink:8}{link\\1:8}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):9\}/" ,"{editlink:9}{link\\1:9}"  ,$modv['tpl_inner_temp'],1);
+$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):10\}/" ,"{editlink:10}{link\\1:10}"  ,$modv['tpl_inner_temp'],1);
+
 $modv['tpl_inner']=str_replace($modv['tpl_addon_inner'],'',$modv['tpl_inner_temp']);
 
 // fals nicht vorhanden editbutton ansetzen
@@ -1262,7 +1445,7 @@ $modv['page'] = (is_numeric($_REQUEST['page'])) ? 1:$_REQUEST['page'];
 // Fuer alle Elemente: preg_match_all('/\{([^\}]+)\}/im', $modv['tpl_inner'], $test);
 // Fuer alle Elemente mit : und einer Zahl: preg_match_all('/\{(([^\}]+):\d)\}/im', $modv['tpl_inner'], $test);
 
-preg_match_all('/\{(([^\}]+):\d)\}/im', $modv['tpl_inner'].$modv['tpl_addon_inner'], $modtemp['tags']);
+preg_match_all('/\{(([^\}]+):\d+)\}/im', $modv['tpl_inner'].$modv['tpl_addon_inner'], $modtemp['tags']);
 
 // looking for {table} and add to modtemp-pseudo-element
 if (strpos($modv['tpl_inner'],"{table}")!==false) {
@@ -1333,7 +1516,11 @@ if ($cms_side['edit'] || $cms_side['edit_all']) {
 
     // Wenn 1 Ausgabe 
 	if ($modv['is_first']) {
-    	$modv['editbutton_at_top'] = $modv['MOD_editbutton_at_top'];
+			if (empty($modv['editbutton_at_top']))
+    		$modv['editbutton_at_top'] = $modv['MOD_editbutton_at_top'];
+    	else
+    		$modv['editbutton_at_top'] = $modv['MOD_editbutton'];
+    	
     	$modv['editbutton_at_top'] = str_replace("{elements}", '', $modv['editbutton_at_top']);
     	$modv['editbutton_at_top'] = str_replace("{title}", '', $modv['editbutton_at_top']);
     	$modv['editbutton_at_top'] = str_replace("{edit}", '<img src="cms/img/space.gif" border="0" height="16" width="16" />', $modv['editbutton_at_top']);
