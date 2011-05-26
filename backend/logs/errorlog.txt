@@ -1,0 +1,5 @@
+MySql-Error:2011-05-05 (Thu) 21:53:00: error 1065 (Query was empty) - Invalid SQL: 
+MySql-Error:2011-05-05 (Thu) 21:53:09: error 1065 (Query was empty) - Invalid SQL: 
+MySql-Error:2011-05-05 (Thu) 21:53:09: error 1064 (You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{table_prefix}backendmenu WHERE entry_langstring IN('nav_articlesystem_admin')' at line 1) - Invalid SQL: DELETE FROM {table_prefix}backendmenu WHERE entry_langstring IN('nav_articlesystem_admin')
+MySql-Error:2011-05-05 (Thu) 21:53:09: error 1064 (You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '{table_prefix}values WHERE group_name = 'lang' AND key1 like 'nav_articlesystem_' at line 1) - Invalid SQL: DELETE FROM {table_prefix}values WHERE group_name = 'lang' AND key1 like 'nav_articlesystem_admin'
+MySql-Error:2011-05-05 (Thu) 21:53:09: error 1065 (Query was empty) - Invalid SQL: 

@@ -1,0 +1,3 @@
+.mipforms{margin:2em 0}
+.mipforms label:after { content: '\a' ; white-space: pre; }
+.mipforms textarea, .mipforms input{width:60%}

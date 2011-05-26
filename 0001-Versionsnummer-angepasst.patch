@@ -1,0 +1,702 @@
+From ff19db974650e4a0fd87df612684e22fe39097c7 Mon Sep 17 00:00:00 2001
+From: Torsten <webfalter@googlemail.com>
+Date: Fri, 20 May 2011 21:00:25 +0200
+Subject: [PATCH] Versionsnummer angepasst
+
+---
+ backend/API/API/class.SF_API_ObjectFactory.php    |   73 +++++---
+ backend/API/ASSETS/class.SF_ASSETS_DbFile.php     |    2 +-
+ backend/API/PAGE/class.SF_PAGE_ContentFactory.php |   94 +++++++--
+ backend/API/UTILS/class.SF_UTILS_Mail.php         |    2 +-
+ backend/inc/mod.contentflex.php                   |    2 +-
+ backend/inc/mod.contentflex_cache.php             |  219 +++++++++++++++++++--
+ change.log                                        |    2 +
+ setup/index.php                                   |    4 +-
+ setup/sql/config.sql                              |    2 +-
+ setup/sql/updates_from.01.04.04.sql               |    2 +
+ setup/sql/updates_from.01.05.00.sql               |    5 +-
+ setup/sql/updates_from.01.05.01.sql               |    3 -
+ 12 files changed, 339 insertions(+), 71 deletions(-)
+ create mode 100644 setup/sql/updates_from.01.04.04.sql
+ delete mode 100644 setup/sql/updates_from.01.05.01.sql
+
+diff --git a/backend/API/API/class.SF_API_ObjectFactory.php b/backend/API/API/class.SF_API_ObjectFactory.php
+index 3a8457f..d4c8a76 100644
+--- a/backend/API/API/class.SF_API_ObjectFactory.php
++++ b/backend/API/API/class.SF_API_ObjectFactory.php
+@@ -71,28 +71,28 @@ class SF_API_ObjectFactory {
+         $this->api_path = $api_path;
+         $this->object_store = &$object_store;
+     } 
+-    
+-    
+-    function addIncludePath($path, $high_prio = false)
+-    {
+-		//set include pathes
+-		$ini_separator = strtoupper(substr(PHP_OS, 0, 3) == 'WIN') ? ';' : ':';
+-		
+-		$ini_original = ini_get('include_path');
+-		$ini_original = ( strlen($ini_original) > 0 ) ? $ini_original. $ini_separator: '';
+-		
+-		if ($high_prio)
+-		{
+-			$ini_original = preg_replace('#^\.'.$ini_separator.'#', '', $ini_original);
+-			ini_set('include_path', '.'. $ini_separator . $path . $ini_separator .$ini_original);
+-		}
+-		else
+-		{
+-			ini_set('include_path', $ini_original . $path . $ini_separator);
+-		}
+-		
+-		return true;
+-    }
++    
++    
++    function addIncludePath($path, $high_prio = false)
++    {
++		//set include pathes
++		$ini_separator = strtoupper(substr(PHP_OS, 0, 3) == 'WIN') ? ';' : ':';
++		
++		$ini_original = ini_get('include_path');
++		$ini_original = ( strlen($ini_original) > 0 ) ? $ini_original. $ini_separator: '';
++		
++		if ($high_prio)
++		{
++			$ini_original = preg_replace('#^\.'.$ini_separator.'#', '', $ini_original);
++			ini_set('include_path', '.'. $ini_separator . $path . $ini_separator .$ini_original);
++		}
++		else
++		{
++			ini_set('include_path', $ini_original . $path . $ini_separator);
++		}
++		
++		return true;
++    }
+ 
+     /**
+     * Require Class
+@@ -106,14 +106,37 @@ class SF_API_ObjectFactory {
+     * @return (boolean)
+     */
+     function requireClass($package, $classname, $class_prefix = 'SF') {
+-       $file = strtoupper($package) . '/class.' 
++       $file = strtoupper($package) . '/class.' 
+               . $class_prefix . '_' . str_replace('/', '_', strtoupper($package)) 
+               . '_' . $classname . '.php';
+ 
+-       include_once $file;
++       include_once $file;
+ 
+-        return true;
++        return true;
+     } 
++/**
++  *
++  */
++    function classExists($package, $classname, $class_prefix = 'SF')
++    {
++		$include_paths = explode(PATH_SEPARATOR, ini_get('include_path'));
++		
++		$file = strtoupper($package) . '/class.' 
++              . $class_prefix . '_' . str_replace('/', '_', strtoupper($package)) 
++              . '_' . $classname . '.php';
++
++		foreach ($include_paths as $path) 
++		{
++			$include = $path.DIRECTORY_SEPARATOR.$file;
++       		
++       		if (is_file($include) && is_readable($include)) 
++       		{
++       			return TRUE;
++			}
++		}
++
++		return FALSE;
++    }
+ 
+     /**
+     * Get Object Forced
+diff --git a/backend/API/ASSETS/class.SF_ASSETS_DbFile.php b/backend/API/ASSETS/class.SF_ASSETS_DbFile.php
+index c1a19a4..b2021ae 100644
+--- a/backend/API/ASSETS/class.SF_ASSETS_DbFile.php
++++ b/backend/API/ASSETS/class.SF_ASSETS_DbFile.php
+@@ -279,7 +279,7 @@ class SF_ASSETS_DbFile extends SF_API_Object {
+ 			$addon->newFile();
+ 			$this->data['file']['created'] = $timestamp;
+ 			$this->data['file']['lastmodified'] = $timestamp;
+-			$this->data['file']['author'] = $auth->auth['uid'];
++			$this->data['file']['author'] = ((int) $auth->auth['uid']==0) ? 2 : $auth->auth['uid'];
+ 			$this->db->AutoExecute($this->db_names['upl'], $this->data['file'], 'INSERT');
+ 			$this->data['file']['idupl'] = $this->db->Insert_ID();
+ 		}
+diff --git a/backend/API/PAGE/class.SF_PAGE_ContentFactory.php b/backend/API/PAGE/class.SF_PAGE_ContentFactory.php
+index f6f0f65..322ff77 100644
+--- a/backend/API/PAGE/class.SF_PAGE_ContentFactory.php
++++ b/backend/API/PAGE/class.SF_PAGE_ContentFactory.php
+@@ -89,7 +89,8 @@ class SF_PAGE_Content extends SF_API_Object
+ 						'idcmstag' => false,
+ 						'idrepeat' => false,
+ 						'idlang' => false,
+-						'idtype' => false 
++						'idtype' => false,
++						'typename' => 'undefined'
+ 					);
+ 
+ 	var $data = array(
+@@ -115,6 +116,7 @@ class SF_PAGE_Content extends SF_API_Object
+ 	);
+ 	
+ 	var $db;
++	var $styler = array();
+ 	
+ 	function SF_PAGE_Content($idtype)
+ 	{
+@@ -127,16 +129,52 @@ class SF_PAGE_Content extends SF_API_Object
+ 		return $this->_loadByIds($idcatside, $idcontainer, $idcmstag, $idrepeat, $idlang);
+ 	}
+ 	
+-	function getValue($styler = false, $options = array())
++	function getValue()
++	{
++		return $this->data['content']['value'];
++	}
++	
++	function getValueStyled($config = array(), $styler = 'html', $_args = array())
+ 	{
+ 		$out = '';
++		$styler = strtolower($styler);
++		
++		if (! array_key_exists($styler, $this->styler))
++		{
++			switch($styler)
++			{
++				case 'html':
++					$GLOBALS['sf_factory']->requireClass('GUI', 'ContentStylerPlain');
++					$this->styler[$styler] =& sf_factoryGetObjectCache('GUI', 'ContentStylerHTML');
++					break;
++				case 'plain':
++					$this->styler[$styler] =& sf_factoryGetObjectCache('GUI', 'ContentStylerPlain');
++				default:
++					return $out;
++			}
++		}
+ 		
+-		if ($styler == false)
++		$methodname = 'get'.ucfirst($this->defaults['typename']);
++		
++		if (! method_exists ( $this->styler[$styler], $methodname))
+ 		{
+-		  return $this->data['content']['value'];
++			return $out;
+ 		}
+ 		
+-		//TODO styler
++		if (array_key_exists('2', $_args))
++		{
++			$out = $this->styler[$styler]->$methodname($this->getValue(), $_args['1'], $_args['2'], $config);
++		}
++		else if (array_key_exists('1', $_args))
++		{
++			$out = $this->styler[$styler]->$methodname($this->getValue(), $_args['1'], $config);
++		}
++		else
++		{
++			$out = $this->styler[$styler]->$methodname($this->getValue(), $config);	
++		}
++		
++		return $out;
+ 	}
+ 	
+ 	function save()
+@@ -247,7 +285,7 @@ class SF_PAGE_Content extends SF_API_Object
+ 					AND C.typenumber = ".$this->defaults['idcmstag']."
+ 					AND C.number = ".$this->defaults['idrepeat']."
+ 					AND SL.idlang = ".$this->defaults['idlang'];
+-
++ 
+ 		$rs = $this->db->Execute($sql);
+ 		
+ 		if ($rs === false) 
+@@ -306,80 +344,98 @@ class SF_PAGE_Content extends SF_API_Object
+ 
+ class SF_PAGE_ContentText extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentText() { parent::SF_PAGE_Content(1); }
++	function SF_PAGE_ContentText() { $this->defaults['typename'] = 'text'; parent::SF_PAGE_Content(1); }
+ }
+ 
+ class SF_PAGE_ContentWysiwyg extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentWysiwyg() { parent::SF_PAGE_Content(2); }
++	function SF_PAGE_ContentWysiwyg() { $this->defaults['typename'] = 'wysiwyg'; parent::SF_PAGE_Content(2); }
+ }
+ 
+ class SF_PAGE_ContentTextarea extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentTextarea() { parent::SF_PAGE_Content(3); }
++	function SF_PAGE_ContentTextarea() { $this->defaults['typename'] = 'textarea'; parent::SF_PAGE_Content(3); }
+ }
+ 
+ class SF_PAGE_ContentImage extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentImage() { parent::SF_PAGE_Content(array('url'=> 4, 'desc'=> 5)); }
++	function SF_PAGE_ContentImage() { $this->defaults['typename'] = 'image'; parent::SF_PAGE_Content(array('url'=> 4, 'desc'=> 5)); }
+ 	function getValue() { return $this->getUrl(); }
+ 	function getUrl() { return $this->data['content']['4']['value']; }
+ 	function getDesc() { return $this->data['content']['5']['value']; }
++	function getValueStyled($config = array(), $styler = 'html')
++	{
++		$_args['1'] = $this->getDesc();
++		return parent::getValueStyled($config , $styler, $_args);
++	}
+ }
+ 
+ 
+ class SF_PAGE_ContentLink extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentLink() { parent::SF_PAGE_Content(array('url'=> 6, 'name'=> 7, 'target'=> 8)); }
++	function SF_PAGE_ContentLink() { $this->defaults['typename'] = 'link'; parent::SF_PAGE_Content(array('url'=> 6, 'name'=> 7, 'target'=> 8)); }
+ 	function getValue() { return $this->getUrl(); }
+ 	function getUrl() { return $this->data['content']['6']['value']; }
+ 	function getName() { return $this->data['content']['7']['value']; }
+ 	function getTarget() { return $this->data['content']['8']['value']; }
++	function getValueStyled($config = array(), $styler = 'html')
++	{
++		$_args['1'] = $this->getName();
++		$_args['2'] = $this->getTarget();
++		return parent::getValueStyled($config , $styler, $_args);
++	}
+ }
+ 
+ class SF_PAGE_ContentSourcecode extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentSourcecode() { parent::SF_PAGE_Content(9); }
++	function SF_PAGE_ContentSourcecode() { $this->defaults['typename'] = 'sourcecode'; parent::SF_PAGE_Content(9); }
+ }
+ 
+ class SF_PAGE_ContentFile extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentFile() { parent::SF_PAGE_Content(array('url'=> 10, 'name'=> 11, 'target'=> 12)); }
++	function SF_PAGE_ContentFile() { $this->defaults['typename'] = 'file'; parent::SF_PAGE_Content(array('url'=> 10, 'name'=> 11, 'target'=> 12)); }
+ 	function getValue() { return $this->getUrl(); }
+ 	function getUrl() { return $this->data['content']['10']['value']; }
+ 	function getName() { return $this->data['content']['11']['value']; }
+ 	function getTarget() { return $this->data['content']['12']['value']; }
++	function getValueStyled($config = array(), $styler = 'html')
++	{
++		$_args['1'] = $this->getName();
++		$_args['2'] = $this->getTarget();
++		return parent::getValueStyled($config , $styler, $_args);
++	}
+ }
+ 
+ 
+ class SF_PAGE_ContentWysiwyg2 extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentWysiwyg2() { parent::SF_PAGE_Content(13); }
++	function SF_PAGE_ContentWysiwyg2() { $this->defaults['typename'] = 'wysiwyg2'; parent::SF_PAGE_Content(13); }
+ }
+ 
+ class SF_PAGE_ContentSelect extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentSelect() { parent::SF_PAGE_Content(14); }
++	function SF_PAGE_ContentSelect() { $this->defaults['typename'] = 'select'; parent::SF_PAGE_Content(14); }
+ }
+ 
+ class SF_PAGE_ContentHidden extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentHidden() { parent::SF_PAGE_Content(15); }
++	function SF_PAGE_ContentHidden() { $this->defaults['typename'] = 'hidden'; parent::SF_PAGE_Content(15); }
+ }
+ 
+ class SF_PAGE_ContentCheckbox extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentCheckbox() { parent::SF_PAGE_Content(16); }
++	function SF_PAGE_ContentCheckbox() { $this->defaults['typename'] = 'checkbox'; parent::SF_PAGE_Content(16); }
+ }
+ 
+ class SF_PAGE_ContentRadio extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentRadio() { parent::SF_PAGE_Content(17); }
++	function SF_PAGE_ContentRadio() { $this->defaults['typename'] = 'radio'; parent::SF_PAGE_Content(17); }
+ }
+ 
+ class SF_PAGE_ContentDate extends SF_PAGE_Content 
+ {
+-	function SF_PAGE_ContentDate() { parent::SF_PAGE_Content(18); }
++	function SF_PAGE_ContentDate() { $this->defaults['typename'] = 'date'; parent::SF_PAGE_Content(18); }
+ }
+ 
+ ?>
++
+diff --git a/backend/API/UTILS/class.SF_UTILS_Mail.php b/backend/API/UTILS/class.SF_UTILS_Mail.php
+index 80964ed..2cff4e4 100644
+--- a/backend/API/UTILS/class.SF_UTILS_Mail.php
++++ b/backend/API/UTILS/class.SF_UTILS_Mail.php
+@@ -88,7 +88,7 @@ class SF_UTILS_Mail extends SF_API_Object {
+ 					LEFT JOIN  ".$this->db_names['users_groups']." UG USING(user_id)
+ 					LEFT JOIN  ".$this->db_names['groups']." G USING(idgroup)
+ 				WHERE 
+-					G.name = '".$this->db->qstr($name)."'";
++					G.name = ".$this->db->qstr($name);
+ 					
+ 		$rs = $this->db->Execute($sql);
+ 		$to_return = true;
+diff --git a/backend/inc/mod.contentflex.php b/backend/inc/mod.contentflex.php
+index 4bd5d46..4cfd6bd 100644
+--- a/backend/inc/mod.contentflex.php
++++ b/backend/inc/mod.contentflex.php
+@@ -9,7 +9,7 @@ if(! defined('CMS_CONFIGFILE_INCLUDED')){
+ // Version 1.2.0 - 1.n.n
+ // by Alexander M. Korn (amk@gmx.info)
+ 
+-$mvars['contentflex']= "contentflex: Version 1.8.1";
++$mvars['contentflex']= "contentflex: Version 1.8.6";
+ 
+ //if ($mvars['test'] == "true") { echo "<br />mvars:";	print_r($mvars); }
+ // Template mit den CMS-Tags ersetzen
+diff --git a/backend/inc/mod.contentflex_cache.php b/backend/inc/mod.contentflex_cache.php
+index 41d7809..8453bda 100644
+--- a/backend/inc/mod.contentflex_cache.php
++++ b/backend/inc/mod.contentflex_cache.php
+@@ -16,7 +16,7 @@ if(! defined('CMS_CONFIGFILE_INCLUDED')){
+ //    $modv['version'] = "true";
+ //}
+ 
+-$modv['contentflex_cache']= "contentflex_cache: Version 1.8.2";
++$modv['contentflex_cache']= "contentflex_cache: Version 1.8.6";
+ 
+ //if ($mod['test'] == "true") { echo "<br />mod:";	print_r($mod); }
+ //if ($modv['test'] == "true") { echo "<br />modv:";	print_r($modv); }
+@@ -764,6 +764,162 @@ if(! function_exists(txt2htmllist)){
+ 
+ 	}
+ }
++
++
++if(! function_exists(element_ifstatements)){
++  /**
++  * 
++  *
++  * @param		
++  * @return		
++  * @access		
++  */
++	function element_ifstatements($tpl='',$elarray,$elkey,$elvalue) {
++
++		global $cfg_client;
++
++		if (strpos($elkey,'image:')!==false)
++			if (strpos($elvalue,$cfg_client['space'])!==false)
++				echo $elvalue='';
++		
++			$_AS['temp']=array();
++
++			if(strpos($tpl,'{if_')===false || empty($tpl))
++				return $tpl;
++			
++			// global if-value-statement
++			if(strpos($tpl,'{if_'.$elkey.'=')!==false) {
++				preg_match_all('/\{if_'.$elkey.'=(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
++				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
++					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
++					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
++					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
++						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
++						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);							
++					}
++						
++					if ($elvalue!=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
++					  $tpl = preg_replace('#\{if_'.$elkey.'='.$_AS['temp']['compelement'].'\}(.*)\{/if_'.$elkey.'='.$_AS['temp']['compelement'].'\}#sU','',$tpl);
++					} else {
++					  $tpl = str_replace(array('{if_'.$elkey.'='.$_AS['temp']['temp_results'][1][$ek].'}','{/if_'.$elkey.'='.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
++					}
++				}
++			}		
++	
++			// global if-value-statement
++			if(strpos($tpl,'{if_not_'.$elkey.'=')!==false) {
++				preg_match_all('/\{if_not_'.$elkey.'=(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
++				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
++					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
++					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
++					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
++						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
++						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);							
++					}
++			
++					if ($elvalue!=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
++					  $tpl = str_replace(array('{if_not_'.$elkey.'='.$_AS['temp']['temp_results'][1][$ek].'}','{/if_not_'.$elkey.'='.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
++					} else {
++					  $tpl = preg_replace('#\{if_not_'.$elkey.'='.$_AS['temp']['compelement'].'\}(.*)\{/if_not_'.$elkey.'='.$_AS['temp']['compelement'].'\}#sU','',$tpl);
++					}
++				}
++			}
++
++			// global if-value-statement
++			if(strpos($tpl,'{if_'.$elkey.'>')!==false) {
++				preg_match_all('/\{if_'.$elkey.'>(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
++				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
++					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
++					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
++				
++					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
++						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
++						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);				
++						
++					}				
++					if ($elvalue<=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
++					  $tpl = preg_replace('#\{if_'.$elkey.'>'.$_AS['temp']['compelement'].'\}(.*)\{/if_'.$elkey.'>'.$_AS['temp']['compelement'].'\}#sU','',$tpl);
++					} else {
++					  $tpl = str_replace(array('{if_'.$elkey.'>'.$_AS['temp']['temp_results'][1][$ek].'}','{/if_'.$elkey.'>'.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
++					}
++				}
++			}		
++	
++			// global if-value-statement
++			if(strpos($tpl,'{if_not_'.$elkey.'>')!==false) {
++				preg_match_all('/\{if_not_'.$elkey.'>(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
++				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
++					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
++					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
++					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
++						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
++						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);							
++					}
++					if ($elvalue<=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
++					  $tpl = str_replace(array('{if_not_'.$elkey.'>'.$_AS['temp']['temp_results'][1][$ek].'}','{/if_not_'.$elkey.'>'.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
++					} else {
++					  $tpl = preg_replace('#\{if_not_'.$elkey.'>'.$_AS['temp']['compelement'].'\}(.*)\{/if_not_'.$elkey.'>'.$_AS['temp']['compelement'].'\}#sU','',$tpl);
++					}
++				}
++			}		
++		
++			// global if-value-statement
++			if(strpos($tpl,'{if_'.$elkey.'<')!==false) {
++				preg_match_all('/\{if_'.$elkey.'<(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
++				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
++					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
++					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
++					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
++						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
++						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);		
++			
++					}
++					if ($elvalue>=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
++					  $tpl = preg_replace('#\{if_'.$elkey.'<'.$_AS['temp']['compelement'].'\}(.*)\{/if_'.$elkey.'<'.$_AS['temp']['compelement'].'\}#sU','',$tpl);
++					} else {
++					  $tpl = str_replace(array('{if_'.$elkey.'<'.$_AS['temp']['temp_results'][1][$ek].'}','{/if_'.$elkey.'<'.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
++					}
++				}
++			}		
++	
++			// global if-value-statement
++			if(strpos($tpl,'{if_not_'.$elkey.'<')!==false) {
++				preg_match_all('/\{if_not_'.$elkey.'<(.*?)\}/',$tpl,$_AS['temp']['temp_results']);
++				foreach ($_AS['temp']['temp_results'][0] as $ek => $ev) {
++					$_AS['temp']['compval']=$_AS['temp']['temp_results'][1][$ek];
++					$_AS['temp']['compelement']=$_AS['temp']['temp_results'][1][$ek];
++					if (array_key_exists(trim($_AS['temp']['compval'],'[]'),$elarray)) {
++						$_AS['temp']['compval']=$elarray[trim($_AS['temp']['compval'],'[]')];
++						$_AS['temp']['compelement']=str_replace(array('[',']'),array('\[','\]'),$_AS['temp']['temp_results'][1][$ek]);							
++					}
++					if ($elvalue>=$_AS['temp']['compval'] || (trim($elvalue)=='' && trim($_AS['temp']['compval'])=='')) {
++					  $tpl = str_replace(array('{if_not_'.$elkey.'<'.$_AS['temp']['temp_results'][1][$ek].'}','{/if_not_'.$elkey.'<'.$_AS['temp']['temp_results'][1][$ek].'}'), array('',''), $tpl);
++					} else {
++					  $tpl = preg_replace('#\{if_not_'.$elkey.'<'.$_AS['temp']['compelement'].'\}(.*)\{/if_not_'.$elkey.'<'.$_AS['temp']['compelement'].'\}#sU','',$tpl);
++					}
++				}
++			}		
++
++			// global if-statement
++			if(strpos($tpl,'{if_'.$elkey.'}')!==false)
++				if (empty($elvalue))
++				  $tpl = preg_replace('#\{if_'.$elkey.'\}(.*)\{/if_'.$elkey.'\}#sU','',$tpl);
++				else
++				  $tpl = str_replace(array('{if_'.$elkey.'}','{/if_'.$elkey.'}'), array('',''), $tpl);
++
++			// global if-not-statement
++			if(strpos($tpl,'{if_not_'.$elkey.'}')!==false)
++				if (empty($elvalue))
++			  	$tpl = str_replace(array('{if_not_'.$elkey.'}','{/if_not_'.$elkey.'}'), array('',''), $tpl);
++				else
++				 	$tpl = preg_replace('#\{if_not_'.$elkey.'\}(.*)\{/if_not_'.$elkey.'\}#sU','',$tpl);
++				 	
++			return $tpl;
++	
++	
++	}
++}
++
+ // ************************************************************************************************
+ // Seite neu laden
+ if (!function_exists('clear_cache')) {
+@@ -1192,6 +1348,7 @@ if (strpos($modv['tpl_inner'],'{username}')!==FALSE || strpos($modv['tpl_inner']
+ 	$elements1['email'] = $db->f('email');
+ }
+ 
++
+ // **** spezial Tags definieren und ersetzen **************************************************************
+ 
+  
+@@ -1214,28 +1371,54 @@ if (strpos($modv['tpl_inner'],'{if_')!==false) {
+ 	unset($modv['statement_elements']);
+ 	preg_match_all('#\{if_(.*)\}#sU',$modv['tpl_inner'],$modv['statement_elements']);
+ 	foreach ($modv['statement_elements'][1] as $v){
+-		$v=substr($v,0,strpos($v,'='));
++		if (strpos($v,'=')!==false)
++			$v=substr($v,0,strpos($v,'='));
++		if (strpos($v,'<')!==false)
++			$v=substr($v,0,strpos($v,'<'));
++		if (strpos($v,'>')!==false)
++			$v=substr($v,0,strpos($v,'>'));
++
+ 	 if (strpos($modv['tpl_inner'],'{'.str_replace('not_','',$v).'}')===false &&
+ 	     strpos($modv['tpl_addon_inner'],'{'.str_replace('not_','',$v).'}')===false)
+ 		$modv['tpl_addon_inner'].='{'.str_replace('not_','',$v).'}';
+ 	}
+ }
+ 
++
+ // **** Editbutton einfuegen, wenn ein File-Element Image-Element vorhanden ist.
+ // adding statements elements temporarly
+ $modv['tpl_inner_temp'] = $modv['tpl_inner'].$modv['tpl_addon_inner'];
+-$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,9}):1\}/" ,"{editfile:1}{file\\1:1}"  ,$modv['tpl_inner_temp'],1);
+-$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,9}):2\}/" ,"{editfile:2}{file\\1:2}"  ,$modv['tpl_inner_temp'],1);
+-$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,9}):3\}/" ,"{editfile:3}{file\\1:3}"  ,$modv['tpl_inner_temp'],1);
+-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):1\}/","{editimage:1}{image\\1:1}",$modv['tpl_inner_temp'],1);
+-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):2\}/","{editimage:2}{image\\1:2}",$modv['tpl_inner_temp'],1);
+-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):3\}/","{editimage:3}{image\\1:3}",$modv['tpl_inner_temp'],1);
+-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):4\}/","{editimage:4}{image\\1:4}",$modv['tpl_inner_temp'],1);
+-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):5\}/","{editimage:5}{image\\1:5}",$modv['tpl_inner_temp'],1);
+-$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,18}):6\}/","{editimage:6}{image\\1:6}",$modv['tpl_inner_temp'],1);
+-$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,9}):1\}/" ,"{editlink:1}{link\\1:1}"  ,$modv['tpl_inner_temp'],1);
+-$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,9}):2\}/" ,"{editlink:2}{link\\1:2}"  ,$modv['tpl_inner_temp'],1);
+-$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,9}):3\}/" ,"{editlink:3}{link\\1:3}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):1\}/" ,"{editfile:1}{file\\1:1}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):2\}/" ,"{editfile:2}{file\\1:2}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):3\}/" ,"{editfile:3}{file\\1:3}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):4\}/" ,"{editfile:4}{file\\1:4}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):5\}/" ,"{editfile:5}{file\\1:5}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):6\}/" ,"{editfile:6}{file\\1:6}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):7\}/" ,"{editfile:7}{file\\1:7}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):8\}/" ,"{editfile:8}{file\\1:8}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):9\}/" ,"{editfile:9}{file\\1:9}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{file(\S{0,12}):10\}/" ,"{editfile:10}{file\\1:10}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):1\}/","{editimage:1}{image\\1:1}",$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):2\}/","{editimage:2}{image\\1:2}",$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):3\}/","{editimage:3}{image\\1:3}",$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):4\}/","{editimage:4}{image\\1:4}",$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):5\}/","{editimage:5}{image\\1:5}",$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):6\}/","{editimage:6}{image\\1:6}",$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):7\}/","{editimage:7}{image\\1:7}",$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):8\}/","{editimage:8}{image\\1:8}",$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):9\}/","{editimage:9}{image\\1:9}",$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{image(\S{0,15}):10\}/","{editimage:10}{image\\1:10}",$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):1\}/" ,"{editlink:1}{link\\1:1}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):2\}/" ,"{editlink:2}{link\\1:2}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):3\}/" ,"{editlink:3}{link\\1:3}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):4\}/" ,"{editlink:4}{link\\1:4}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):5\}/" ,"{editlink:5}{link\\1:5}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):6\}/" ,"{editlink:6}{link\\1:6}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):7\}/" ,"{editlink:7}{link\\1:7}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):8\}/" ,"{editlink:8}{link\\1:8}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):9\}/" ,"{editlink:9}{link\\1:9}"  ,$modv['tpl_inner_temp'],1);
++$modv['tpl_inner_temp'] = preg_replace("/\{link(\S{0,11}):10\}/" ,"{editlink:10}{link\\1:10}"  ,$modv['tpl_inner_temp'],1);
++
+ $modv['tpl_inner']=str_replace($modv['tpl_addon_inner'],'',$modv['tpl_inner_temp']);
+ 
+ // fals nicht vorhanden editbutton ansetzen
+@@ -1262,7 +1445,7 @@ $modv['page'] = (is_numeric($_REQUEST['page'])) ? 1:$_REQUEST['page'];
+ // Fuer alle Elemente: preg_match_all('/\{([^\}]+)\}/im', $modv['tpl_inner'], $test);
+ // Fuer alle Elemente mit : und einer Zahl: preg_match_all('/\{(([^\}]+):\d)\}/im', $modv['tpl_inner'], $test);
+ 
+-preg_match_all('/\{(([^\}]+):\d)\}/im', $modv['tpl_inner'].$modv['tpl_addon_inner'], $modtemp['tags']);
++preg_match_all('/\{(([^\}]+):\d+)\}/im', $modv['tpl_inner'].$modv['tpl_addon_inner'], $modtemp['tags']);
+ 
+ // looking for {table} and add to modtemp-pseudo-element
+ if (strpos($modv['tpl_inner'],"{table}")!==false) {
+@@ -1333,7 +1516,11 @@ if ($cms_side['edit'] || $cms_side['edit_all']) {
+ 
+     // Wenn 1 Ausgabe 
+ 	if ($modv['is_first']) {
+-    	$modv['editbutton_at_top'] = $modv['MOD_editbutton_at_top'];
++			if (empty($modv['editbutton_at_top']))
++    		$modv['editbutton_at_top'] = $modv['MOD_editbutton_at_top'];
++    	else
++    		$modv['editbutton_at_top'] = $modv['MOD_editbutton'];
++    	
+     	$modv['editbutton_at_top'] = str_replace("{elements}", '', $modv['editbutton_at_top']);
+     	$modv['editbutton_at_top'] = str_replace("{title}", '', $modv['editbutton_at_top']);
+     	$modv['editbutton_at_top'] = str_replace("{edit}", '<img src="cms/img/space.gif" border="0" height="16" width="16" />', $modv['editbutton_at_top']);
+diff --git a/change.log b/change.log
+index 0cf821a..fb1c160 100644
+--- a/change.log
++++ b/change.log
+@@ -9,6 +9,8 @@ Legend:
+ Current version number is 01.05.00 (iSefrengo 1.5.1) - released 
+ ------------------------------------------------------------------------------------------------
+ 
++# Setup Versionsnummer
+++ API aus Artikelsystem übernommen
+ + Design und Struckturänderung Backend
+ 
+ Current version number is 01.05.00 (iSefrengo 1.5) - released 
+diff --git a/setup/index.php b/setup/index.php
+index ed22071..a745221 100644
+--- a/setup/index.php
++++ b/setup/index.php
+@@ -116,8 +116,8 @@ class setup {
+               'updates_from.01.04.01.sql',
+               'updates_from.01.04.02.sql',
+ 							'updates_from.01.04.03.sql',
+-							'updates_from.01.05.00.sql',
+-							'updates_from.01.05.01.sql');
++							'updates_from.01.05.00.sql'
++							);
+ 
+ 	/**
+ 	* Konstruktor. Catch all globals
+diff --git a/setup/sql/config.sql b/setup/sql/config.sql
+index 91b18e8..6461a95 100644
+--- a/setup/sql/config.sql
++++ b/setup/sql/config.sql
+@@ -321,7 +321,7 @@ INSERT INTO cms_values VALUES ('', 0, 0, 'css_units', 'auto', 'v', '', '', 'auto
+ INSERT INTO cms_values VALUES ('', 0, 0, 'css_units', 'attachment', 'v', '', '', 'fixed|scroll', 0, NULL, NULL, 'txt', NULL, NULL, 0);
+ 
+ # cms config
+-INSERT INTO cms_values VALUES ('', 0, 0, 'cfg', 'version', '', '', '', '01.05.00', '0', NULL, NULL, '', NULL, NULL, '0');
++INSERT INTO cms_values VALUES ('', 0, 0, 'cfg', 'version', '', '', '', '01.05.01', '0', NULL, NULL, '', NULL, NULL, '0');
+ 
+ INSERT INTO cms_values VALUES ('', 0, 0, 'cfg', 'cms_path', NULL, NULL, NULL, '<!--{cms_path}-->backend/', 100, 'set_cms_path', NULL, 'txt', NULL, NULL, '1');
+ INSERT INTO cms_values VALUES ('', 0, 0, 'cfg', 'cms_html_path', NULL, NULL, NULL, '<!--{cms_full_http_path}-->backend/', 101, 'set_html_path', NULL, 'txt', NULL, NULL, '1');
+diff --git a/setup/sql/updates_from.01.04.04.sql b/setup/sql/updates_from.01.04.04.sql
+new file mode 100644
+index 0000000..a4c6a73
+--- /dev/null
++++ b/setup/sql/updates_from.01.04.04.sql
+@@ -0,0 +1,2 @@
++# 10.01.2011 set new versionnumber - sefrengo 1.5.0
++UPDATE cms_values  SET value =  '01.05.00' WHERE group_name =  'cfg' AND key1 =  'version';
+diff --git a/setup/sql/updates_from.01.05.00.sql b/setup/sql/updates_from.01.05.00.sql
+index a4c6a73..ae90b5b 100644
+--- a/setup/sql/updates_from.01.05.00.sql
++++ b/setup/sql/updates_from.01.05.00.sql
+@@ -1,2 +1,3 @@
+-# 10.01.2011 set new versionnumber - sefrengo 1.5.0
+-UPDATE cms_values  SET value =  '01.05.00' WHERE group_name =  'cfg' AND key1 =  'version';
++# 03.02.2011 set new versionnumber - sefrengo 1.5.1
++UPDATE cms_values  SET value =  '01.05.01' WHERE group_name =  'cfg' AND key1 =  'version';
++INSERT INTO cms_values VALUES ('', 1, 0, 'cfg_client', 'client_debug', '', '', '', '1', 211, 'setuse_debug', NULL, 'txt', NULL, NULL, 1);
+diff --git a/setup/sql/updates_from.01.05.01.sql b/setup/sql/updates_from.01.05.01.sql
+deleted file mode 100644
+index ae90b5b..0000000
+--- a/setup/sql/updates_from.01.05.01.sql
++++ /dev/null
+@@ -1,3 +0,0 @@
+-# 03.02.2011 set new versionnumber - sefrengo 1.5.1
+-UPDATE cms_values  SET value =  '01.05.01' WHERE group_name =  'cfg' AND key1 =  'version';
+-INSERT INTO cms_values VALUES ('', 1, 0, 'cfg_client', 'client_debug', '', '', '', '1', 211, 'setuse_debug', NULL, 'txt', NULL, NULL, 1);
+-- 
+1.7.4.1
+

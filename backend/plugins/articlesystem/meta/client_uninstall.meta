@@ -1,0 +1,24 @@
+# delete menuentrys
+DELETE FROM {table_prefix}backendmenu WHERE entry_langstring IN('nav_articlesystem') AND idclient = '{client_id}';
+DELETE FROM {table_prefix}backendmenu WHERE entry_langstring IN('nav_articlesystem_admin') AND idclient = '{client_id}';
+
+# delete perms
+DELETE FROM {table_prefix}values WHERE group_name = 'user_perms' AND key1 like 'area_plug_articlesystem' AND idclient = '{client_id}';
+DELETE FROM {table_prefix}values WHERE group_name = 'user_perms' AND key2 like 'area_plug_articlesystem' AND idclient = '{client_id}';
+DELETE FROM {table_prefix}values WHERE group_name = 'cms_access' AND key2 like 'area_plug_articlesystem_admin' AND idclient = '{client_id}';
+
+# delete  langstrings
+DELETE FROM {table_prefix}values WHERE group_name = 'lang' AND key1 like 'group_area_plug_articlesystem' AND idclient = '{client_id}';
+DELETE FROM {table_prefix}values WHERE group_name = 'lang' AND key1 like 'group_area_plug_articlesystem_1' AND idclient = '{client_id}';
+DELETE FROM {table_prefix}values WHERE group_name = 'lang' AND key1 like 'group_area_plug_articlesystem_2' AND idclient = '{client_id}';
+DELETE FROM {table_prefix}values WHERE group_name = 'lang' AND key1 like 'group_area_plug_articlesystem_admin' AND idclient = '{client_id}';
+DELETE FROM {table_prefix}values WHERE group_name = 'lang' AND key1 like 'nav_articlesystem' AND idclient = '{client_id}';
+DELETE FROM {table_prefix}values WHERE group_name = 'lang' AND key1 like 'nav_articlesystem_admin' AND idclient = '{client_id}';
+
+
+DELETE FROM {plug_prefix}articlesystem WHERE idclient = '{client_id}';
+DELETE FROM {plug_prefix}articlesystem_category WHERE idclient = '{client_id}';
+DELETE FROM {plug_prefix}articlesystem_values WHERE idclient = '{client_id}';
+DELETE FROM {plug_prefix}articlesystem_elements WHERE idclient = '{client_id}';
+
+

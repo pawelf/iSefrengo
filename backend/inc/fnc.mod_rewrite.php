@@ -1,13 +1,36 @@
-<?php
-
-//
-// Common
-//
-function rewriteGetPath($idcat, $idlang, $highlight_cat = false) {
+<?PHP
+/**
+  *
+  * Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>
+  * Copyright (c) 2010 - 2011 iSefrengo
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License
+  *
+  * This program is subject to the GPL license, that is bundled with
+  * this package in the file LICENSE.TXT.
+  * If you did not receive a copy of the GNU General Public License
+  * along with this program write to the Free Software Foundation, Inc.,
+  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  *
+  * @author
+  */
+/**
+  *
+  */
+function rewriteGetPath($idcat, $idlang, $highlight_cat = false)
+{
 	global $cfg_client;
 	
 	$lang_prefix = '';
-	if ($cfg_client['url_langid_in_defaultlang'] == '1') {
+	if($cfg_client['url_langid_in_defaultlang'] == '1')
+	{
 		$lang_prefix = rewriteGetLang($idlang) . '/';
 	}
 	
@@ -331,8 +354,11 @@ function rewriteMakeUniqueStringForLang($what, $id, $string, $idlang= '', $paren
 	
 	return $string;
 }
-
-function rewriteIdcatIsUniqueToPath($idcat, $idlang, $rewrite_stack) {
+/**
+  *
+  */
+function rewriteIdcatIsUniqueToPath($idcat, $idlang, $rewrite_stack)
+{
 	global $db, $cms_db;
 	//	print_r($rewrite_stack);echo'<hr>';
 	if ( count($rewrite_stack) < 1) {
@@ -367,6 +393,24 @@ function rewriteAutoForAll($idlang) {
 	global $db, $cms_db;
 	
 	$idlang = (int) $idlang;
+	$sql = "UPDATE 
+				".$cms_db['cat_lang']."
+			SET 
+				rewrite_alias = '' 
+			WHERE 
+				idlang='$idlang'
+				AND rewrite_use_automatic = '1'";
+	$db->query($sql);
+	
+	$sql = "UPDATE 
+				".$cms_db['side_lang']."
+			SET 
+				rewrite_url = ''
+			WHERE 
+				idlang='$idlang'
+				AND rewrite_use_automatic = '1'";
+	$db->query($sql);
+	
 	rewriteGenerateMapping($idlang);
 	
 	$sf_catinfos =& sf_factoryGetObject('PAGE', 'Catinfos');
@@ -380,35 +424,21 @@ function rewriteAutoForAll($idlang) {
 	$sf_pageinfos->setCheckFrontendperms(false);	
 	$sf_pageinfos->generate();
 	$pageinfo_array =& $sf_pageinfos->getPageinfoDataArrayByRef();
-
-	$sql = "UPDATE 
-				".$cms_db['cat_lang']."
-			SET 
-				rewrite_alias = '' 
-			WHERE 
-				idlang='$idlang'
-				AND rewrite_use_automatic = '1'";
-	$db->query($sql);
 	
-	foreach($catinfo_array AS $k=>$v) {
-		if( $v['rewrite_alias'] == '' ) {
+	foreach($catinfo_array AS $k=>$v)
+	{
+		if($v['rewrite_alias'] == '')
+		{
 			$string = rewriteGenerateUrlString($v['name']);
 			$string = rewriteMakeUniqueStringForLang('idcat', $k, $string);
 			rewriteSaveUrlString($idlang, 'idcat', $k, $string);
 		}
 	}
 	
-	$sql = "UPDATE 
-				".$cms_db['side_lang']."
-			SET 
-				rewrite_url = ''
-			WHERE 
-				idlang='$idlang'
-				AND rewrite_use_automatic = '1'";
-	$db->query($sql);
-	
-	foreach($pageinfo_array AS $k=>$v) {
-		if( $v['rewrite_url'] == '' ) {
+	foreach($pageinfo_array AS $k=>$v)
+	{
+		if($v['rewrite_url'] == '')
+		{
 			$string = rewriteGenerateUrlString($v['name']);
 			$string = rewriteMakeUniqueStringForLang('idcatside', $k, $string);
 			rewriteSaveUrlString($idlang, 'idcatside', $k, $string);	

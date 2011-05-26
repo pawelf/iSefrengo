@@ -89,7 +89,8 @@ class SF_PAGE_Content extends SF_API_Object
 						'idcmstag' => false,
 						'idrepeat' => false,
 						'idlang' => false,
-						'idtype' => false 
+						'idtype' => false,
+						'typename' => 'undefined'
 					);
 
 	var $data = array(
@@ -115,6 +116,7 @@ class SF_PAGE_Content extends SF_API_Object
 	);
 	
 	var $db;
+	var $styler = array();
 	
 	function SF_PAGE_Content($idtype)
 	{
@@ -127,16 +129,52 @@ class SF_PAGE_Content extends SF_API_Object
 		return $this->_loadByIds($idcatside, $idcontainer, $idcmstag, $idrepeat, $idlang);
 	}
 	
-	function getValue($styler = false, $options = array())
+	function getValue()
+	{
+		return $this->data['content']['value'];
+	}
+	
+	function getValueStyled($config = array(), $styler = 'html', $_args = array())
 	{
 		$out = '';
+		$styler = strtolower($styler);
 		
-		if ($styler == false)
+		if (! array_key_exists($styler, $this->styler))
 		{
-		  return $this->data['content']['value'];
+			switch($styler)
+			{
+				case 'html':
+					$GLOBALS['sf_factory']->requireClass('GUI', 'ContentStylerPlain');
+					$this->styler[$styler] =& sf_factoryGetObjectCache('GUI', 'ContentStylerHTML');
+					break;
+				case 'plain':
+					$this->styler[$styler] =& sf_factoryGetObjectCache('GUI', 'ContentStylerPlain');
+				default:
+					return $out;
+			}
 		}
 		
-		//TODO styler
+		$methodname = 'get'.ucfirst($this->defaults['typename']);
+		
+		if (! method_exists ( $this->styler[$styler], $methodname))
+		{
+			return $out;
+		}
+		
+		if (array_key_exists('2', $_args))
+		{
+			$out = $this->styler[$styler]->$methodname($this->getValue(), $_args['1'], $_args['2'], $config);
+		}
+		else if (array_key_exists('1', $_args))
+		{
+			$out = $this->styler[$styler]->$methodname($this->getValue(), $_args['1'], $config);
+		}
+		else
+		{
+			$out = $this->styler[$styler]->$methodname($this->getValue(), $config);	
+		}
+		
+		return $out;
 	}
 	
 	function save()
@@ -247,7 +285,7 @@ class SF_PAGE_Content extends SF_API_Object
 					AND C.typenumber = ".$this->defaults['idcmstag']."
 					AND C.number = ".$this->defaults['idrepeat']."
 					AND SL.idlang = ".$this->defaults['idlang'];
-
+ 
 		$rs = $this->db->Execute($sql);
 		
 		if ($rs === false) 
@@ -306,80 +344,98 @@ class SF_PAGE_Content extends SF_API_Object
 
 class SF_PAGE_ContentText extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentText() { parent::SF_PAGE_Content(1); }
+	function SF_PAGE_ContentText() { $this->defaults['typename'] = 'text'; parent::SF_PAGE_Content(1); }
 }
 
 class SF_PAGE_ContentWysiwyg extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentWysiwyg() { parent::SF_PAGE_Content(2); }
+	function SF_PAGE_ContentWysiwyg() { $this->defaults['typename'] = 'wysiwyg'; parent::SF_PAGE_Content(2); }
 }
 
 class SF_PAGE_ContentTextarea extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentTextarea() { parent::SF_PAGE_Content(3); }
+	function SF_PAGE_ContentTextarea() { $this->defaults['typename'] = 'textarea'; parent::SF_PAGE_Content(3); }
 }
 
 class SF_PAGE_ContentImage extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentImage() { parent::SF_PAGE_Content(array('url'=> 4, 'desc'=> 5)); }
+	function SF_PAGE_ContentImage() { $this->defaults['typename'] = 'image'; parent::SF_PAGE_Content(array('url'=> 4, 'desc'=> 5)); }
 	function getValue() { return $this->getUrl(); }
 	function getUrl() { return $this->data['content']['4']['value']; }
 	function getDesc() { return $this->data['content']['5']['value']; }
+	function getValueStyled($config = array(), $styler = 'html')
+	{
+		$_args['1'] = $this->getDesc();
+		return parent::getValueStyled($config , $styler, $_args);
+	}
 }
 
 
 class SF_PAGE_ContentLink extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentLink() { parent::SF_PAGE_Content(array('url'=> 6, 'name'=> 7, 'target'=> 8)); }
+	function SF_PAGE_ContentLink() { $this->defaults['typename'] = 'link'; parent::SF_PAGE_Content(array('url'=> 6, 'name'=> 7, 'target'=> 8)); }
 	function getValue() { return $this->getUrl(); }
 	function getUrl() { return $this->data['content']['6']['value']; }
 	function getName() { return $this->data['content']['7']['value']; }
 	function getTarget() { return $this->data['content']['8']['value']; }
+	function getValueStyled($config = array(), $styler = 'html')
+	{
+		$_args['1'] = $this->getName();
+		$_args['2'] = $this->getTarget();
+		return parent::getValueStyled($config , $styler, $_args);
+	}
 }
 
 class SF_PAGE_ContentSourcecode extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentSourcecode() { parent::SF_PAGE_Content(9); }
+	function SF_PAGE_ContentSourcecode() { $this->defaults['typename'] = 'sourcecode'; parent::SF_PAGE_Content(9); }
 }
 
 class SF_PAGE_ContentFile extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentFile() { parent::SF_PAGE_Content(array('url'=> 10, 'name'=> 11, 'target'=> 12)); }
+	function SF_PAGE_ContentFile() { $this->defaults['typename'] = 'file'; parent::SF_PAGE_Content(array('url'=> 10, 'name'=> 11, 'target'=> 12)); }
 	function getValue() { return $this->getUrl(); }
 	function getUrl() { return $this->data['content']['10']['value']; }
 	function getName() { return $this->data['content']['11']['value']; }
 	function getTarget() { return $this->data['content']['12']['value']; }
+	function getValueStyled($config = array(), $styler = 'html')
+	{
+		$_args['1'] = $this->getName();
+		$_args['2'] = $this->getTarget();
+		return parent::getValueStyled($config , $styler, $_args);
+	}
 }
 
 
 class SF_PAGE_ContentWysiwyg2 extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentWysiwyg2() { parent::SF_PAGE_Content(13); }
+	function SF_PAGE_ContentWysiwyg2() { $this->defaults['typename'] = 'wysiwyg2'; parent::SF_PAGE_Content(13); }
 }
 
 class SF_PAGE_ContentSelect extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentSelect() { parent::SF_PAGE_Content(14); }
+	function SF_PAGE_ContentSelect() { $this->defaults['typename'] = 'select'; parent::SF_PAGE_Content(14); }
 }
 
 class SF_PAGE_ContentHidden extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentHidden() { parent::SF_PAGE_Content(15); }
+	function SF_PAGE_ContentHidden() { $this->defaults['typename'] = 'hidden'; parent::SF_PAGE_Content(15); }
 }
 
 class SF_PAGE_ContentCheckbox extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentCheckbox() { parent::SF_PAGE_Content(16); }
+	function SF_PAGE_ContentCheckbox() { $this->defaults['typename'] = 'checkbox'; parent::SF_PAGE_Content(16); }
 }
 
 class SF_PAGE_ContentRadio extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentRadio() { parent::SF_PAGE_Content(17); }
+	function SF_PAGE_ContentRadio() { $this->defaults['typename'] = 'radio'; parent::SF_PAGE_Content(17); }
 }
 
 class SF_PAGE_ContentDate extends SF_PAGE_Content 
 {
-	function SF_PAGE_ContentDate() { parent::SF_PAGE_Content(18); }
+	function SF_PAGE_ContentDate() { $this->defaults['typename'] = 'date'; parent::SF_PAGE_Content(18); }
 }
 
 ?>
+

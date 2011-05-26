@@ -118,7 +118,8 @@ include('inc/inc.header.php');
 // Kopfbereich
 $tmp['AREA_TITLE']    = $cms_lang['area_upl'];
 $tmp['FOOTER_LICENSE'] = $cms_lang['login_licence'];
-if ($errno) {
+if($errno)
+{
 	$tmp['ERR_MSG']       = $cms_lang["err_$errno"];
 }
 $tmp['SUB_NAV_RIGHT'] = '';
@@ -127,16 +128,13 @@ $tmp['SUB_NAV_RIGHT'] = '';
 // Templatedatei laden
 $tpl->loadTemplatefile('filelist.tpl');
 
-//
+
 // headline
-//
 $tmp['FILENAME']    = $cms_lang['upl_directoriesandfiles'];
 $tmp['DESCRIPTION'] = $cms_lang['upl_description'];
 $tmp['ACTIONS']     = $cms_lang['upl_action'];
 
-//
 // create idexpand from quicknav-value
-//
 if ($idexpandshort) {
 	if ($action = 'createdir') $fm->use_cache = false;
 	$idexpand = $fm->get_parent_directories($idexpandshort, $client);

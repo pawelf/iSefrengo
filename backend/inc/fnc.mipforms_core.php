@@ -1,35 +1,27 @@
 <?PHP
-// File: $Id: fnc.mipforms_core.php 28 2008-05-11 19:18:49Z mistral $
-// +----------------------------------------------------------------------+
-// | Version: Sefrengo $Name:  $                                          
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>           |
-// +----------------------------------------------------------------------+
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License                 |
-// |                                                                      |
-// | This program is subject to the GPL license, that is bundled with     |
-// | this package in the file LICENSE.TXT.                                |
-// | If you did not receive a copy of the GNU General Public License      |
-// | along with this program write to the Free Software Foundation, Inc., |
-// | 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA               |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// +----------------------------------------------------------------------+
-// + Autor: $Author: mistral $
-// +----------------------------------------------------------------------+
-// + Revision: $Revision: 28 $
-// +----------------------------------------------------------------------+
-// + Description:
-// +----------------------------------------------------------------------+
-// + Changes: 
-// +----------------------------------------------------------------------+
-// + ToDo:
-// +----------------------------------------------------------------------+
+/**
+  *
+  * Copyright (c) 2005 - 2007 sefrengo.org <info@sefrengo.org>
+  * Copyright (c) 2010 - 2011 iSefrengo
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License
+  *
+  * This program is subject to the GPL license, that is bundled with
+  * this package in the file LICENSE.TXT.
+  * If you did not receive a copy of the GNU General Public License
+  * along with this program write to the Free Software Foundation, Inc.,
+  * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  *
+  * @author
+  */
+if(!defined('CMS_CONFIGFILE_INCLUDED')){die('NO CONFIGFILE FOUND');}
 
 /**
  * MIP FORMS (Modul Input Forms)
@@ -48,8 +40,17 @@
  * @Homepage: www.project-gooseberry.de
  * @License: GPL
  */
-
 //Die Basishtmltemplates zum Erzeugen der Forms
+$mip_forms_tab['open']  = '<p class="mipforms">';
+$mip_forms_tab['close']  = '</p>';
+$mip_forms_tab['openlabel']  = '<label>';
+$mip_forms_tab['closelabel']  = '</label>';
+
+
+$mip_forms_tab['right'] = '%s%s';
+$mip_forms_tab['full'] = '<label>%s</label>%s%s';
+$mip_forms_tab['tab'] = '%s';
+/**
 $mip_forms_tab['open']  = '<table class="mipformtable"><tr>';
 $mip_forms_tab['close']  = '</table>';
 $mip_forms_tab['left']  = '<td class="firsttab" style="width:%spx">%s</td>';
@@ -57,7 +58,7 @@ $mip_forms_tab['left_width'] = '450';
 $mip_forms_tab['right'] = '<td class="secondtab">%s%s</td></tr>';
 $mip_forms_tab['full'] = '<td>%s<br />%s%s</td><td width="5">&nbsp;</td></tr>';
 $mip_forms_tab['tab'] = '<td width="20" valign="top">%s</td>';
-
+*/
 
 
 // @args help_text, value
@@ -93,7 +94,7 @@ function mip_forms_abstrakt_help ($help_text,$width=0,$hight=-1)
                  '\' title=\'' . $cms_lang['gen_help'] . '\' width=\'16\' height=\'16\' />';
         $help_link .= "</a>";
 
-    } else {
+    }else{
         $help_link = '';
     }
 
@@ -112,13 +113,12 @@ function mip_forms_check_cache($cache_var, $cache_key = '')
 {
 	global $mip_forms_cache_container;
 
-	if(! empty($mip_forms_cache_container["$cache_var"]) || is_array($mip_forms_cache_container["$cache_var"]) && $cache_key != ''){
+	if(!empty($mip_forms_cache_container["$cache_var"]) || is_array($mip_forms_cache_container["$cache_var"]) && $cache_key != '')
+	{
 		return true;
-	}
-	else{
+	}else{
 		return false;
 	}
-
 }
 
 // @args key, value
@@ -126,9 +126,10 @@ function mip_forms_get_cache($cache_var, $cache_key = '')
 {
 	global $mip_forms_cache_container;
 
-    if ($cache_key == '') return $mip_forms_cache_container["$cache_var"];
-    else return $mip_forms_cache_container["$cache_var"]["$cache_key"];
-
+  if($cache_key == '')
+    return $mip_forms_cache_container["$cache_var"];
+  else
+    return $mip_forms_cache_container["$cache_var"]["$cache_key"];
 }
 
 // @args key, value
@@ -147,67 +148,60 @@ function mip_forms_push_cache($cache_var, $cache_key, $cache_val = '')
 	$mip_forms_cache_container["$cache_var"]["$cache_key"] = $cache_val;
 }
 
-/*
- * Abstrakte MIP- Forms
- *
-*/
-
+/** Abstrakte MIP- Forms */
 /**
- * Erzeugt
- * [tab] [var ueberschrift] [var inhalt]
- *
- * @Access private
- * @Args array in['desc'] (Textbeschreibung)
- *               ['tab']  (Einrückung)
- *       str input (Spezifische Formulardaten)
- * @Return str form (fertiges Formular mit allen Formatierungen)
- */
+  * Erzeugt
+  * [tab] [var ueberschrift] [var inhalt]
+  *
+  * @Access private
+  * @Args array in['desc'] (Textbeschreibung)
+  *               ['tab']  (Einrückung)
+  *       str input (Spezifische Formulardaten)
+  * @Return str form (fertiges Formular mit allen Formatierungen)
+  */
 function mip_forms_abstrakt($in, $input)
 {
 	global $mip_forms_tab;
-
+	
 	$spaces= '';
 	for($i = 0; $i < $in['tab']; $i++)
 	{
 		$spaces .= sprintf($mip_forms_tab['tab'], '&nbsp;');
 	}
 
-	$left_width = $mip_forms_tab['left_width'] - ($in['tab'] * 20);
-	$cont_left  = sprintf($mip_forms_tab['left'], $left_width, $in['desc']);
+	$cont_left  = $in['desc'];
 	$cont_left = $spaces .$cont_left;
-
-    $help = mip_forms_abstrakt_help($in['help'],$in['help_width'],$in['help_height']);
+	
+  $help = mip_forms_abstrakt_help($in['help'],$in['help_width'],$in['help_height']);
 	$cont_right = sprintf($mip_forms_tab['right'], $input, $help);
-
-	$to_return = $mip_forms_tab['open'] . "\n" .
-					 $cont_left . "\n" .
-					 $cont_right . "\n" .
-					 $mip_forms_tab['close']. "\n\n";
+	$to_return = $mip_forms_tab['open']."\n". 
+	         $mip_forms_tab['openlabel'].$cont_left.$mip_forms_tab['closelabel']."\n".
+					 $cont_right."\n".
+					 $mip_forms_tab['close']."\n";
 
 	return $to_return;
 }
-
 /**
- * Erzeugt
- * [tab] [checkbox] [var ueberschrift] [var inhalt]
- *
- * @Access private
- * @Args array in['desc'] (Textbeschreibung)
- *               ['chk_var']  (Checkboxvariable)
- *               ['chk_val']  (Checkboxwert - "1" für angeklickt)
- *               ['tab']  (Einrückung)
- *       str input (Spezifische Formulardaten)
- * @Return str form (fertiges Formular mit allen Formatierungen)
- */
+  * Erzeugt
+  * [tab] [checkbox] [var ueberschrift] [var inhalt]
+  *
+  * @Access private
+  * @Args array in['desc'] (Textbeschreibung)
+  *               ['chk_var']  (Checkboxvariable)
+  *               ['chk_val']  (Checkboxwert - "1" für angeklickt)
+  *               ['tab']  (Einrückung)
+  *       str input (Spezifische Formulardaten)
+  * @Return str form (fertiges Formular mit allen Formatierungen)
+  */
 function mip_forms_abstrakt_chk($in, $input)
 {
 	global $mip_forms_tab;
 
 	$in['chk_val'] = ($in['chk_val'] == '1') ? 'checked': '';
-	if($in['chk_val'] =='checked'){
+	if($in['chk_val'] =='checked')
+	{
 		$check_var = '1';
-	}
-	else{
+	}else{
 		$check_var = '0';
 	}
 
@@ -216,50 +210,52 @@ function mip_forms_abstrakt_chk($in, $input)
 	{
 		$spaces .= sprintf($mip_forms_tab['tab'], '&nbsp;');
 	}
-    $spaces .= sprintf($mip_forms_tab['tab'], '<input type="checkbox" name="'. $in['chk_var'] .'" value="1"'. $in['chk_val'] .' /> ');
-    if ($check_var == '1') mip_forms_push_cache('to_array', $in['chk_var'], '1');
-    else  mip_forms_push_cache('to_array', $in['chk_var'], '');
-	$left_width = $mip_forms_tab['left_width'] - (($in['tab']+1) * 20);
-	$cont_left  = sprintf($mip_forms_tab['left'], $left_width, $in['desc']);
+    $spaces .= sprintf($mip_forms_tab['tab'], '<input type="checkbox" name="'. $in['chk_var'] .'" value="1"'. $in['chk_val'] .' />');
+    if($check_var == '1')
+      mip_forms_push_cache('to_array', $in['chk_var'], '1');
+    else
+      mip_forms_push_cache('to_array', $in['chk_var'], '');
+	
+	$cont_left  = $in['desc'];
 	$cont_left = $spaces .$cont_left;
 
-    $help = mip_forms_abstrakt_help($in['help'],$in['help_width'],$in['help_height']);
+  $help = mip_forms_abstrakt_help($in['help'],$in['help_width'],$in['help_height']);
 	$cont_right = sprintf($mip_forms_tab['right'], $input, $help);
 
-	$to_return = $mip_forms_tab['open'] . "\n" .
-					 $cont_left . "\n" .
-					 $cont_right . "\n" .
-					 $mip_forms_tab['close']. "\n\n" ;
+	$to_return = $mip_forms_tab['open']."\n".
+	         $mip_forms_tab['openlabel'].$cont_left.$mip_forms_tab['closelabel']."\n".
+					 $cont_right."\n".
+					 $mip_forms_tab['close']."\n\n";
 
 	return $to_return;
 }
 
 /**
- * Erzeugt das finale HTML- Form Radio - Beschreibung - Wert.
- * Der spezifische Inhalt wird mit den Argumenten übergeben.
- *
- * [tab] [checkbox] [var ueberschrift] [var inhalt]
- *
- * @Access private
- * @Args array in['desc'] (Textbeschreibung)
- *               ['radio_var']
- *               ['radio_val']  (Radiovariable)
- *               ['radio_user_val']  (Radiouservariable, wenn gleich
- *                                  radio_val ist der Radiobutton aktiviert)
- *               ['tab']  (Einrückung)
- *       str input (Spezifische Formulardaten)
- * @Return str form (fertiges Formular mit allen Formatierungen)
- */
+  * Erzeugt das finale HTML- Form Radio - Beschreibung - Wert.
+  * Der spezifische Inhalt wird mit den Argumenten übergeben.
+  *
+  * [tab] [checkbox] [var ueberschrift] [var inhalt]
+  *
+  * @Access private
+  * @Args array in['desc'] (Textbeschreibung)
+  *               ['radio_var']
+  *               ['radio_val']  (Radiovariable)
+  *               ['radio_user_val']  (Radiouservariable, wenn gleich
+  *                                  radio_val ist der Radiobutton aktiviert)
+  *               ['tab']  (Einrückung)
+  *       str input (Spezifische Formulardaten)
+  * @Return str form (fertiges Formular mit allen Formatierungen)
+  */
 function mip_forms_abstrakt_radio($in, $input)
 {
 	global $mip_forms_tab;
 
 	$in['radio_checked'] = ($in['radio_val'] == $in['radio_user_val']) ? 'checked': '';
-    if($in['radio_checked'] =='checked'){
-		$check_var = '1';
-	}
-	else{
-		$check_var = '0';
+    if($in['radio_checked'] =='checked')
+    {
+		  $check_var = '1';
+    }else{
+		  $check_var = '0';
 	}
 	$spaces= '';
 	for($i = 1; $i <= $in['tab']; $i++)
@@ -267,33 +263,33 @@ function mip_forms_abstrakt_radio($in, $input)
 		$spaces .= sprintf($mip_forms_tab['tab'], '&nbsp;');
 	}
 	$spaces .= sprintf($mip_forms_tab['tab'], '<input type="radio" class="radio" name="'. $in['radio_var'] .'" value="'. $in['radio_user_val'] .'"'. $in['radio_checked'] .' /> ');
-    if ($check_var == 1) mip_forms_push_cache('to_array', $in['radio_var'], $in['radio_user_val']);
-    $left_width = $mip_forms_tab['left_width'] - (($in['tab']+1) * 20);
-	$cont_left  = sprintf($mip_forms_tab['left'], $left_width, $in['desc']);
-	$cont_left = $spaces .$cont_left;
+    if($check_var == 1)
+      mip_forms_push_cache('to_array', $in['radio_var'], $in['radio_user_val']);
+      
+	    $cont_left  = $in['desc'];
+	    $cont_left = $spaces .$cont_left;
 
-    $help = mip_forms_abstrakt_help($in['help'],$in['help_width'],$in['help_height']);
-	$cont_right = sprintf($mip_forms_tab['right'], $input, $help);
+      $help = mip_forms_abstrakt_help($in['help'],$in['help_width'],$in['help_height']);
+	    $cont_right = sprintf($mip_forms_tab['right'], $input, $help);
 
-	$to_return = $mip_forms_tab['open'] . "\n" .
-					 $cont_left . "\n" .
-					 $cont_right . "\n" .
-					 $mip_forms_tab['close']. "\n\n" ;
-
+	    	$to_return = $mip_forms_tab['open']."\n".
+	         $mip_forms_tab['openlabel'].$cont_left.$mip_forms_tab['closelabel']."\n".
+					 $cont_right."\n".
+					 $mip_forms_tab['close']."\n\n";
+					 
 	return $to_return;
 }
-
 /**
- * Erzeugt
- * [tab] [var ueberschrift]
- *       [var inhalt]
- *
- * @Access private
- * @Args array in['desc'] (Textbeschreibung)
- *               ['tab']  (Einrückung)
- *       str input (Spezifische Formulardaten)
- * @Return str form (fertiges Formular mit allen Formatierungen)
- */
+  * Erzeugt
+  * [tab] [var ueberschrift]
+  *       [var inhalt]
+  *
+  * @Access private
+  * @Args array in['desc'] (Textbeschreibung)
+  *               ['tab']  (Einrückung)
+  *       str input (Spezifische Formulardaten)
+  * @Return str form (fertiges Formular mit allen Formatierungen)
+  */
 function mip_forms_abstraktl($in, $input)
 {
 	global $mip_forms_tab;
@@ -304,7 +300,7 @@ function mip_forms_abstraktl($in, $input)
 		$spaces .= sprintf($mip_forms_tab['tab'], '&nbsp;');
 	}
 
-    $help = mip_forms_abstrakt_help($in['help'],$in['help_width'],$in['help_height']);
+  $help = mip_forms_abstrakt_help($in['help'],$in['help_width'],$in['help_height']);
 	$cont_full  = sprintf($mip_forms_tab['full'], $in['desc'], $input, $help);
 	$cont_full = $spaces .$cont_full;
 
@@ -314,31 +310,30 @@ function mip_forms_abstraktl($in, $input)
 
 	return $to_return;
 }
-
 /**
- * Erzeugt das finale HTML- Form Checkbox - Beschreibung - langer Wert.
- *
- * [tab] [checkbox] [var ueberschrift]
- *                  [var inhalt]
- *
- * @Access private
- * @Args array in['desc'] (Textbeschreibung)
- *               ['chk_var'] (Checkboxvariable)
- *               ['chk_val'] (Checkboxwert "1" für angeklickt)
- *               ['tab'] (Einrückung)
- *       str input (Spezifische Formulardaten)
- * @Return str form      (fertiges Formular mit allen Formatierungen)
- */
+  * Erzeugt das finale HTML- Form Checkbox - Beschreibung - langer Wert.
+  *
+  * [tab] [checkbox] [var ueberschrift]
+  *                  [var inhalt]
+  *
+  * @Access private
+  * @Args array in['desc'] (Textbeschreibung)
+  *               ['chk_var'] (Checkboxvariable)
+  *               ['chk_val'] (Checkboxwert "1" für angeklickt)
+  *               ['tab'] (Einrückung)
+  *       str input (Spezifische Formulardaten)
+  * @Return str form      (fertiges Formular mit allen Formatierungen)
+  */
 function mip_forms_abstrakt_chkl($in, $input)
 {
 	global $mip_forms_tab;
 
 	$in['chk_val'] = ($in['chk_val'] == '1') ? 'checked': '';
-    if($in['chk_val'] =='checked'){
-		$check_var = '1';
-	}
-	else{
-		$check_var = '0';
+    if($in['chk_val'] =='checked')
+    {
+		  $check_var = '1';
+	  }else{
+		  $check_var = '0';
 	}
 	
 	$spaces= '';
@@ -346,149 +341,158 @@ function mip_forms_abstrakt_chkl($in, $input)
 	{
 		$spaces .= sprintf($mip_forms_tab['tab'], '&nbsp;');
 	}
-	$spaces .= sprintf($mip_forms_tab['tab'], '<input type="checkbox"  name="'. $in['chk_var'] .'" value="1"'. $in['chk_val'] .' /> <br />');
-    if ($check_var == '1') mip_forms_push_cache('to_array', $in['chk_var'], '1');
-    else  mip_forms_push_cache('to_array', $in['chk_var'], '');
+	$spaces .= sprintf($mip_forms_tab['tab'], '<input type="checkbox"  name="'. $in['chk_var'] .'" value="1"'. $in['chk_val'] .' />');
+    if($check_var == '1')
+      mip_forms_push_cache('to_array', $in['chk_var'], '1');
+    else
+      mip_forms_push_cache('to_array', $in['chk_var'], '');
     $help = mip_forms_abstrakt_help($in['help'],$in['help_width'],$in['help_height']);
-	$cont_full  = sprintf($mip_forms_tab['full'], $in['desc'], $input, $help);
-	$cont_full = $spaces .$cont_full;
 
-	$to_return = $mip_forms_tab['open'] . "\n" .
+	  $cont_full  = sprintf($mip_forms_tab['full'], $in['desc'], $input, $help);
+	  $cont_full = $spaces .$cont_full;
+
+	  $to_return = $mip_forms_tab['open'] . "\n" .
 					 $cont_full . "\n" .
 					 $mip_forms_tab['close']. "\n\n";
 
 	return $to_return;
 }
-
 /**
- * Erzeugt
- *
- * [tab] [Beschreibung]
- *       [Radiobutton x1] [Radiobuttonbeschreibung x1]
- *       [Radiobutton x2] [Radiobuttonbeschreibung x2]
- *       [Radiobutton x3] [Radiobuttonbeschreibung x3]
- *       ...           ...
- *
- * @Access private
- * @Args array in['desc'] (Textbeschreibung)
- *               ['radio_val'] (Radiovariable)
- *               ['radio_user_val'] (Radiouservariable, wenn gleich
- *                                  radio_val ist der Radiobutton aktiviert)
- *               ['tab'] (Einrückung)
- *       str input (Spezifische Formulardaten)
- * @Return str form      (fertiges Formular mit allen Formatierungen)
- */
+  * Erzeugt
+  *
+  * [tab] [Beschreibung]
+  *       [Radiobutton x1] [Radiobuttonbeschreibung x1]
+  *       [Radiobutton x2] [Radiobuttonbeschreibung x2]
+  *       [Radiobutton x3] [Radiobuttonbeschreibung x3]
+  *       ...           ...
+  *
+  * @Access private
+  * @Args array in['desc'] (Textbeschreibung)
+  *               ['radio_val'] (Radiovariable)
+  *               ['radio_user_val'] (Radiouservariable, wenn gleich
+  *                                  radio_val ist der Radiobutton aktiviert)
+  *               ['tab'] (Einrückung)
+  *       str input (Spezifische Formulardaten)
+  * @Return str form      (fertiges Formular mit allen Formatierungen)
+  */
 function mip_forms_abstrakt_radiol($in, $input)
 {
 	global $mip_forms_tab;
 
 	$in['radio_checked'] = ($in['radio_val'] == $in['radio_user_val']) ? 'checked': '';
-    if($in['radio_checked'] =='checked'){
-		$check_var = '1';
-	}
-	else{
-		$check_var = '0';
+    if($in['radio_checked'] =='checked')
+    {
+		  $check_var = '1';
+	  }else{
+		  $check_var = '0';
 	}
 	$spaces= '';
 	for($i = 1; $i <= $in['tab']; $i++)
 	{
 		$spaces .= sprintf($mip_forms_tab['tab'], '&nbsp;');
 	}
+/**
+$mip_forms_tab['open']  = '<p>';
+$mip_forms_tab['close']  = '</p>';
+$mip_forms_tab['openlabel']  = '<label>';
+$mip_forms_tab['closelabel']  = '</label>';
+$mip_forms_tab['right'] = '%s%s';
+$mip_forms_tab['full'] = '<label>%s</label>%s%s';
+$mip_forms_tab['tab'] = '%s';
+*/
     $help = mip_forms_abstrakt_help($in['help'],$in['help_width'],$in['help_height']);
-	$spaces .= sprintf($mip_forms_tab['tab'], '<input type="radio"  name="'. $in['radio_var'] .'" value="'. $in['radio_user_val'] .'"'. $in['radio_checked'] .'><br>&nbsp;', $help);
-    if ($check_var == '1') mip_forms_push_cache('to_array', $in['radio_var'], $in['radio_user_val']);
-	$cont_full  = sprintf($mip_forms_tab['full'], $in['desc'], $input, '');// 3rd parameter? wozu? help?
-	$cont_full = $spaces .$cont_full;
+	  $spaces .= sprintf($mip_forms_tab['tab'], '<input type="radio"  name="'. $in['radio_var'] .'" value="'. $in['radio_user_val'] .'"'. $in['radio_checked'] .'>', $help);
+  
+    if($check_var == '1')
+      mip_forms_push_cache('to_array', $in['radio_var'], $in['radio_user_val']);
+	    $cont_full  = sprintf($mip_forms_tab['full'], $in['desc'], $input, '');// 3rd parameter? wozu? help?
+	    $cont_full = $spaces .$cont_full;
 
-	$to_return = $mip_forms_tab['open'] . "\n" .
+	    $to_return = $mip_forms_tab['open'] . "\n" .
 					 $cont_full . "\n" .
 					 $mip_forms_tab['close']. "\n\n";
 
 	return $to_return;
 }
-
-
 /**
- * Erzeugt <select> [ein (mehrere) Options-Feld(er)] </select>.
- * Wird $in['option_desc'] nicht angegeben, wird
- * $in['option_val'] als Beschreibung ausgegeben.
- *
- * [Option x1] [Optionbeschreibung x1]
- * [Option x2] [Optionbeschreibung x2]
- * ...          ...
- *
- * @Access private
- * @Args array in['desc'] (Textbeschreibung)
- *               ['cms_val']  (Select-Feld Variable)
- *               ['cms_var']  (Aktueller Wert des Select- Feldes)
- *               ['option_desc'] (optional)  (Beschreibung einer Option)
- *               ['option_val']  (Wert einer Option)
- *               ['size'] (optional default ='1') (Breite des <select> - Tags)
- *               ['flag'] (optional, nur bei ['size'] > 1; Möglicher Wert: 'multiple')
- * @Return str selectbox (fertige Selectbox mit allen Formatierungen)
- */
+  * Erzeugt <select> [ein (mehrere) Options-Feld(er)] </select>.
+  * Wird $in['option_desc'] nicht angegeben, wird
+  * $in['option_val'] als Beschreibung ausgegeben.
+  *
+  * [Option x1] [Optionbeschreibung x1]
+  * [Option x2] [Optionbeschreibung x2]
+  * ...          ...
+  *
+  * @Access private
+  * @Args array in['desc'] (Textbeschreibung)
+  *               ['cms_val']  (Select-Feld Variable)
+  *               ['cms_var']  (Aktueller Wert des Select- Feldes)
+  *               ['option_desc'] (optional)  (Beschreibung einer Option)
+  *               ['option_val']  (Wert einer Option)
+  *               ['size'] (optional default ='1') (Breite des <select> - Tags)
+  *               ['flag'] (optional, nur bei ['size'] > 1; Möglicher Wert: 'multiple')
+  * @Return str selectbox (fertige Selectbox mit allen Formatierungen)
+  */
 function mip_forms_abstrakt_multi_option($in)
 {
 	$size = ($in['size'] != '') ? $in['size'] : '1';
 	$flag = ($size > 1 && trim($in['flag']) == 'multiple') ? 'multiple' : '';
 	$flag .= (trim($in['flag']) == 'reload') ? ' onchange="document.editform.action.value=\'change\';document.editform.submit();"' : '';
-	if($flag == 'multiple' && substr($in['cms_var'],-2) != '[]'){
+	if($flag == 'multiple' && substr($in['cms_var'],-2) != '[]')
+	{
 		$in['cms_var'] .= '[]';
 		$in['cms_val'] = ','.$in['cms_val'].',';
 	}
 	$array_count = count($in['option_val']);
 	$array_for_multiple = explode(',', $in['cms_val']);
-	
-	//filter double values
+//filter double values
 	$array_for_multiple = array_unique($array_for_multiple);
 
 	for($i = 0; $i < $array_count; $i++)
 	{
 		if( $in['option_val'][$i] == htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8')
-			|| ($flag == "multiple" && in_array($in['option_val'][$i], $array_for_multiple) ) ){
-			if(strlen(trim($in['option_desc'][$i])) > 0){
+			|| ($flag == "multiple" && in_array($in['option_val'][$i], $array_for_multiple)))
+    {
+			if(strlen(trim($in['option_desc'][$i])) > 0)
+			{
 				$options .= '<option selected value="'. $in['option_val'][$i] .'" >'. $in['option_desc'][$i] .'</option>'. "\n";
-			}
-			else{
+			}else{
 				$options .= '<option selected>'. $in['option_val'][$i] .'</option>'. "\n";
 			}
 			mip_forms_push_cache('to_array', $in['cms_var'], $in['option_val'][$i]);
-		}
-		else{
-			if(strlen(trim($in['option_desc'][$i])) > 0){
+		}else{
+			if(strlen(trim($in['option_desc'][$i])) > 0)
+			{
 				$options .= '<option value="'. $in['option_val'][$i] .'">'. $in['option_desc'][$i] .'</option>'. "\n";
-			}
-			else{
+			}else{
 				$options .= '<option>'. $in['option_val'][$i] .'</option>'. "\n";
 			}
 		}
-        if ($in['cms_val'] == '' && $i == 0) mip_forms_push_cache('to_array', $in['cms_var'], $in['option_val'][$i]);
+    if($in['cms_val'] == '' && $i == 0)
+      mip_forms_push_cache('to_array', $in['cms_var'], $in['option_val'][$i]);
 	}
 
 	$to_return = '<select name="'. $in['cms_var'] .'" size="'. $size .'" ' . $flag . '>' . "\n" . $options . ' </select>';
 
 	return $to_return;
-
 }
-
-
 /**
- * Erzeugt eine Auswahlliste mit Radiobuttons.
- * Wird $in['option_desc'] nicht angegeben, wird
- * $in['option_val'] als Beschreibung ausgegeben.
- *
- * [Radiobutton x1] [Radiobuttonbeschreibung x1]
- * [Radiobutton x2] [Radiobuttonbeschreibung x2]
- * ...          ...
- *
- * @Access Private
- * @Args array in['desc'] (Textbeschreibung)
- *               ['cms_val']  (Select-Feld Variable)
- *               ['cms_var']  (Aktueller Wert des Select- Feldes)
- *               ['option_desc'] (optional)  (Beschreibung einer Option)
- *               ['option_val']  (Wert einer Option)
- * @Return str selectbox (fertige Selectbox mit allen Formatierungen)
- */
+  * Erzeugt eine Auswahlliste mit Radiobuttons.
+  * Wird $in['option_desc'] nicht angegeben, wird
+  * $in['option_val'] als Beschreibung ausgegeben.
+  *
+  * [Radiobutton x1] [Radiobuttonbeschreibung x1]
+  * [Radiobutton x2] [Radiobuttonbeschreibung x2]
+  * ...          ...
+  *
+  * @Access Private
+  * @Args array in['desc'] (Textbeschreibung)
+  *               ['cms_val']  (Select-Feld Variable)
+  *               ['cms_var']  (Aktueller Wert des Select- Feldes)
+  *               ['option_desc'] (optional)  (Beschreibung einer Option)
+  *               ['option_val']  (Wert einer Option)
+  * @Return str selectbox (fertige Selectbox mit allen Formatierungen)
+  */
 function mip_forms_abstrakt_multi_radio($in)
 {
 	$array_count = count($in['option_val']);
@@ -497,19 +501,19 @@ function mip_forms_abstrakt_multi_radio($in)
 	{
 		if($in['option_val'][$i] == htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8')){
 			if(strlen(trim($in['option_desc'][$i])) > 0){
-				$options .= '<input type="radio" class="radio" checked="checked" name="' . $in['cms_var'] . '" value="'. $in['option_val'][$i] .'" /> '. $in['option_desc'][$i] .'<br />'. "\n";
+				$options .= '<input type="radio" class="radio" checked="checked" name="' . $in['cms_var'] . '" value="'. $in['option_val'][$i] .'" /> '. $in['option_desc'][$i]."\n";
             }
 			else{
-				$options .= '<input type="radio" class="radio" checked="checked" name="' . $in['cms_var'] . '" value="'. $in['option_val'][$i] .'" /> '. $in['option_val'][$i] .'<br />'. "\n";
+				$options .= '<input type="radio" class="radio" checked="checked" name="' . $in['cms_var'] . '" value="'. $in['option_val'][$i] .'" /> '. $in['option_val'][$i]."\n";
 			}
 			mip_forms_push_cache('to_array', $in['cms_var'], $in['option_val'][$i]);
 		}
 		else{
 			if(strlen(trim($in['option_desc'][$i])) > 0){
-				$options .= '<input type="radio" class="radio" name="' . $in['cms_var'] . '" value="'. $in['option_val'][$i] .'" /> '. $in['option_desc'][$i] .'<br />'. "\n";
+				$options .= '<input type="radio" class="radio" name="' . $in['cms_var'] . '" value="'. $in['option_val'][$i] .'" /> '. $in['option_desc'][$i]."\n";
 			}
 			else{
-				$options .= '<input type="radio" class="radio" name="' . $in['cms_var'] . '" value="'. $in['option_val'][$i] .'" /> '. $in['option_val'][$i] .'<br />'. "\n";
+				$options .= '<input type="radio" class="radio" name="' . $in['cms_var'] . '" value="'. $in['option_val'][$i] .'" /> '. $in['option_val'][$i]."\n";
 			}
 		}
 	}
@@ -519,37 +523,38 @@ function mip_forms_abstrakt_multi_radio($in)
 	return $to_return;
 
 }
-
-
 /**
- * Erzeugt mehrere checkboxen-Felder, die mit <br /> von einander getrennt
- * werden.
- *
- * [Checkbox x1] [Checkboxbeschreibung x1]
- * [Checkbox x2] [Checkboxbeschreibung x2]
- * ...          ...
- *
- * @Access Private
- * @Args array in['option_desc'][x] (Beschreibung einer Checkbox)
- *               ['option_var'][x]  (cms_var[x] einer Checkbox)
- *               ['option_val'][x]  (MOD_VALUE[x] einer Checkbox)
- *               ['option_val_select'][x]  (MOD_VALUE[x] einer Checkbox)
- * @Return str mutiple checkbox (fertige Selectboxen)
- */
+  * Erzeugt mehrere checkboxen-Felder, die mit <br /> von einander getrennt
+  * werden.
+  *
+  * [Checkbox x1] [Checkboxbeschreibung x1]
+  * [Checkbox x2] [Checkboxbeschreibung x2]
+  * ...          ...
+  *
+  * @Access Private
+  * @Args array in['option_desc'][x] (Beschreibung einer Checkbox)
+  *               ['option_var'][x]  (cms_var[x] einer Checkbox)
+  *               ['option_val'][x]  (MOD_VALUE[x] einer Checkbox)
+  *               ['option_val_select'][x]  (MOD_VALUE[x] einer Checkbox)
+  * @Return str mutiple checkbox (fertige Selectboxen)
+  */
 function mip_forms_abstrakt_multi_chk($in)
 {
+	global $mip_forms_tab;
+	
 	$array_count = count($in['option_val']);
 
 	for($i = 0; $i < $array_count; $i++)
 	{
 
-		if($in['option_val'][$i] == $in['option_val_select'][$i]){
-			 $options .= '<input type ="checkbox" checked="checked" name ="'. $in['option_var'][$i] .'" value="'. $in['option_val_select'][$i] .'" /> '. $in['option_desc'][$i] ."<br />\n";
+		if($in['option_val'][$i] == $in['option_val_select'][$i])
+		{
+			 $options .= '<input type ="checkbox" checked="checked" name ="'. $in['option_var'][$i] .'" value="'. $in['option_val_select'][$i] .'" />'.$mip_forms_tab['openlabel'].$in['option_desc'][$i].$mip_forms_tab['closelabel']."\n";
              mip_forms_push_cache('to_array', $in['option_var'][$i], $in['option_val_select'][$i]);
-        }
-		else{
-			 $options .= '<input type ="checkbox" name ="'. $in['option_var'][$i] .'" value="'. $in['option_val_select'][$i] .'" /> '. $in['option_desc'][$i] .'<br />'. "\n";
-        }
+    }else
+    {
+			 $options .= '<input type ="checkbox" name ="'. $in['option_var'][$i] .'" value="'. $in['option_val_select'][$i] .'" /> '.$mip_forms_tab['openlabel'].$in['option_desc'][$i].$mip_forms_tab['closelabel']."\n";
+    }
 	}
 
 	$to_return = $options;
@@ -557,45 +562,44 @@ function mip_forms_abstrakt_multi_chk($in)
 	return $to_return;
 
 }
-
 /**
-* Beschreibungsfelder
-*
-* Erzeugt ein Beschreibungstextfeld.
-* Das zu erzeugende Textfeld kann mit $in['type']
-* beinflusst werden.
-*
-* $in['type'] = '' (default)
-* [Beschreibung]
-*
-* $in['type'] = 'chk'
-* [Checkbox] [Beschreibung]
-*
-* $in['type'] = 'radio'
-* [Radiobutton] [Beschreibung]
-*
-* @Access Private
-* @Args array 	in['type'] (Textfeldtyp)
-*                ['desc'] (Textbeschreibung)
-*                ['chk_var'] (Checkboxvariable)
-*                            Nur $in['type'] = chk, chk_long
-*                ['chk_val'] (Checkboxwert  "1" für angeklickt)
-*                            Nur $in['type'] = chk, chk_long
-*                ['radio_var'] (Radiovariable)
-*                              Nur $in['type'] = radio, radio_long
-*                ['radio_val'] (Wert der Radiovariable)
-*                               Nur $in['type'] = radio, radio_long
-*                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
-*                                   ist der Radiobutton aktiviert)
-*                                   Nur $in['type'] = radio, radio_long
-*					  ['tab']  (Einrückung)
-* @Return string HTML-Tabelle mit Werten
-*/
+  * Beschreibungsfelder
+  *
+  * Erzeugt ein Beschreibungstextfeld.
+  * Das zu erzeugende Textfeld kann mit $in['type']
+  * beinflusst werden.
+  *
+  * $in['type'] = '' (default)
+  * [Beschreibung]
+  *
+  * $in['type'] = 'chk'
+  * [Checkbox] [Beschreibung]
+  *
+  * $in['type'] = 'radio'
+  * [Radiobutton] [Beschreibung]
+  *
+  * @Access Private
+  * @Args array 	in['type'] (Textfeldtyp)
+  *                ['desc'] (Textbeschreibung)
+  *                ['chk_var'] (Checkboxvariable)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['chk_val'] (Checkboxwert  "1" für angeklickt)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['radio_var'] (Radiovariable)
+  *                              Nur $in['type'] = radio, radio_long
+  *                ['radio_val'] (Wert der Radiovariable)
+  *                               Nur $in['type'] = radio, radio_long
+  *                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
+  *                                   ist der Radiobutton aktiviert)
+  *                                   Nur $in['type'] = radio, radio_long
+  *					  ['tab']  (Einrückung)
+  * @Return string HTML-Tabelle mit Werten
+  */
 function mip_forms_desc($in)
 {
-    global $mip_forms_to_array;
+  global $mip_forms_to_array;
     
-    $input = '';
+  $input = '';
 
 	switch($in['type'])
 	{
@@ -609,77 +613,74 @@ function mip_forms_desc($in)
 			$to_return = mip_forms_abstrakt_radiol($in, $input);
 			break;
 		default:
-			if ($mip_forms_to_array === true) return false;
-            else echo 'Fehler in mip_forms_desc()! $in[\'type\'] = '. $in['type'] . ' existiert nicht bei Beschreibungen!';
+			if($mip_forms_to_array === true)
+			  return false;
+      else 
+        echo 'Fehler in mip_forms_desc()! $in[\'type\'] = '. $in['type'] . ' existiert nicht bei Beschreibungen!';
 	}
-
-	//$to_return = str_replace('<br />', '', $to_return);
-
 	return $to_return;
 }
-
-
 /**
-* TEXTFELDER
-*
-* Erzeugt ein Formulartextfeld.
-* Das zu erzeugende Formularfeld kann mit $in['type']
-* beinflusst werden.
-*
-* $in['type'] = '' (default)
-* [Beschreibung] [Textbox]
-*
-* $in['type'] = 'chk'
-* [Checkbox] [Beschreibung] [Textbox]
-*
-* $in['type'] = 'radio'
-* [Radiobutton] [Beschreibung] [Textbox]
-*
-* $in['type'] = 'long'
-* [Beschreibung]
-* [Textbox]
-*
-* $in['type'] = 'chk_long'
-* [Checkbox] [Beschreibung]
-*            [Textbox]
-*
-* $in['type'] = 'radio_long'
-* [Radiobutton] [Beschreibung]
-*               [Textbox]
-*
-* @Access Private
-* @Args array 	in['type'] (Textfeldtyp)
-*                ['desc'] (Textbeschreibung)
-*                ['cms_var'] (Textfeldvariable)
-*                ['cms_val'] (Textfeldwert)
-*                ['chk_var'] (Checkboxvariable)
-*                            Nur $in['type'] = chk, chk_long
-*                ['chk_val'] (Checkboxwert  "1" für angeklickt)
-*                            Nur $in['type'] = chk, chk_long
-*                ['radio_var'] (Radiovariable)
-*                              Nur $in['type'] = radio, radio_long
-*                ['radio_val'] (Wert der Radiovariable)
-*                               Nur $in['type'] = radio, radio_long
-*                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
-*                                   ist der Radiobutton aktiviert)
-*                                   Nur $in['type'] = radio, radio_long
-*					  ['tab']  (Einrückung)
-* @Return string HTML-Tabelle mit Werten
-*/
+  * TEXTFELDER
+  *
+  * Erzeugt ein Formulartextfeld.
+  * Das zu erzeugende Formularfeld kann mit $in['type']
+  * beinflusst werden.
+  *
+  * $in['type'] = '' (default)
+  * [Beschreibung] [Textbox]
+  *
+  * $in['type'] = 'chk'
+  * [Checkbox] [Beschreibung] [Textbox]
+  *
+  * $in['type'] = 'radio'
+  * [Radiobutton] [Beschreibung] [Textbox]
+  *
+  * $in['type'] = 'long'
+  * [Beschreibung]
+  * [Textbox]
+  *
+  * $in['type'] = 'chk_long'
+  * [Checkbox] [Beschreibung]
+  *            [Textbox]
+  *
+  * $in['type'] = 'radio_long'
+  * [Radiobutton] [Beschreibung]
+  *               [Textbox]
+  *
+  * @Access Private
+  * @Args array 	in['type'] (Textfeldtyp)
+  *                ['desc'] (Textbeschreibung)
+  *                ['cms_var'] (Textfeldvariable)
+  *                ['cms_val'] (Textfeldwert)
+  *                ['chk_var'] (Checkboxvariable)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['chk_val'] (Checkboxwert  "1" für angeklickt)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['radio_var'] (Radiovariable)
+  *                              Nur $in['type'] = radio, radio_long
+  *                ['radio_val'] (Wert der Radiovariable)
+  *                               Nur $in['type'] = radio, radio_long
+  *                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
+  *                                   ist der Radiobutton aktiviert)
+  *                                   Nur $in['type'] = radio, radio_long
+  *					  ['tab']  (Einrückung)
+  * @Return string HTML-Tabelle mit Werten
+  */
 function mip_forms_txt($in)
 {
-    global $mip_forms_to_array;
+  global $mip_forms_to_array;
     
-    switch($in['type'])
+  switch($in['type'])
 	{
 		case 'long':
 		case 'chk_long':
 		case 'radio_long':
-			$input = '<input type ="text" name="'. $in['cms_var'] .'" value="'. htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8') .'" size="40" style="width:100%;min-width:100%"; /><br /> ';
+			$input = '<input type ="text" name="'. $in['cms_var'] .'" value="'. htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8') .'" size="40" style="width:100%;min-width:100%"; />';
 			mip_forms_push_cache('to_array', $in['cms_var'], htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8'));
 			break;
 		default:
-			$input = '<input type ="text" name="'. $in['cms_var'] .'" value="'. htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8') .'" size="40" class="default" /><br /> ';
+			$input = '<input type ="text" name="'. $in['cms_var'] .'" value="'. htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8') .'" size="40" class="default" />';
 			mip_forms_push_cache('to_array', $in['cms_var'], htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8'));
 	}
 
@@ -704,84 +705,86 @@ function mip_forms_txt($in)
 			$to_return = mip_forms_abstrakt_radiol($in, $input);
 			break;
 		default:
-			if ($mip_forms_to_array === true) return false;
-            else echo 'Fehler in mip_forms_txt()! $in[\'type\'] = '. $in['type'] . ' existiert nicht!';
+			if($mip_forms_to_array === true)
+			  return false;
+      else
+        echo 'Fehler in mip_forms_txt()! $in[\'type\'] = '. $in['type'] . ' existiert nicht!';
 	}
 
 	return $to_return;
 }
-
+/**
+  *
+  */
 function mip_forms_txtp($in)
 {
 	echo mip_forms_txt($in);
 }
-
-
-/*
-* OPTIONFELDER
-*
-* Erzeugt ein oder mehrere Formularoptionfeld(er).
-* Das zu erzeugende Formularfeld kann mit $in['type']
-* beinflusst werden.
-*
-* $in['type'] = '' (default)
-* [Beschreibung] [Option x1] [Optionbeschreibung x1]
-*                [Option x2] [Optionbeschreibung x2]
-*                ...           ...
-*
-* $in['type'] = 'chk'
-* [Option] [Beschreibung] [Option x1] [Optionbeschreibung x1]
-*                           [Option x2] [Optionbeschreibung x2]
-*                           ...           ...
-* $in['type'] = 'radio'
-* [Radiobutton] [Beschreibung] [Option x1] [Optionbeschreibung x1]
-*                              [Option x2] [Optionbeschreibung x2]
-*                              ...           ...
-*
-* $in['type'] = 'long'
-* [Beschreibung]
-* [Option x1] [Optionbeschreibung x1]
-* [Option x2] [Optionbeschreibung x2]
-* ...           ...
-*
-* $in['type'] = 'chk_long'
-* [Option] [Beschreibung]
-*            [Option x1] [Optionbeschreibung x1]
-*            [Option x2] [Optionbeschreibung x2]
-*            ...           ...
-*
-* $in['type'] = 'radio_long'
-* [Radiobutton] [Beschreibung]
-*               [Option x1] [Optionbeschreibung x1]
-*               [Option x2] [Optionbeschreibung x2]
-*               ...           ...
-*
-* @Access public
-* @Args array 	in['type'] (Optionfeldtyp)
-*                ['desc'] (Textbeschreibung)
-*                ['cms_var'] (Selectfeldvariable)
-*                ['cms_val'] (Selectfeldwert)
-*                ['chk_var'] (Checkboxvariable)
-*                            Nur $in['type'] = chk, chk_long
-*                ['chk_val'] (Checkboxwert  "1" für angeklickt)
-*                            Nur $in['type'] = chk, chk_long
-*                ['radio_var'] (Radiovariable)
-*                              Nur $in['type'] = radio, radio_long
-*                ['radio_val'] (Wert der Radiovariable)
-*                               Nur $in['type'] = radio, radio_long
-*                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
-*                                   ist der Radiobutton aktiviert)
-*                                   Nur $in['type'] = radio, radio_long
-*                ['option_desc'][x] (Beschreibung einer Option)
-*                ['option_val'][x] (MOD_VALUE[x] einer Option)
-*                ['tab']  (Einrückung)
-* @Return string HTML-Tabelle mit Werten
-*/
+/**
+  * OPTIONFELDER
+  *
+  * Erzeugt ein oder mehrere Formularoptionfeld(er).
+  * Das zu erzeugende Formularfeld kann mit $in['type']
+  * beinflusst werden.
+  *
+  * $in['type'] = '' (default)
+  * [Beschreibung] [Option x1] [Optionbeschreibung x1]
+  *                [Option x2] [Optionbeschreibung x2]
+  *                ...           ...
+  *
+  * $in['type'] = 'chk'
+  * [Option] [Beschreibung] [Option x1] [Optionbeschreibung x1]
+  *                           [Option x2] [Optionbeschreibung x2]
+  *                           ...           ...
+  * $in['type'] = 'radio'
+  * [Radiobutton] [Beschreibung] [Option x1] [Optionbeschreibung x1]
+  *                              [Option x2] [Optionbeschreibung x2]
+  *                              ...           ...
+  *
+  * $in['type'] = 'long'
+  * [Beschreibung]
+  * [Option x1] [Optionbeschreibung x1]
+  * [Option x2] [Optionbeschreibung x2]
+  * ...           ...
+  *
+  * $in['type'] = 'chk_long'
+  * [Option] [Beschreibung]
+  *            [Option x1] [Optionbeschreibung x1]
+  *            [Option x2] [Optionbeschreibung x2]
+  *            ...           ...
+  *
+  * $in['type'] = 'radio_long'
+  * [Radiobutton] [Beschreibung]
+  *               [Option x1] [Optionbeschreibung x1]
+  *               [Option x2] [Optionbeschreibung x2]
+  *               ...           ...
+  *
+  * @Access public
+  * @Args array 	in['type'] (Optionfeldtyp)
+  *                ['desc'] (Textbeschreibung)
+  *                ['cms_var'] (Selectfeldvariable)
+  *                ['cms_val'] (Selectfeldwert)
+  *                ['chk_var'] (Checkboxvariable)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['chk_val'] (Checkboxwert  "1" für angeklickt)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['radio_var'] (Radiovariable)
+  *                              Nur $in['type'] = radio, radio_long
+  *                ['radio_val'] (Wert der Radiovariable)
+  *                               Nur $in['type'] = radio, radio_long
+  *                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
+  *                                   ist der Radiobutton aktiviert)
+  *                                   Nur $in['type'] = radio, radio_long
+  *                ['option_desc'][x] (Beschreibung einer Option)
+  *                ['option_val'][x] (MOD_VALUE[x] einer Option)
+  *                ['tab']  (Einrückung)
+  * @Return string HTML-Tabelle mit Werten
+  */
 function mip_forms_option($in)
 {
-    global $mip_forms_to_array;
+  global $mip_forms_to_array;
     
-    $input = mip_forms_abstrakt_multi_option($in);
+  $input = mip_forms_abstrakt_multi_option($in);
 
 	switch($in['type'])
 	{
@@ -807,84 +810,86 @@ function mip_forms_option($in)
 			$to_return = $input;
 			break;
 		default:
-			if ($mip_forms_to_array === true) return false;
-            else echo 'mip_forms - Fehler! $in[\'type\'] = '. $in['type'] . ' existiert nicht!';
+			if($mip_forms_to_array === true)
+			  return false;
+      else
+        echo 'mip_forms - Fehler! $in[\'type\'] = '. $in['type'] . ' existiert nicht!';
 	}
 
 	return $to_return;
 }
-
+/**
+  *
+  */
 function mip_forms_optionp($in)
 {
 	echo mip_forms_option($in);
 }
-
-
 /**
-* CHECKBOXEN
-*
-* Erzeugt ein oder mehrere Formularfeld(er).
-* Das zu erzeugende Formularfeld kann mit $in['type']
-* beinflusst werden.
-*
-* $in['type'] = '' (default)
-* [Beschreibung] [Checkbox x1] [Checkboxbeschreibung x1]
-*                [Checkbox x2] [Checkboxbeschreibung x2]
-*                ...           ...
-*
-* $in['type'] = 'chk'
-* [Checkbox] [Beschreibung] [Checkbox x1] [Checkboxbeschreibung x1]
-*                           [Checkbox x2] [Checkboxbeschreibung x2]
-*                           ...           ...
-* $in['type'] = 'radio'
-* [Radiobutton] [Beschreibung] [Checkbox x1] [Checkboxbeschreibung x1]
-*                              [Checkbox x2] [Checkboxbeschreibung x2]
-*                              ...           ...
-*
-* $in['type'] = 'long'
-* [Beschreibung]
-* [Checkbox x1] [Checkboxbeschreibung x1]
-* [Checkbox x2] [Checkboxbeschreibung x2]
-* ...           ...
-*
-* $in['type'] = 'chk_long'
-* [Checkbox] [Beschreibung]
-*            [Checkbox x1] [Checkboxbeschreibung x1]
-*            [Checkbox x2] [Checkboxbeschreibung x2]
-*            ...           ...
-*
-* $in['type'] = 'radio_long'
-* [Radiobutton] [Beschreibung]
-*               [Checkbox x1] [Checkboxbeschreibung x1]
-*               [Checkbox x2] [Checkboxbeschreibung x2]
-*               ...           ...
-*
-* @Access Private
-* @Args array 	in['type'] (Checkboxfeldtyp)
-*                ['desc'] (Textbeschreibung)
-*                ['chk_var'] (Checkboxvariable)
-*                            Nur $in['type'] = chk, chk_long
-*                ['chk_val'] (Checkboxwert  "1" für angeklickt)
-*                            Nur $in['type'] = chk, chk_long
-*                ['radio_var'] (Radiovariable)
-*                              Nur $in['type'] = radio, radio_long
-*                ['radio_val'] (Wert der Radiovariable)
-*                               Nur $in['type'] = radio, radio_long
-*                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
-*                                   ist der Radiobutton aktiviert)
-*                                   Nur $in['type'] = radio, radio_long
-*                ['option_desc'][x] (Beschreibung einer Checkbox)
-*                ['option_var'][x] (cms_var[x] einer Checkbox)
-*                ['option_val'][x] (MOD_VALUE[x] einer Checkbox)
-*                ['option_val_select'][x] (Wert einer Checkbox)
-*                ['tab']  (Einrückung)
-* @Return string HTML-Tabelle mit Formelement(en)
-*/
+  * CHECKBOXEN
+  *
+  * Erzeugt ein oder mehrere Formularfeld(er).
+  * Das zu erzeugende Formularfeld kann mit $in['type']
+  * beinflusst werden.
+  *
+  * $in['type'] = '' (default)
+  * [Beschreibung] [Checkbox x1] [Checkboxbeschreibung x1]
+  *                [Checkbox x2] [Checkboxbeschreibung x2]
+  *                ...           ...
+  *
+  * $in['type'] = 'chk'
+  * [Checkbox] [Beschreibung] [Checkbox x1] [Checkboxbeschreibung x1]
+  *                           [Checkbox x2] [Checkboxbeschreibung x2]
+  *                           ...           ...
+  * $in['type'] = 'radio'
+  * [Radiobutton] [Beschreibung] [Checkbox x1] [Checkboxbeschreibung x1]
+  *                              [Checkbox x2] [Checkboxbeschreibung x2]
+  *                              ...           ...
+  *
+  * $in['type'] = 'long'
+  * [Beschreibung]
+  * [Checkbox x1] [Checkboxbeschreibung x1]
+  * [Checkbox x2] [Checkboxbeschreibung x2]
+  * ...           ...
+  *
+  * $in['type'] = 'chk_long'
+  * [Checkbox] [Beschreibung]
+  *            [Checkbox x1] [Checkboxbeschreibung x1]
+  *            [Checkbox x2] [Checkboxbeschreibung x2]
+  *            ...           ...
+  *
+  * $in['type'] = 'radio_long'
+  * [Radiobutton] [Beschreibung]
+  *               [Checkbox x1] [Checkboxbeschreibung x1]
+  *               [Checkbox x2] [Checkboxbeschreibung x2]
+  *               ...           ...
+  *
+  * @access Private
+  * @args array 	in['type'] (Checkboxfeldtyp)
+  *                ['desc'] (Textbeschreibung)
+  *                ['chk_var'] (Checkboxvariable)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['chk_val'] (Checkboxwert  "1" für angeklickt)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['radio_var'] (Radiovariable)
+  *                              Nur $in['type'] = radio, radio_long
+  *                ['radio_val'] (Wert der Radiovariable)
+  *                               Nur $in['type'] = radio, radio_long
+  *                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
+  *                                   ist der Radiobutton aktiviert)
+  *                                   Nur $in['type'] = radio, radio_long
+  *                ['option_desc'][x] (Beschreibung einer Checkbox)
+  *                ['option_var'][x] (cms_var[x] einer Checkbox)
+  *                ['option_val'][x] (MOD_VALUE[x] einer Checkbox)
+  *                ['option_val_select'][x] (Wert einer Checkbox)
+  *                ['tab']  (Einrückung)
+  * @return string HTML-Tabelle mit Formelement(en)
+  */
 function mip_forms_chk($in)
 {
-    global $mip_forms_to_array;
+  global $mip_forms_to_array;
     
-    $input = mip_forms_abstrakt_multi_chk($in);
+  $input = mip_forms_abstrakt_multi_chk($in);
 
 	switch($in['type'])
 	{
@@ -907,77 +912,75 @@ function mip_forms_chk($in)
 			$to_return = mip_forms_abstrakt_radiol($in, $input);
 			break;
 		default:
-			if ($mip_forms_to_array === true) return false;
-            else echo 'mip_forms - Fehler! $in[\'type\'] = '. $in['type'] . ' existiert nicht!';
+	  if($mip_forms_to_array === true)
+	    return false;
+    else
+      echo 'mip_forms - Fehler! $in[\'type\'] = '. $in['type'] . ' existiert nicht!';
 	}
-
-	return $to_return;
+  return $to_return;
 }
-
-
-
 /**
-* RADIOS
-*
-*
-* $in['type'] = '' (default)
-* [Beschreibung] [Radiobutton x1] [Radiobuttonbeschreibung x1]
-*                [Radiobutton x2] [Radiobuttonbeschreibung x2]
-*                ...           ...
-*
-* $in['type'] = 'chk'
-* [Radiobutton] [Beschreibung] [Radiobutton x1] [Radiobuttonbeschreibung x1]
-*                           [Radiobutton x2] [Radiobuttonbeschreibung x2]
-*                           ...           ...
-* $in['type'] = 'radio'
-* [Radiobutton] [Beschreibung] [Radiobutton x1] [Radiobuttonbeschreibung x1]
-*                              [Radiobutton x2] [Radiobuttonbeschreibung x2]
-*                              ...           ...
-*
-* $in['type'] = 'long'
-* [Beschreibung]
-* [Radiobutton x1] [Radiobuttonbeschreibung x1]
-* [Radiobutton x2] [Radiobuttonbeschreibung x2]
-* ...           ...
-*
-* $in['type'] = 'chk_long'
-* [Radiobutton] [Beschreibung]
-*            [Radiobutton x1] [Radiobuttonbeschreibung x1]
-*            [Radiobutton x2] [Radiobuttonbeschreibung x2]
-*            ...           ...
-*
-* $in['type'] = 'radio_long'
-* [Radiobutton] [Beschreibung]
-*               [Radiobutton x1] [Radiobuttonbeschreibung x1]
-*               [Radiobutton x2] [Radiobuttonbeschreibung x2]
-*               ...           ...
-*
-* @Access public
-* @Args array 	in['type'] (Feldtyp)
-*                ['desc'] (Textbeschreibung)
-*                ['cms_var'] (Selectfeldvariable)
-*                ['cms_val'] (Selectfeldwert)
-*                ['chk_var'] (Checkboxvariable)
-*                            Nur $in['type'] = chk, chk_long
-*                ['chk_val'] (Checkboxwert  "1" für angeklickt)
-*                            Nur $in['type'] = chk, chk_long
-*                ['radio_var'] (Radiovariable)
-*                              Nur $in['type'] = radio, radio_long
-*                ['radio_val'] (Wert der Radiovariable)
-*                               Nur $in['type'] = radio, radio_long
-*                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
-*                                   ist der Radiobutton aktiviert)
-*                                   Nur $in['type'] = radio, radio_long
-*                ['option_desc'][x] (Beschreibung des Radios)
-*                ['option_val'][x] (Wert eines Radios - NICHT MOD_VAR[x]!!!
-*                ['tab']  (Einrückung)
-* @Return string form in tabelle
-*/
+  * RADIOS
+  *
+  *
+  * $in['type'] = '' (default)
+  * [Beschreibung] [Radiobutton x1] [Radiobuttonbeschreibung x1]
+  *                [Radiobutton x2] [Radiobuttonbeschreibung x2]
+  *                ...           ...
+  *
+  * $in['type'] = 'chk'
+  * [Radiobutton] [Beschreibung] [Radiobutton x1] [Radiobuttonbeschreibung x1]
+  *                           [Radiobutton x2] [Radiobuttonbeschreibung x2]
+  *                           ...           ...
+  * $in['type'] = 'radio'
+  * [Radiobutton] [Beschreibung] [Radiobutton x1] [Radiobuttonbeschreibung x1]
+  *                              [Radiobutton x2] [Radiobuttonbeschreibung x2]
+  *                              ...           ...
+  *
+  * $in['type'] = 'long'
+  * [Beschreibung]
+  * [Radiobutton x1] [Radiobuttonbeschreibung x1]
+  * [Radiobutton x2] [Radiobuttonbeschreibung x2]
+  * ...           ...
+  *
+  * $in['type'] = 'chk_long'
+  * [Radiobutton] [Beschreibung]
+  *            [Radiobutton x1] [Radiobuttonbeschreibung x1]
+  *            [Radiobutton x2] [Radiobuttonbeschreibung x2]
+  *            ...           ...
+  *
+  * $in['type'] = 'radio_long'
+  * [Radiobutton] [Beschreibung]
+  *               [Radiobutton x1] [Radiobuttonbeschreibung x1]
+  *               [Radiobutton x2] [Radiobuttonbeschreibung x2]
+  *               ...           ...
+  *
+  * @access public
+  * @args array 	in['type'] (Feldtyp)
+  *                ['desc'] (Textbeschreibung)
+  *                ['cms_var'] (Selectfeldvariable)
+  *                ['cms_val'] (Selectfeldwert)
+  *                ['chk_var'] (Checkboxvariable)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['chk_val'] (Checkboxwert  "1" für angeklickt)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['radio_var'] (Radiovariable)
+  *                              Nur $in['type'] = radio, radio_long
+  *                ['radio_val'] (Wert der Radiovariable)
+  *                               Nur $in['type'] = radio, radio_long
+  *                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
+  *                                   ist der Radiobutton aktiviert)
+  *                                   Nur $in['type'] = radio, radio_long
+  *                ['option_desc'][x] (Beschreibung des Radios)
+  *                ['option_val'][x] (Wert eines Radios - NICHT MOD_VAR[x]!!!
+  *                ['tab']  (Einrückung)
+  * @return string form in tabelle
+  */
 function mip_forms_radio($in)
 {
-    global $mip_forms_to_array;
+  global $mip_forms_to_array;
     
-    $input = mip_forms_abstrakt_multi_radio($in);
+  $input = mip_forms_abstrakt_multi_radio($in);
 
 	switch($in['type'])
 	{
@@ -1000,74 +1003,73 @@ function mip_forms_radio($in)
 			$to_return = mip_forms_abstrakt_radiol($in, $input);
 			break;
 		default:
-			if ($mip_forms_to_array === true) return false;
-            else echo 'mip_forms - Fehler! $in[\'type\'] = '. $in['type'] . ' existiert nicht!';
+	  if($mip_forms_to_array === true)
+	    return false;
+    else
+      echo 'mip_forms - Fehler! $in[\'type\'] = '. $in['type'] . ' existiert nicht!';
 	}
-
 	return $to_return;
 }
-
-
-
 /**
-* TEXTAREAS
-*
-* Erzeugt eine Textarea.
-* Wird kein Wert $in['rows'] angegeben, ist der
-* defaultwert = '5'
-* Das zu erzeugende Formularfeld kann mit $in['type']
-* beinflusst werden.
-*
-* $in['type'] = '' (default)
-* [Beschreibung] [Textarea]
-*
-* $in['type'] = 'chk'
-* [Checkbox] [Beschreibung] [Textarea]
-*
-* $in['type'] = 'radio'
-* [Radiobutton] [Beschreibung] [Textarea]
-*
-* $in['type'] = 'long'
-* [Beschreibung]
-* [Textarea]
-*
-* $in['type'] = 'chk_long'
-* [Checkbox] [Beschreibung]
-*            [Textarea]
-*
-* $in['type'] = 'radio_long'
-* [Radiobutton] [Beschreibung]
-*               [Textarea]
-*
-* @Access Private
-* @Args array 	in['type'] (Textareatyp)
-*                ['desc'] (Textareabeschreibung)
-*                ['cms_var'] (MOD_VAR[x])
-*                ['cms_val'] (MOD_VALUE[x])
-*                ['rows'] (optional, default = '5')(Textareahoehe in Textzeilen)
-*                ['chk_var'] (Checkboxvariable)
-*                            Nur $in['type'] = chk, chk_long
-*                ['chk_val'] (Checkboxwert  "1" für angeklickt)
-*                            Nur $in['type'] = chk, chk_long
-*                ['radio_var'] (Radiovariable)
-*                              Nur $in['type'] = radio, radio_long
-*                ['radio_val'] (Wert der Radiovariable)
-*                               Nur $in['type'] = radio, radio_long
-*                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
-*                                   ist der Radiobutton aktiviert)
-*                                   Nur $in['type'] = radio, radio_long
-*					  ['tab']  (Einrückung)
-* @Return string HTML-textarea form in tabelle
-*
-*/
+  * TEXTAREAS
+  *
+  * Erzeugt eine Textarea.
+  * Wird kein Wert $in['rows'] angegeben, ist der
+  * defaultwert = '5'
+  * Das zu erzeugende Formularfeld kann mit $in['type']
+  * beinflusst werden.
+  *
+  * $in['type'] = '' (default)
+  * [Beschreibung] [Textarea]
+  *
+  * $in['type'] = 'chk'
+  * [Checkbox] [Beschreibung] [Textarea]
+  *
+  * $in['type'] = 'radio'
+  * [Radiobutton] [Beschreibung] [Textarea]
+  *
+  * $in['type'] = 'long'
+  * [Beschreibung]
+  * [Textarea]
+  *
+  * $in['type'] = 'chk_long'
+  * [Checkbox] [Beschreibung]
+  *            [Textarea]
+  *
+  * $in['type'] = 'radio_long'
+  * [Radiobutton] [Beschreibung]
+  *               [Textarea]
+  *
+  * @access Private
+  * @args array 	in['type'] (Textareatyp)
+  *                ['desc'] (Textareabeschreibung)
+  *                ['cms_var'] (MOD_VAR[x])
+  *                ['cms_val'] (MOD_VALUE[x])
+  *                ['rows'] (optional, default = '5')(Textareahoehe in Textzeilen)
+  *                ['chk_var'] (Checkboxvariable)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['chk_val'] (Checkboxwert  "1" für angeklickt)
+  *                            Nur $in['type'] = chk, chk_long
+  *                ['radio_var'] (Radiovariable)
+  *                              Nur $in['type'] = radio, radio_long
+  *                ['radio_val'] (Wert der Radiovariable)
+  *                               Nur $in['type'] = radio, radio_long
+  *                ['radio_user_val'] (Radiouservariable, wenn gleich ['radio_val']
+  *                                   ist der Radiobutton aktiviert)
+  *                                   Nur $in['type'] = radio, radio_long
+  *					  ['tab']  (Einrückung)
+  * @return string HTML-textarea form in tabelle
+  *
+  */
 function mip_forms_txtarea($in)
 {
-    global $mip_forms_to_array;
+  global $mip_forms_to_array;
     
-    $rows = ($in['rows'] != '') ? $in['rows']: '5';
+  $rows = ($in['rows'] != '') ? $in['rows']: '5';
 
 	$input = '<textarea name="'. $in['cms_var'] .'" cols="30" wrap="off" rows="'. $rows .'" class="template">'. htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8') .'</textarea>';
     mip_forms_push_cache('to_array', $in['cms_var'], htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8'));
+	
 	switch($in['type'])
 	{
 		case '':
@@ -1089,30 +1091,28 @@ function mip_forms_txtarea($in)
 			$to_return = mip_forms_abstrakt_radiol($in, $input);
 			break;
 		default:
-			if ($mip_forms_to_array === true) return false;
-            else echo 'Fehler in mip_forms() [txtarea]! $in[\'type\'] = '. $in['type'] . ' existiert nicht!';
+			if($mip_forms_to_array === true)
+			  return false;
+      else
+        echo 'Fehler in mip_forms() [txtarea]! $in[\'type\'] = '. $in['type'] . ' existiert nicht!';
 	}
-
 	return $to_return;
 }
-
-
 /**
-* HIDDEN
-*
-* Gibt aus
-* [hiddenformularfeld]
-*
-* @Access private
-* @Args array 	[i_var] (MOD_VAR[X])
-*              [i_val] (Benutzerwert für MOD_VAR[X])
-* @Return Formularhiddenfeld
-*/
+  * HIDDEN
+  *
+  * Gibt aus
+  * [hiddenformularfeld]
+  *
+  * @access private
+  * @args array  [i_var] (MOD_VAR[X])
+  *              [i_val] (Benutzerwert für MOD_VAR[X])
+  * @return Formularhiddenfeld
+  */
 function mip_forms_hidden($in)
 {
 	$input = '<input type ="hidden" name="'. $in['cms_var'] .'" value="'. htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8') .'" /> '."\n";
     mip_forms_push_cache('to_array', $in['cms_var'], htmlentities($in['cms_val'], ENT_COMPAT, 'UTF-8'));
 	return $input;
 }
-
 ?>

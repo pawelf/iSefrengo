@@ -552,6 +552,29 @@ left:2px;
     background:#000;
 }
 
+/* DIR
+---------------------------------------*/
+.actions .dir a:before {
+    left:8px;
+    margin-top:-5px;
+    width:12px;
+    height:2px;
+    border-width:4px 0;
+    border-style:double;
+    border-color:#730800;
+    background:transparent;
+}
+
+
+.dir a:hover:before,
+.dir a:focus:before,
+.dir a:active:before,
+.dir a:hover:after,
+.dir a:focus:after,
+.dir a:active:after {
+    border-color:#000;
+    background:transparent;
+}
 /* QUICKUP/ QUICKDOWN
 ---------------------------------------*/
 .actions li.quickdown, .actions li.quickup, .actions li.quicktop, .actions li.quickbottom{height:14px}

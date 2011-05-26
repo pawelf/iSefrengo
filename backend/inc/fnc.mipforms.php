@@ -220,35 +220,58 @@ function mip_forms_ob_end_clean()
 }
 
 
-function mip_forms_tabpane_beginp()
+function mip_forms_tabpane_beginp($arr)
 {
-    global $mip_forms_layerid, $idmod, $idtpl, $value, $mip_forms_layerid_stack, $key, $area, $cms_mod;
+    global $mip_forms_layerid, $idmod, $idtpl, $value,
+    $mip_forms_layerid_stack, $key, $area, $cms_mod,$test,$testa,$testaa;
 
     $ebene = '';
     if (isset($mip_forms_layerid) && ($mip_forms_layerid != '')) {
-        if (is_array ($mip_forms_layerid_stack))
+        if (is_array ($mip_forms_layerid_stack)) 
         {
             $ebene = array_push($mip_forms_layerid_stack,$mip_forms_layerid);
         } else {
             $mip_forms_layerid_stack[] = $mip_forms_layerid;
             $ebene = '0';
         }
-
+        
     }
     if (($area=='con_configside') || ($area=='con_configcat')){
-        $temp_mod = (int)$key ;
+        $temp_mod = (int)$key ;   
     } else {
-        $temp_mod = (int)$idmod;
+        $temp_mod = (int)$idmod;    
     }
     $mip_forms_layerid = (int)$idtpl.'_'.(int)$temp_mod.'_'.(int)$value.'_'.$area;
     $mip_forms_layerid = base64_encode ($mip_forms_layerid);
     $mip_forms_layerid = str_replace(array('+','/','='),array('-','_',''),$mip_forms_layerid);
-    $mip_forms_layerid = 'tp_'.$mip_forms_layerid.'_'.$ebene;
+    $mip_forms_layerid = 'tp_'.$mip_forms_layerid;
     $mip_forms_pageid = 0;
-    echo '<div class="sftabs">';
-    echo '<ul class="menu">';
+    echo "<div class=\"sftabs\">\n";
+    echo "  <ul class=\"menu\">\n";
+   global $mip_forms_layerid,$test;
+    
+  foreach ($arr as $v){
+    $id = $mip_forms_layerid.'_'.$v;
+    echo "<li><a href=\"#item-".$id."\">".$v."</a></li>\n";
 
 }
+echo "</ul>\n";
+
+}
+
+function mip_forms_tabitem_beginp($name,$scroll = false)
+{
+    global $mip_forms_layerid,$test;
+    $id = $mip_forms_layerid.'_'.$name;
+    echo '<div id="item-'.$id.'">'; 
+    // $test .="<li><a href=\"#item-".$id."\">".$name."</a></li>\n";
+}
+
+
+function mip_forms_tabitem_endp()
+{
+    echo "</div>\n";
+} 
 
 function mip_forms_tabpane_endp()
 {
@@ -262,40 +285,8 @@ function mip_forms_tabpane_endp()
              unset($mip_forms_layerid_stack);
         }
     }
-    unset ($mip_forms_layerid);
+    unset ($mip_forms_layerid,$test);
 
-     echo '</ul>';
-    echo '</div>';
-
-
+    echo "</div>\n";
 }
-
-function mip_forms_tabitem_beginp($name,$scroll = false)
-{
-    global $mip_forms_layerid,$mip_forms_pageid;
-
-    $mip_forms_pageid += 1;
-    $id = $mip_forms_layerid.'_'.$mip_forms_pageid;
-    if ($scroll)
-    {
-        $scroll_text = ' scrollpage';
-    } else {
-        $scroll_text = '';
-    }
-
-     echo '<li id="item-'.$id.'">';
-     echo '<a href="#item-'.$id.'">'.$name.'</a>';
-     echo '<div>';
-
-    //echo '<div class="tab-page'.$scroll_text.'" id="'.$id.'">';
-    //echo '<h2 class="tab" onfocus="this.blur()">'.$name.'</h2>';
-    //echo '<script type="text/javascript">'.$mip_forms_layerid.'.addTabPage( document.getElementById( "'.$id.'" ) );</script>';
-}
-
-function mip_forms_tabitem_endp()
-{
-    echo '</div>';
-    echo '</li>';
-} 
-
 ?>

@@ -1,0 +1,62 @@
+#encode '{table_prefix}' with your Settings
+ALTER TABLE `{table_prefix}plug_articlesystem` CHANGE `idcategory` `idcategory` TEXT NOT NULL;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `archived` int(1) NOT NULL default '0';
+ALTER TABLE `{table_prefix}plug_articlesystem_elements` ADD `idclient` int(6) NOT NULL default '0';
+ALTER TABLE `{table_prefix}plug_articlesystem_elements` ADD `idlang` int(6) NOT NULL default '0';
+ALTER TABLE `{table_prefix}plug_articlesystem_elements` ADD `value_uni` TEXT AFTER `value_txt`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom11` TEXT AFTER `custom10`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom12` TEXT AFTER `custom11`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom13` TEXT AFTER `custom12`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom14` TEXT AFTER `custom13`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom15` TEXT AFTER `custom14`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom16` TEXT AFTER `custom15`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom17` TEXT AFTER `custom16`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom18` TEXT AFTER `custom17`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom19` TEXT AFTER `custom18`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom20` TEXT AFTER `custom19`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom21` TEXT AFTER `custom20`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom22` TEXT AFTER `custom21`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom23` TEXT AFTER `custom22`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom24` TEXT AFTER `custom23`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom25` TEXT AFTER `custom24`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom26` TEXT AFTER `custom25`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom27` TEXT AFTER `custom26`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom28` TEXT AFTER `custom27`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom29` TEXT AFTER `custom28`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom30` TEXT AFTER `custom29`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom31` TEXT AFTER `custom30`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom32` TEXT AFTER `custom31`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom33` TEXT AFTER `custom32`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom34` TEXT AFTER `custom33`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `custom35` TEXT AFTER `custom34`;
+ALTER TABLE `{table_prefix}plug_articlesystem` ADD `protected` int(1) default '0' AFTER `archived`;
+
+
+DELETE FROM {table_prefix}values WHERE group_name = 'user_perms' AND conf_desc_langstring like 'group_area_plug_articlesystem_1';
+DELETE FROM {table_prefix}values WHERE group_name = 'lang' AND key1 like 'group_area_plug_articlesystem_1';
+
+
+#articlesystem rechte
+INSERT INTO {table_prefix}values VALUES ('', 0, 0, 'user_perms', 'area_plug_articlesystem', '1', NULL, NULL, '1', 10, 'group_area_plug_articlesystem_1', '', 'txt', NULL, NULL, 0);
+
+# Sprachstring fuer Rechte
+INSERT INTO {table_prefix}values VALUES ('', 0, 0, 'lang', 'group_area_plug_articlesystem_1', '', '', '', 'Kategorien verwalten', 0, NULL, NULL, 'txt', NULL, NULL, 0);
+
+
+DELETE FROM {table_prefix}backendmenu WHERE entry_langstring IN('nav_articlesystem_admin');
+DELETE FROM {table_prefix}values WHERE group_name = 'lang' AND key1 like 'group_area_plug_articlesystem_admin';
+DELETE FROM {table_prefix}values WHERE group_name = 'lang' AND key1 like 'nav_articlesystem_admin';
+DELETE FROM {table_prefix}values WHERE group_name = 'user_perms' AND key2 like 'area_plug_articlesystem_admin';
+
+# Admin
+# Sprachstring fuer Menueeintrag
+INSERT INTO {table_prefix}values VALUES ('', {client_id}, 0, 'lang', 'nav_articlesystem_admin', '', '', '', 'Artikelsystem', 0, NULL, NULL, 'txt', NULL, NULL, 0);
+
+# Men�eintr�ge ins backendmen� hinzuf�gen
+INSERT INTO {table_prefix}backendmenu VALUES ('', 3, {client_id}, 60, 'nav_articlesystem_admin', 'main.php?area=plugin&cms_plugin=articlesystem/admin/index.php&subarea=admin', 'single', '$perm->have_perm(\'area_plug_articlesystem_admin\')');
+
+# Sprachstring fuer Recht
+INSERT INTO {table_prefix}values VALUES ('', {client_id}, 0, 'lang', 'group_area_plug_articlesystem_admin', '', '', '', 'Bereich Administration / Artikelsystem', 0, NULL, NULL, 'txt', NULL, NULL, 0);
+
+#articlesystem access recht 
+INSERT INTO {table_prefix}values VALUES ('', {client_id}, 0, 'user_perms', 'cms_access', 'area_plug_articlesystem_admin', NULL, NULL, 'plug', 55, 'group_area_plug_articlesystem_admin', '', 'txt', NULL, NULL, 0);

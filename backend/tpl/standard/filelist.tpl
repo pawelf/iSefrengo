@@ -5,7 +5,6 @@
 </div>
 		<h5>{AREA_TITLE}</h5>
 <!-- BEGIN RULESERROR -->
-				<!-- list of rules - import or file and hint if errors in files -->
   <p class="errormsg">{CONTENT}</p>
 <!-- END RULESERROR -->
 <!-- BEGIN ERROR -->
@@ -14,34 +13,40 @@
 <!-- BEGIN OK -->
 <p class="ok">{OKMESSAGE}</p>
 <!-- END OK -->
-   <table class="uber">
-				<tr>
-					<th class="nowrap">{FILENAME}</th>
-					<th width="100%">{DESCRIPTION}</th>
-					<th width="100%" class="center">{ACTIONS}</th>
-				</tr>
+<h3>{FILENAME}{DESCRIPTION}<span>{ACTIONS}</span></h3>
+ <fieldset>
+<ul class="pages">		
 <!-- BEGIN ENTRY -->
-				<!-- list of files without details before the detailed display of one file -->
-				{ROWEDIT}
-				<tr onmouseover="this.style['background']='{ENTRY_BGCOLOROVER}';" onmouseout="this.style['background']='{ENTRY_BGCOLOR}';" bgcolor="{ENTRY_BGCOLOR}">
-					<td class="entry" {ENTRY_STYLE} nowrap="nowrap">{ENTRY_SHOWDETAIL} {ENTRY_ICON} {ENTRY_NAME} {ENTRY_DELETE}</td>
-					<td class="entry">{ENTRY_DESCRIPTION}</td>
-					<td class="entry buttons">{ENTRY_SPECIAL} {ENTRY_SCAN} {ENTRY_DOWNLOAD} {ENTRY_NEW} {ENTRY_DUPLICATE} {ENTRY_IMEXPORT} {ENTRY_EDIT} {ENTRY_DELBUT}</td>
-				</tr>
+
+{ROWEDIT}
+<li class="pg">
+{ENTRY_SHOWDETAIL}
+
+{ENTRY_ICON} {ENTRY_NAME} {ENTRY_DELETE}
+{ENTRY_DESCRIPTION}{ENTRY_SPECIAL} {ENTRY_SCAN} 
+{ENTRY_DOWNLOAD} {ENTRY_NEW} {ENTRY_DUPLICATE} {ENTRY_IMEXPORT} 
+{ENTRY_EDIT} {ENTRY_DELBUT}
+<ul class="actions">
+<li class="detail"><a href="">Ansicht</a></li>
+<li class="dir"><a href="">abgleichen</a></li>
+<li class="mfolder"><a href="{LINK_NEWCAT}" title="{NAME_NEWCAT}">erstellen</a></li>
+</ul>
+</li>
 				{ROWEDITEND}
+
 <!-- END ENTRY -->
 
 <!-- BEGIN DETAIL -->
 				{DETAILROWEDIT}
-				<tr onmouseover="this.style['background']='{DETAIL_BGCOLOROVER}';" onmouseout="this.style['background']='{DETAIL_BGCOLOR}';" bgcolor="{DETAIL_BGCOLOR}">
+2
+
 					<td class="entry nowrap" {DETAIL_STYLE}>{DETAIL_ICON} {DETAIL_NAME}{DETAIL_DELETE}</td>
 					<td class="entry">{DETAIL_DESCRIPTION}{DETAIL_EDITSCRIPT}</td>
 					<td class="entry buttons">{DETAIL_DOWNLOAD}{DETAIL_DUPLICATE}{DETAIL_EXIMPORT}{DETAIL_MOVE}{DETAIL_EDIT}{DETAIL_DELBUT}</td>
-				</tr>
 				{DETAILROWEDITEND}
 <!-- END DETAIL -->
 <!-- BEGIN DETAILFM -->
-				<tr bgcolor="{DETAILFM_BGCOLOR}">
+3
 					<td class="entry"{DETAILFM_STYLE}></td>
 					<td class="entry"{DETAILFM_STYLE} colspan="2">
 <!-- END DETAILFM -->
@@ -65,16 +70,23 @@
 <!-- END NODETAIL -->
 
 <!-- BEGIN PASTENTRY -->
-				<!-- list of file without details after the detailed display of one file -->
-				{ROWEDIT}
-				<tr onmouseover="this.style['background']='{ENTRY_BGCOLOROVER}';" onmouseout="this.style['background']='{ENTRY_BGCOLOR}';" bgcolor="{ENTRY_BGCOLOR}">
-					<td class="entry nowrap" {ENTRY_STYLE}>{ENTRY_SHOWDETAIL} {ENTRY_ICON} {ENTRY_NAME} {ENTRY_DELETE}</td>
-					<td class="entry">{ENTRY_DESCRIPTION}</td>
-					<td class="entry buttons">{ENTRY_SCAN} {ENTRY_DOWNLOAD} {ENTRY_NEW} {ENTRY_DUPLICATE} {ENTRY_IMEXPORT} {ENTRY_EDIT} {ENTRY_DELBUT}</td>
-				</tr>
-				{ROWEDITEND}
+{ROWEDIT}
+<li class="pg">
+ <label>{ENTRY_SHOWDETAIL} {ENTRY_ICON} {ENTRY_NAME} {ENTRY_DELETE}</label>
+ {ENTRY_DESCRIPTION}
+ {ENTRY_SCAN} {ENTRY_DOWNLOAD} {ENTRY_NEW} {ENTRY_DUPLICATE} {ENTRY_IMEXPORT} {ENTRY_EDIT} {ENTRY_DELBUT}
+  <ul class="actions">
+<li class="dir"><a href="{LINK_DIR}" title="{NAME_DIR}">abgleichen</a></li>
+<li class="mfolder"><a href="{LINK_FOLDER}" title="{NAME_FOLDER}">erstellen</a></li>
+<li class="edit"><a href="{LINK_EDIT}" title="{NAME_EDIT}">bearbeiten</a></li>
+<li class="delete"><a href="{LINK_DELETE}" title="{NAME_DELETE}" onclick="return delete_confirm()">löschen</a></li>
+</ul>
+</li>
+{ROWEDITEND}
+
 <!-- END PASTENTRY -->
 <!-- BEGIN FILEIMPORT -->
+1
 				<tr>
 					<td class="content7 nowrap" align="right">
 						{FILEIMPORT_TEXT}
@@ -96,26 +108,24 @@
 				</tr>
 <!-- END FILEIMPORT -->
 <!-- BEGIN FILEIMPORTBULK -->
-				<tr>
-					<td class="content7" align="right">
+</ul><p>
 				<form name="fileuploads" action="{FILEIMPORTTRIPLE_ACTION}" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="action" value="{FILEIMPORTTRIPLE_FUNC}" />
 					<input type="hidden" name="idclient" value="{FILEIMPORTTRIPLE_CLIENT}" />
-						{FILEIMPORTTRIPLE_TEXT}
-					</td>
-					<td class="content7 nowrap" align="center">
+<label>{FILEIMPORTTRIPLE_TEXT}</label>
+
 						<input class="uplinput" name="{FILEIMPORTTRIPLE_NAME}" type="file" size="13" />
+
 						<label for="iddirectory">{FILEIMPORTTRIPLE_TO}</label>
 						<select class="upldirsel" name="iddirectory" id="iddirectory">{FILEIMPORTTRIPLE_DIRECTORY}</select>
-					</td>
-					<td class="content7 buttons">
+
 						<input type="image" src="{FILEIMPORTTRIPLE_PICT}" alt="{FILEIMPORTTRIPLE_HINT}" title="{FILEIMPORTTRIPLE_HINT}" />
-					</td>
+
 					{FILEIMPORTSCRIPT_CALL}
 				</form>
-				</tr>
+</p>
 <!-- END FILEIMPORTBULK -->
-			</table>
+
 
 </div>
 <div id="overDiv" style="position:absolute; visibility:hidden;"></div>

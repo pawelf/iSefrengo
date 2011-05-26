@@ -88,7 +88,7 @@ class SF_UTILS_Mail extends SF_API_Object {
 					LEFT JOIN  ".$this->db_names['users_groups']." UG USING(user_id)
 					LEFT JOIN  ".$this->db_names['groups']." G USING(idgroup)
 				WHERE 
-					G.name = '".$this->db->qstr($name)."'";
+					G.name = ".$this->db->qstr($name);
 					
 		$rs = $this->db->Execute($sql);
 		$to_return = true;
