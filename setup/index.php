@@ -1432,17 +1432,9 @@ if (function_exists('set_magic_quotes_runtime')) {
     @set_magic_quotes_runtime (0);
 }
 
-// zeige alle Fehlermeldungen, aber keine Warnhinweise und Deprecated-Meldungen
-if (defined('E_DEPRECATED'))
-{
-	error_reporting (E_ALL & ~E_NOTICE & ~E_DEPRECATED);
-}
-else
-{
-	error_reporting (E_ALL & ~E_NOTICE);
-}
+error_reporting (E_ALL & ~E_NOTICE);
 
-$con_setup = &new setup();
+$con_setup = new setup();
 $data = $con_setup -> make_setup();
 echo $data;
 
