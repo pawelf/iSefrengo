@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
   *
   * Copyright (c) 2010 - 2011 iSefrengo
@@ -173,7 +173,7 @@ class SF_HEADER_Headerinfos extends SF_API_Object
   	$plugin_name= $plugin[0];
   	if(!empty($plugin_name) && (file_exists("plugins/".$plugin_name."/tpl/css/".$plugin_name.".css")))
   	{
-      $str = '<link rel="stylesheet" type="text/css" href="plugins/'.$plugin_name.'/tpl/css/'.$plugin_name.'.css" />';
+      $str = '<link rel="stylesheet" type="text/css" href="plugins/'.$plugin_name.'/tpl/css/'.strtolower($plugin_name).'.css" />';
     }else{
     	$str ='';
     }
@@ -188,7 +188,7 @@ class SF_HEADER_Headerinfos extends SF_API_Object
   	$plugin_name= $plugin[0];
   	if(!empty($plugin_name) && (file_exists("plugins/".$plugin_name."/tpl/js/".$plugin_name.".js")))
   	{
-      $str = '<script src="plugins/'.$plugin_name.'/tpl/js/'.$plugin_name.'.js" type="text/javascript"></script>';
+      $str = '<script src="plugins/'.$plugin_name.'/tpl/js/'.strtolower($plugin_name).'.js" type="text/javascript"></script>';
     }else{
     	$str ='';
     }
