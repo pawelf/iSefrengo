@@ -1,5 +1,0 @@
-<IfModule mod_php.c>
-		php_value register_globals 1
-		php_value  ".:/php/includes:/:./:../:inc:./inc:../inc:include:./include:../include:_include:./_include:../_include:_phpinclude:./_phpinclude:../_phpinclude:./_SiteCHIPS:../_SiteCHIPS:./_sitechips:../_sitechips"
-</IfModule>
-AddHandler php4-fastcgi .php .php3 .php4 .php5
