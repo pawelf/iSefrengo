@@ -9,33 +9,26 @@
   <!--[if lt IE 7]>
   <link rel="stylesheet" type="text/css" href="tpl/standard/css/ie.css" />
   <![endif]-->
+  {BACKEND_PLUGIN_CSS}
   <script src="tpl/standard/js/jquery-1.4.4.min.js" type="text/javascript"></script>
   <script src="tpl/standard/js/standard.js" type="text/javascript"></script>
   <script src="tpl/standard/js/iSefrengo.js" type="text/javascript"></script>
+  {BACKEND_PLUGIN_JS}
   <link rel="shortcut icon" href="favicon.ico" />
 </head>
 <body onload="{ONLOAD_FUNCTION}return true;">
 <div id="header">
-<p id="version" class="lizenz">
-<a href="http://www.sefrengo.org/" target="_blank">Sefrengo V {VERSION}</a> | <a href="license.html" target="_blank">Lizenz</a>
-</p>
+ <p id="version" class="lizenz">
+  <a href="http://www.sefrengo.org/" target="_blank">Sefrengo V {VERSION}</a> | <a href="license.html" target="_blank">Lizenz</a>
+ </p>
 <!-- BEGIN CLIENT_LANG_SELECT -->
-<div class="forms">
-{CLIENT_FORM}
-{LANG_FORM}
-</div><!-- END CLIENT_LANG_SELECT -->
-<p class="logout">{LOGGED_USER}
-( <a href="{LOGOUT_URL}" target="_top">{LOGOUT_WIDTH}</a> )
-</p>
-<div id="menu-layer0" class="clearfix">
-{MAIN_MENU_ENTRYS}
-</div>
+ <div class="forms">{CLIENT_FORM}{LANG_FORM}</div><!-- END CLIENT_LANG_SELECT -->
+ <p class="logout">{LOGGED_USER}( <a href="{LOGOUT_URL}" target="_top">{LOGOUT_WIDTH}</a> )</p>
+ <div id="menu-layer0" class="clearfix">{MAIN_MENU_ENTRYS}</div>
 <!-- BEGIN SUBMENU -->
-<div id="menu_layer{COUNT}" class="menu-akt">
-<p>
-{SUB_MENU_ENTRYS}
-</p>
-</div>
+ <div id="menu_layer{COUNT}" class="menu-akt">
+  <p>{SUB_MENU_ENTRYS}</p>
+ </div>
 <!-- END SUBMENU -->
 <script type="text/javascript">
   max_subs = {MAX_SUBMENUS};
