@@ -83,17 +83,17 @@ if($db->next_record())
 			{
 // Head Meta-Tags generieren Infos Header API
 				$code ='';
-				$code .= '<CMSPHP> if($cfg_client[\'url_rewrite\'] == \'2\') echo \'<base href="\'.htmlspecialchars(str_replace(\'{%http_host}\',  $_SERVER[\'HTTP_HOST\'], $cfg_client[\'url_rewrite_basepath\']), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; </CMSPHP>';
-				$code .= "<meta name=\"generator\" content=\"Sefrengo / www.sefrengo.org\" ".$SF_layout->SF_Slash_Closing_Tag($idlay).">\n";
-				$code .= '<?PHP if($SF_pageinfos->getMetaAuthor($idcatside)!= \'\') echo \'<meta name="author" content="\'.htmlspecialchars($SF_pageinfos->getMetaAuthor($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
-				$code .= '<?PHP if($SF_pageinfos->getMetaDescription($idcatside) != \'\') echo \'<meta name="description" content="\'.htmlspecialchars($SF_pageinfos->getMetaDescription($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
-				$code .= '<?PHP if($SF_pageinfos->getMetaKeywords($idcatside) != \'\') echo \'<meta name="keywords" content="\'.htmlspecialchars($SF_pageinfos->getMetaKeywords($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
-				$code .= '<?PHP if($SF_pageinfos->getMetaRobots($idcatside) != \'\') echo \'<meta name="robots" content="\'.htmlspecialchars($SF_pageinfos->getMetaRobots($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				$code .= '  <CMSPHP> if($cfg_client[\'url_rewrite\'] == \'2\') echo \'<base href="\'.htmlspecialchars(str_replace(\'{%http_host}\',  $_SERVER[\'HTTP_HOST\'], $cfg_client[\'url_rewrite_basepath\']), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; </CMSPHP>';
+				$code .= "  <meta name=\"generator\" content=\"Sefrengo / www.sefrengo.org\" ".$SF_layout->SF_Slash_Closing_Tag($idlay).">\n";
+				$code .= '  <?PHP if($SF_pageinfos->getMetaAuthor($idcatside)!= \'\') echo \'<meta name="author" content="\'.htmlspecialchars($SF_pageinfos->getMetaAuthor($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				$code .= '  <?PHP if($SF_pageinfos->getMetaDescription($idcatside) != \'\') echo \'<meta name="description" content="\'.htmlspecialchars($SF_pageinfos->getMetaDescription($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				$code .= '  <?PHP if($SF_pageinfos->getMetaKeywords($idcatside) != \'\') echo \'<meta name="keywords" content="\'.htmlspecialchars($SF_pageinfos->getMetaKeywords($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
+				$code .= '  <?PHP if($SF_pageinfos->getMetaRobots($idcatside) != \'\') echo \'<meta name="robots" content="\'.htmlspecialchars($SF_pageinfos->getMetaRobots($idcatside), ENT_COMPAT, \'utf-8\').\'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>\'."\n"; ?>';
         if($SF_layout->getDoctype($idlay)!='html-5')
         {
-				  $code .= '<meta http-equiv="content-type" content="text/html; charset='.$lang_charset.'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>'."\n";
+				  $code .= '  <meta http-equiv="content-type" content="text/html; charset='.$lang_charset.'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>'."\n";
         }else{
-          $code .= '<meta charset="'.$lang_charset.'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>'."\n";
+          $code .= '  <meta charset="'.$lang_charset.'"'.$SF_layout->SF_Slash_Closing_Tag($idlay).'>'."\n";
         }
 //JS and CSS file include
 				$sql = "SELECT C.filetype, D.dirname, B.filename
@@ -105,8 +105,8 @@ if($db->next_record())
 				$db->query($sql);
 				while($db->next_record())
 				{
-					if($db->f('filetype') == 'js')  $code .= "<script src=\"".$db->f('dirname').$db->f('filename')."\" type=\"text/javascript\"></script>\n";
-					if($db->f('filetype') == 'css') $code .= "<link rel=\"StyleSheet\" href=\"".$db->f('dirname').$db->f('filename')."\" type=\"text/css\" ".$SF_layout->SF_Slash_Closing_Tag($idlay).">\n";
+					if($db->f('filetype') == 'js')  $code .= "  <script src=\"".$db->f('dirname').$db->f('filename')."\" type=\"text/javascript\"></script>\n";
+					if($db->f('filetype') == 'css') $code .= "  <link rel=\"StyleSheet\" href=\"".$db->f('dirname').$db->f('filename')."\" type=\"text/css\" ".$SF_layout->SF_Slash_Closing_Tag($idlay).">\n";
 				}
 				$search[]  = $cms_mod['container']['full_tag'];
 				$replace[] = $code;

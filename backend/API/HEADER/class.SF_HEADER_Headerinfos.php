@@ -167,16 +167,32 @@ class SF_HEADER_Headerinfos extends SF_API_Object
 /**
   *
   */    
-  public function getPluginCSS()
+  public function getPluginCSS($plugin)
   {
-
+  	$plugin = explode('/',$plugin);
+  	$plugin_name= $plugin[0];
+  	if(!empty($plugin_name) && (file_exists("plugins/".$plugin_name."/tpl/css/".$plugin_name.".css")))
+  	{
+      $str = '<link rel="stylesheet" type="text/css" href="plugins/'.$plugin_name.'/tpl/css/'.$plugin_name.'.css" />';
+    }else{
+    	$str ='';
+    }
+     return $str;
   }
 /**
   *
   */    
-  public function getPluginJS()
+  public function getPluginJS($plugin)
   {
-
+  	$plugin = explode('/',$plugin);
+  	$plugin_name= $plugin[0];
+  	if(!empty($plugin_name) && (file_exists("plugins/".$plugin_name."/tpl/js/".$plugin_name.".js")))
+  	{
+      $str = '<script src="plugins/'.$plugin_name.'/tpl/js/'.$plugin_name.'.js" type="text/javascript"></script>';
+    }else{
+    	$str ='';
+    }
+     return $str;
   }
 /**
   *

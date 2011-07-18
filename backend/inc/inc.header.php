@@ -296,13 +296,20 @@ for($i=0; $i < $maincount; $i++)
 	$tpl->parseCurrentBlock('SUBMENU');
 }
 
-if ($tpl_frm['CLIENT_FORM'] != ''|| $tpl_frm['LANG_FORM'] != '')
+if ($tpl_frm['CLIENT_FORM'] !=''|| $tpl_frm['LANG_FORM'] !='')
 {
 	$tpl->setVariable($tpl_frm);
 	$tpl->parseCurrentBlock('CLIENT_LANG_SELECT');
 }
 
 $tpl_frm = null;
+
+$_iSF_Header['cms_wr'] =& $GLOBALS['sf_factory']->getObject('HTTP', 'WebRequest');
+$_iSF_Header['cms_plugin'] = $_iSF_Header['cms_wr']->getVal('cms_plugin');
+$_iSF_Layout =& sf_factoryGetObjectCache('HEADER', 'Headerinfos');
+
+$tpl_in['BACKEND_PLUGIN_CSS'] = $_iSF_Layout->getPluginCSS($_iSF_Header['cms_plugin']);
+$tpl_in['BACKEND_PLUGIN_JS'] = $_iSF_Layout->getPluginJS($_iSF_Header['cms_plugin']);
 $tpl_in['BACKEND_LANG'] = $cfg_cms['backend_lang'];
 $tpl_in['VERSION'] = $cfg_cms['version'];
 $tpl_in['IMGPATH'] = 'tpl/'.$cfg_cms['skin'].'/img/';
