@@ -12,6 +12,9 @@ Current version number is 01.05.00 (iSefrengo 1.5.1) - released
 # Setup Versionsnummer
 + API aus Artikelsystem übernommen
 + Design und Struckturänderung Backend
+# Umlautfehler
+^ Header API
+^ Pear angepasst
 
 Current version number is 01.05.00 (iSefrengo 1.5) - released 
 ------------------------------------------------------------------------------------------------
