@@ -60,7 +60,7 @@ class values_ct
 		{
 			//für globale langstrings (hauptsächlich für plugins gedacht)
 			if($db->f('group_name') == 'lang'){
-				$cms_lang[$db->f('key1')] = $db->f('value');
+				$cms_lang[$db->f('key1')] = htmlentities($db->f('value'), ENT_COMPAT);
 			}
 			//Systemvariablen
 			else{
@@ -198,17 +198,14 @@ class values_ct
 		if($count_rows > 1){
 			echo $sql .'<br> Fehler in Klasse "cms_value_ct". Es wurde mehr als ein Ergebnis gefunden. Anfrage ist nicht eindeutig';
 			exit;
-		}
-		elseif($count_rows == 1){
+		}elseif($count_rows == 1){
 			$db -> next_record();
 			$mixed['id'] = $db -> f('idvalues');
 			//echo "update";
 			$this -> _update_by_id($mixed);
-		}
-		else{
+		}else{
 			$this -> insert($mixed);
 		}
-
 	}
 
 	/**
